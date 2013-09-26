@@ -1,0 +1,5 @@
+assets/
+protected/runtime/
+uploads/
+!.gitignore
+!/protected/extensions/bootstrap/assets/
