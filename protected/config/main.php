@@ -8,7 +8,7 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'My Web Application',
     //'theme' => 'default',
-    // user language (for Locale)
+// user language (for Locale)
     'language' => 'pt_BR',
     //language for messages and views
     'sourceLanguage' => 'pt_BR',
@@ -25,8 +25,10 @@ return array(
         'ext.giix-components.*',
     ),
     'modules' => array(
-        // uncomment the following to enable the Gii tool
-
+        'userGroups' => array(
+            'accessCode' => 'ninjaturtles',
+            'salt' => 'n1nj4',
+        ),
         'gii' => array(
             'class' => 'system.gii.GiiModule',
             'password' => 'ninjaturtles',
@@ -47,8 +49,9 @@ return array(
             'forceCopyAssets' => false,
         ),
         'user' => array(
-            // enable cookie-based authentication
+// enable cookie-based authentication
             'allowAutoLogin' => true,
+            'class' => 'userGroups.components.WebUserGroups',
         ),
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(
@@ -72,7 +75,7 @@ return array(
             'charset' => 'utf8',
         ),
         'errorHandler' => array(
-            // use 'site/error' action to display errors
+// use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ),
         'log' => array(
@@ -92,9 +95,9 @@ return array(
         ),
     ),
     // application-level parameters that can be accessed
-    // using Yii::app()->params['paramName']
+// using Yii::app()->params['paramName']
     'params' => array(
-        // this is used in contact page
+// this is used in contact page
         'adminEmail' => 'webmaster@example.com',
     ),
 );
