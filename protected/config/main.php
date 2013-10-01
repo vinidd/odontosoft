@@ -6,12 +6,10 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'My Web Application',
-    //'theme' => 'default',
-// user language (for Locale)
-    'language' => 'pt_BR',
-    //language for messages and views
-    'sourceLanguage' => 'pt_BR',
+    'name' => 'OdontoSoft',
+    'theme' => 'default',
+    //'language' => 'pt_br',
+    //'sourceLanguage' => 'pt_br',
     // preloading 'log' component
     'preload' => array(
         'log',
@@ -46,7 +44,7 @@ return array(
             'class' => 'ext.bootstrap.components.Bootstrap',
             'responsiveCss' => true,
             'fontAwesomeCss' => true,
-            'forceCopyAssets' => false,
+            'forceCopyAssets' => true,
         ),
         'user' => array(
 // enable cookie-based authentication
