@@ -8,8 +8,8 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'OdontoSoft',
     'theme' => 'default',
-    //'language' => 'pt_br',
-    //'sourceLanguage' => 'pt_br',
+    'language' => 'pt_br',
+    'sourceLanguage' => 'pt_br',
     // preloading 'log' component
     'preload' => array(
         'log',
@@ -44,10 +44,10 @@ return array(
             'class' => 'ext.bootstrap.components.Bootstrap',
             'responsiveCss' => true,
             'fontAwesomeCss' => true,
-            'forceCopyAssets' => true,
+            'forceCopyAssets' => false,
         ),
         'user' => array(
-// enable cookie-based authentication
+            // enable cookie-based authentication
             'allowAutoLogin' => true,
             'class' => 'userGroups.components.WebUserGroups',
         ),
@@ -73,7 +73,7 @@ return array(
             'charset' => 'utf8',
         ),
         'errorHandler' => array(
-// use 'site/error' action to display errors
+            // use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ),
         'log' => array(
@@ -93,9 +93,9 @@ return array(
         ),
     ),
     // application-level parameters that can be accessed
-// using Yii::app()->params['paramName']
+    // using Yii::app()->params['paramName']
     'params' => array(
-// this is used in contact page
+        // this is used in contact page
         'adminEmail' => 'webmaster@example.com',
     ),
 );

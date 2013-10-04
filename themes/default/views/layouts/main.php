@@ -14,9 +14,8 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
-        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.maskedinput.js'); ?>
-        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/default.js'); ?>
-        
+        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/default.js'); ?>
+
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
 
@@ -34,7 +33,14 @@
                             'htmlOptions' => array('class' => 'pull-left'),
                             'items' => array(
                                 array('label' => Yii::t('zii', 'Home'), 'url' => array('/site/index')),
-                                array('label' => 'About', 'url' => array('/site/page', 'view' => 'about')),
+                                array('label' => 'Cliente', 'url' => array('/cliente'), 'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
+                                    'items' => array(
+                                        array('label' => 'Incluir', 'url' => array('/cliente/create')),
+                                    )),
+                                array('label' => 'Pessoa', 'url' => array('/pessoa'), 'visible' => Yii::app()->user->pbac('Basic.pessoa.admin'),
+                                    'items' => array(
+                                        array('label' => 'Base Pessoa', 'url' => array('/pessoa/basePessoa')),
+                                    )),
                             ),
                         ),
                         array(
@@ -48,6 +54,7 @@
                                 '---',
                                 array('label' => 'Login', 'url' => array('/userGroups'), 'visible' => Yii::app()->user->isGuest),
                                 array('label' => 'Logout (' . Yii::app()->user->name . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest),
+                                '---',
                             ),
                         ),
                     ),
@@ -57,11 +64,13 @@
 
             <div id="tread">
                 <?php
-                $this->widget('bootstrap.widgets.TbHeroUnit', array(
+                $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
                     'heading' => 'I\'M NOT YELLING!',
-                    'headingOptions' => array('style' => 'color:#eeeeee;'),
+                    'headingOptions' => array('style' => 'color:#eeeeee; display: inline;'),
                 ));
                 ?>
+
+                <?php $this->endWidget(); ?>
             </div>
 
             <div id="breadcrumb">
@@ -76,15 +85,15 @@
                     ?>
                 </div>
             </div>
-            
+
             <div class="container">
-                
+
                 <?php echo $content; ?>
 
                 <div class="clear"></div>
 
             </div>
-            
+
             <div id="footer">
                 All Rights Reserved.<br/>
                 <?php echo Yii::powered(); ?>

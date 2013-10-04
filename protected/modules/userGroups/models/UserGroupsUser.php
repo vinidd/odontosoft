@@ -133,6 +133,11 @@ class UserGroupsUser extends CActiveRecord
 		Yii::import('userGroups.validation.*');
 		// rules
 		$rules = array(
+                        // rules for form
+                        array('username', 'unique', 'on' => 'form'),
+                        array('password', 'match', 'pattern' => '/^(?=.*[a-zA-Z0-9]).{5,}$/', 'on' => 'form', 'message' => 'A senha deve ter pelo menos 5 caracteres'),
+                        array('password_confirm', 'compare', 'compareAttribute' => 'password', 'on' => 'form', 'message' => 'Senha não confere'),
+                    
 			array('group_id', 'length', 'max'=>20),
 			array('username, password, home', 'length', 'max'=>120),
 			array('email', 'email'),
@@ -313,9 +318,9 @@ class UserGroupsUser extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'group_id' => Yii::t('userGroupsModule.general','Group'),
-			'username' => Yii::t('userGroupsModule.general','Username'),
-			'password' => Yii::t('userGroupsModule.general','Password'),
-			'password_confirm' => Yii::t('userGroupsModule.general','Confirm Password'),
+			'username' => Yii::t('userGroupsModule.general','Usuário'),
+			'password' => Yii::t('userGroupsModule.general','Senha'),
+			'password_confirm' => Yii::t('userGroupsModule.general','Confirma Senha'),
 			'old_password' => Yii::t('userGroupsModule.general','Old Password'),
 			'email' => Yii::t('userGroupsModule.general','Email'),
 			'access' => Yii::t('userGroupsModule.general','Access'),
@@ -537,8 +542,8 @@ class UserGroupsUser extends CActiveRecord
 		// create the salt
 		$salt = $this->username . $timestamp;
 		// add the additional salt if it's provided
-		if (Yii::app()->controller->module->salt)
-			$salt .= Yii::app()->controller->module->salt;
+		if (Yii::app()->getModule("userGroups")->salt)
+                    $salt .= Yii::app()->getModule("userGroups")->salt;
 
 		return $salt;
 	}

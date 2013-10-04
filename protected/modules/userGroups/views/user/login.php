@@ -1,5 +1,5 @@
 <?php $this->breadcrumbs=array(
-	'login',
+	'Login',
 ); ?>
 <div id="userGroups-container">
 	<?php if(isset(Yii::app()->request->cookies['success'])): ?>
