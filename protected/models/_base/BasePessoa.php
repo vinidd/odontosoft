@@ -112,22 +112,14 @@ abstract class BasePessoa extends GxActiveRecord {
         ));
     }
 
-    public function changeDate($entrada, $saida) {
-        
+    public function changeDate($inverse = false) {
+        $in = 'd/m/Y';
+        $out = 'Y-m-d';
+        if ($inverse) {
+            $in = 'Y-m-d';
+            $out = 'd/m/Y';
+        }
+        $newData = DateTime::createFromFormat($in, $this->data_nascimento);
+        $this->data_nascimento = $newData->format($out);
     }
-    
-    public function beforeSave() {
-        $newData = DateTime::createFromFormat('d/m/Y', $this->data_nascimento);
-        $this->data_nascimento = $newData->format('Y-m-d');
-
-        parent::beforeSave();
-    }
-
-    public function afterSave() {
-        $newData = DateTime::createFromFormat('Y-m-d', $this->data_nascimento);
-        $this->data_nascimento = $newData->format('d/m/Y');
-
-        parent::afterSave();
-    }
-
 }

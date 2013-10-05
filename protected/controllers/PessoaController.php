@@ -15,7 +15,7 @@ class PessoaController extends GxController {
                 'users' => array('@'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create', 'basePessoa'),
+                'actions' => array('delete', 'admin', 'create', 'cidadeAutoComplete'),
                 'pbac' => array('admin', 'admin.admin'),
             ),
             array('deny', // deny all users
@@ -95,4 +95,22 @@ class PessoaController extends GxController {
         ));
     }
 
+    public function actionCidadeAutoComplete() {
+        if (!empty($_GET['term'])) {
+            $sql = 'SELECT cidade.id_cidade as id, CONCAT(cidade.nome,", ",estado.uf," - ",pais.nome) as value, CONCAT(cidade.nome,", ",estado.uf," - ",pais.nome) as label
+                FROM cidade 
+                INNER JOIN estado ON cidade.id_estado = estado.id_estado 
+                INNER JOIN pais ON estado.id_pais = pais.id_pais
+                WHERE cidade.nome LIKE :qterm';
+            $sql .= ' ORDER BY cidade.nome ASC';
+            $command = Yii::app()->db->createCommand($sql);
+            $qterm = $_GET['term'] . '%';
+            $command->bindParam(":qterm", $qterm, PDO::PARAM_STR);
+            $result = $command->queryAll();
+            echo CJSON::encode($result);
+            exit;
+        } else {
+            return false;
+        }
+    }
 }

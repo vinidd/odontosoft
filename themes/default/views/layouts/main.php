@@ -15,7 +15,8 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/default.js'); ?>
-
+        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.maskedinput.js'); ?>
+        
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
 
@@ -36,10 +37,6 @@
                                 array('label' => 'Cliente', 'url' => array('/cliente'), 'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                     'items' => array(
                                         array('label' => 'Incluir', 'url' => array('/cliente/create')),
-                                    )),
-                                array('label' => 'Pessoa', 'url' => array('/pessoa'), 'visible' => Yii::app()->user->pbac('Basic.pessoa.admin'),
-                                    'items' => array(
-                                        array('label' => 'Base Pessoa', 'url' => array('/pessoa/basePessoa')),
                                     )),
                             ),
                         ),

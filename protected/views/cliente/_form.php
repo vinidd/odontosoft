@@ -25,17 +25,89 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <fieldset>
     <legend>Usuário <small>(opcional)</small></legend>
-    
+
     <?php echo $form->textFieldRow($model_usuario, 'username'); ?>
     <?php echo $form->passwordFieldRow($model_usuario, 'password'); ?>
     <?php echo $form->passwordFieldRow($model_usuario, 'password_confirm'); ?>
+</fieldset>
+
+<fieldset>
+    <legend>Contato <small id="Telefone_em">(preencha pelo menos um telefone)</small></legend>
+
+    <div class="control-group ">
+        <label class="control-label tel_label" for="Telefone_residencial">Telefone Residencial</label>
+        <div class="controls">
+            <input class="telefone" id="Telefone_residencial" type="text" name="Telefone[residencial]">
+        </div>
+    </div>
+
+    <div class="control-group ">
+        <label class="control-label tel_label" for="Telefone_celular">Telefone Celular</label>
+        <div class="controls">
+            <input class="telefone" id="Telefone_celular" type="text" name="Telefone[celular]">
+        </div>
+    </div>
+
+    <div class="control-group ">
+        <label class="control-label tel_label" for="Telefone_comercial">Telefone Comercial</label>
+        <div class="controls">
+            <input class="telefone" id="Telefone_comercial" type="text" name="Telefone[comercial]">
+        </div>
+    </div>
+
+</fieldset>
+
+<fieldset>
+    <legend>Endereço</legend>
+
+    <?php echo $form->textFieldRow($model_endereco, 'nome', array('hint' => 'Exemplo: Minha casa')); ?>
+    <?php
+    echo $form->radioButtonListInlineRow($model_endereco, 'tipo', array(
+        'Casa',
+        'Apartamento',
+        'Comercial'
+    ));
+    ?>
+    <?php echo $form->maskedTextFieldRow($model_endereco, 'cep', '99999-999'); ?>
+    <?php echo $form->textFieldRow($model_endereco, 'rua'); ?>
+    <?php echo $form->textFieldRow($model_endereco, 'numero'); ?>
+    <?php echo $form->textFieldRow($model_endereco, 'complemento'); ?>
+    <?php
+    echo $form->textAreaRow($model_endereco, 'descricao', array(
+        'style' => 'width: 412px'
+    ));
+    ?>
+    <?php echo $form->textFieldRow($model_endereco, 'bairro'); ?>
+    <?php echo CHtml::hiddenField('Endereco[id_cidade]', '', array('id' => 'Endereco_id_cidade')); ?>
+
+    <div class="control-group">
+        <label class="control-label cidade_label" for="id_cidade">Cidade <span class='required'>*</span></label>
+        <div class="controls">
+            <?php
+            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'name' => 'id_cidade',
+                'value' => $model_endereco->id_cidade,
+                'source' => Yii::app()->createUrl('/pessoa/cidadeAutoComplete'),
+                'options' => array(
+                    'minLength' => '3',
+                    'select' => 'js:function(event, ui) { $("#Endereco_id_cidade").val(ui.item.id); }'
+                ),
+                'htmlOptions' => array(
+                    'id' => 'id_cidade',
+                ),
+            ));
+            ?>
+            <span id="id_cidade_em_" class="help-inline error" style="display:none">Cidade não pode ser vazio.</span>
+        </div>
+    </div>
+
 </fieldset>
 
 <div class="form-actions">
     <?php
     $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'submit',
-        'type' => 'success',
+        'type' => 'inverse',
         'label' => 'Salvar'
     ));
     ?>

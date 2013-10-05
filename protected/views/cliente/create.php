@@ -17,6 +17,7 @@ $this->renderPartial('_form', array(
     'model' => $model,
     'model_pessoa' => $model_pessoa,
     'model_usuario' => $model_usuario,
+    'model_endereco' => $model_endereco,
     'buttons' => 'create'
 ));
 ?>
