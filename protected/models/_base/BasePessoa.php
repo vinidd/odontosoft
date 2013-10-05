@@ -51,8 +51,6 @@ abstract class BasePessoa extends GxActiveRecord {
             array('nome, email', 'length', 'max' => 120),
             array('email', 'email'),
             //array('email', 'unique'),
-            array('data_nascimento', 'date'),
-            array('cpf', 'length', 'max' => 14),
             //array('cpf', 'unique'),
             array('cpf', 'ext.validator.cpf'),
             array('rg', 'length', 'max' => 10),
@@ -113,4 +111,23 @@ abstract class BasePessoa extends GxActiveRecord {
             'criteria' => $criteria,
         ));
     }
+
+    public function changeDate($entrada, $saida) {
+        
+    }
+    
+    public function beforeSave() {
+        $newData = DateTime::createFromFormat('d/m/Y', $this->data_nascimento);
+        $this->data_nascimento = $newData->format('Y-m-d');
+
+        parent::beforeSave();
+    }
+
+    public function afterSave() {
+        $newData = DateTime::createFromFormat('Y-m-d', $this->data_nascimento);
+        $this->data_nascimento = $newData->format('d/m/Y');
+
+        parent::afterSave();
+    }
+
 }

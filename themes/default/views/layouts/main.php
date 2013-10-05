@@ -47,10 +47,7 @@
                             'class' => 'bootstrap.widgets.TbMenu',
                             'htmlOptions' => array('class' => 'pull-right'),
                             'items' => array(
-                                array('label' => 'User', 'url' => array('#'), 'visible' => !Yii::app()->user->isGuest, 'items' => array(
-                                        array('label' => 'Item', 'url' => '#'),
-                                    )
-                                ),
+                                array('label' => 'User', 'url' => array('/userGroups'), 'visible' => !Yii::app()->user->isGuest),
                                 '---',
                                 array('label' => 'Login', 'url' => array('/userGroups'), 'visible' => Yii::app()->user->isGuest),
                                 array('label' => 'Logout (' . Yii::app()->user->name . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest),

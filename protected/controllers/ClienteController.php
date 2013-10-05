@@ -37,31 +37,36 @@ class ClienteController extends GxController {
 
         $this->performAjaxValidation(array($model_pessoa, $model_usuario), 'cliente-form');
 
+        //pessoa
         if (isset($_POST['Pessoa'])) {
             $model_pessoa->attributes = $_POST['Pessoa'];
-            
+
             if ($model_pessoa->validate()) {
+//                $model_pessoa->data_nascimento = DateTime::createFromFormat('d/m/Y', $model_pessoa->data_nascimento);
+//                $model_pessoa->data_nascimento = $model_pessoa->data_nascimento->format('Y-m-d');
+                
                 $model_pessoa->save();
+
                 //usuário
-                if (isset($_POST['UserGroupsUser'])) {
+                if (isset($_POST['UserGroupsUser']) && $_POST['UserGroupsUser']['username'] && $_POST['UserGroupsUser']['password'] && $_POST['UserGroupsUser']['confirm_password']) {
                     $model_usuario->setScenario('admin');
                     $model_usuario->group_id = 2; //user
                     $model_usuario->status = 4; //ativo
                     $model_usuario->username = $_POST['UserGroupsUser']['username'];
                     $model_usuario->email = $model_pessoa->email;
                     $model_usuario->password = $_POST['UserGroupsUser']['password'];
-                    
+
                     if ($model_usuario->save()) {
                         $model_pessoa->id_usuario = $model_usuario->getPrimaryKey();
                         $model_pessoa->save();
                     }
                 }
-                
+
                 //cliente
                 $model->id_pessoa = $model_pessoa->getPrimaryKey();
                 $model->data_criacao = date('Y-m-d');
                 $model->save();
-                
+
                 //redirect
             }
         }
