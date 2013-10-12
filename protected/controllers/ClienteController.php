@@ -30,7 +30,7 @@ class ClienteController extends GxController {
         $model_pessoa->changeDate(true);
         $model_endereco = Endereco::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'id_endereco DESC'));
         $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
-        
+
         $this->render('view', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
@@ -41,10 +41,10 @@ class ClienteController extends GxController {
 
     public function actionCreate() {
         $model = new Cliente;
-        $model_pessoa = new Pessoa;
+        $model_pessoa = new Pessoa('create');
         $model_usuario = new UserGroupsUser('form');
         $model_endereco = new Endereco;
-        
+
         $this->performAjaxValidation(array($model_pessoa, $model_usuario, $model_endereco), 'cliente-form');
 
         //pessoa
@@ -63,9 +63,7 @@ class ClienteController extends GxController {
         }
 
         //usuário
-        if (isset($_POST['UserGroupsUser'])
-                && $_POST['UserGroupsUser']['username']
-                && $_POST['UserGroupsUser']['password']) {
+        if (isset($_POST['UserGroupsUser']) && $_POST['UserGroupsUser']['username'] && $_POST['UserGroupsUser']['password']) {
             $model_usuario->setScenario('admin');
             $model_usuario->group_id = 2; //user
             $model_usuario->status = 4; //ativo
@@ -97,7 +95,7 @@ class ClienteController extends GxController {
                 $model_telefone->save();
             }
         }
-        
+
         //endereco
         if (isset($_POST['Endereco'])) {
             $model_endereco->attributes = $_POST['Endereco'];
@@ -106,12 +104,12 @@ class ClienteController extends GxController {
                 $model_endereco->save();
             }
         }
-        
+
         //salva cliente e redireciona
         if ($model->save()) {
             $this->redirect(array('view', 'id' => $model->getPrimaryKey()));
         }
-        
+
         $this->render('create', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
@@ -122,25 +120,95 @@ class ClienteController extends GxController {
 
     public function actionUpdate($id) {
         $model = $this->loadModel($id, 'Cliente');
+        $model_pessoa = $this->loadModel($model->id_pessoa, 'Pessoa');
+        $model_pessoa->changeDate(true);
+        $model_endereco = Endereco::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'id_endereco DESC'));
 
+        $this->performAjaxValidation(array($model_pessoa, $model_endereco), 'cliente-form');
 
-        if (isset($_POST['Cliente'])) {
-            $model->setAttributes($_POST['Cliente']);
+        //pessoa
+        if (isset($_POST['Pessoa'])) {
+            $model_pessoa->attributes = $_POST['Pessoa'];
 
-            if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id_cliente));
+            if ($model_pessoa->validate()) {
+                $model_pessoa->changeDate();
+                $model_pessoa->save();
             }
         }
 
+        //contato
+        if (isset($_POST['Telefone'])) {
+            if (isset($_POST['Telefone']['residencial']) && $_POST['Telefone']['residencial']) {
+                if (!$model_telefone = Telefone::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey() . ' AND tipo = 0'))) {
+                    $model_telefone = new Telefone;
+                    $model_telefone->setTelefone($model_pessoa->getPrimaryKey(), $_POST['Telefone']['residencial'], 0);
+                } else {
+                    $model_telefone->setTelefone($model_pessoa->getPrimaryKey(), $_POST['Telefone']['residencial'], 0);
+                }
+                $model_telefone->save();
+            } else {
+                if ($model_telefone = Telefone::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey() . ' AND tipo = 0'))) {
+                    $model_telefone->delete();
+                }
+            }
+            if (isset($_POST['Telefone']['celular']) && $_POST['Telefone']['celular']) {
+                if (!$model_telefone = Telefone::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey() . ' AND tipo = 1'))) {
+                    $model_telefone = new Telefone;
+                    $model_telefone->setTelefone($model_pessoa->getPrimaryKey(), $_POST['Telefone']['celular'], 1);
+                } else {
+                    $model_telefone->setTelefone($model_pessoa->getPrimaryKey(), $_POST['Telefone']['celular'], 1);
+                }
+                $model_telefone->save();
+            } else {
+                if ($model_telefone = Telefone::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey() . ' AND tipo = 1'))) {
+                    $model_telefone->delete();
+                }
+            }
+            if (isset($_POST['Telefone']['comercial']) && $_POST['Telefone']['comercial']) {
+                if (!$model_telefone = Telefone::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey() . ' AND tipo = 2'))) {
+                    $model_telefone = new Telefone;
+                    $model_telefone->setTelefone($model_pessoa->getPrimaryKey(), $_POST['Telefone']['comercial'], 2);
+                } else {
+                    $model_telefone->setTelefone($model_pessoa->getPrimaryKey(), $_POST['Telefone']['comercial'], 2);
+                }
+                $model_telefone->save();
+            } else {
+                if ($model_telefone = Telefone::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey() . ' AND tipo = 2'))) {
+                    $model_telefone->delete();
+                }
+            }
+        }
+        
+        //endereco
+        if (isset($_POST['Endereco'])) {
+            $model_endereco->attributes = $_POST['Endereco'];
+            if ($model_endereco->validate()) {
+                $model_endereco->save();
+            }
+        }
+
+        //redirect
+        if (isset($_POST['Pessoa']) || isset($_POST['Telefone']) || isset($_POST['Endereco'])) {
+            $this->redirect(array('view', 'id' => $model->id_cliente));
+        }
+
+        $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
+        
         $this->render('update', array(
             'model' => $model,
+            'model_pessoa' => $model_pessoa,
+            'model_endereco' => $model_endereco,
+            'model_telefones' => $model_telefones,
         ));
     }
 
     public function actionDelete($id) {
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $this->loadModel($id, 'Cliente')->delete();
+            $model_cliente = $this->loadModel($id, 'Cliente');
+            $this->loadModel($model_cliente->id_pessoa, 'Pessoa')->delete();
 
+            //deletar usuário
+            
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
         }
@@ -166,5 +234,5 @@ class ClienteController extends GxController {
             'model' => $model,
         ));
     }
-
+    
 }

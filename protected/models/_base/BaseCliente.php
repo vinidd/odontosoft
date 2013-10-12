@@ -66,7 +66,7 @@ abstract class BaseCliente extends GxActiveRecord {
     
     public function search() {
         $criteria = new CDbCriteria;
-
+        
         $criteria->compare('id_cliente', $this->id_cliente);
         $criteria->compare('id_pessoa', $this->id_pessoa);
         $criteria->compare('data_criacao', $this->data_criacao, true);

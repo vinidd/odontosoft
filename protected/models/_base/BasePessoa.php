@@ -50,8 +50,8 @@ abstract class BasePessoa extends GxActiveRecord {
             array('id_usuario', 'length', 'max' => 20),
             array('nome, email', 'length', 'max' => 120),
             array('email', 'email'),
-            //array('email', 'unique'),
-            //array('cpf', 'unique'),
+            array('email', 'unique', 'on' => 'create'),
+            array('cpf', 'unique', 'on' => 'create'),
             array('cpf', 'ext.validator.cpf'),
             array('rg', 'length', 'max' => 10),
             array('rg', 'length', 'min' => 9),
@@ -123,12 +123,8 @@ abstract class BasePessoa extends GxActiveRecord {
         $this->data_nascimento = $newData->format($out);
     }
     
-    public function getSexo($sexo = false) {
-        if (!is_numeric($sexo)) {
-            $sexo = $this->sexo;
-        }
-        
-        switch ($sexo) {
+    public function getSexo() {
+        switch ($this->sexo) {
             case 0: return 'Masculino';
             case 1: return 'Feminino';
         }

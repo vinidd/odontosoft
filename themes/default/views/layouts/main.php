@@ -37,6 +37,7 @@
                                 array('label' => 'Cliente', 'url' => array('/cliente'), 'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                     'items' => array(
                                         array('label' => 'Incluir', 'url' => array('/cliente/create')),
+                                        array('label' => 'Gerenciar', 'url' => array('/cliente/admin'))
                                     )),
                             ),
                         ),

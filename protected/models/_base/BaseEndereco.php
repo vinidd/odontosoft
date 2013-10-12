@@ -105,12 +105,8 @@ abstract class BaseEndereco extends GxActiveRecord {
         ));
     }
 
-    public function getTipo($tipo = false) {
-        if (!is_numeric($tipo)) {
-            $tipo = $this->tipo;
-        }
-        
-        switch ($tipo) {
+    public function getTipo() {
+        switch ($this->tipo) {
             case 0: return 'Casa';
             case 1: return 'Apartamento';
             case 2: return 'Comercial';

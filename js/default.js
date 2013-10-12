@@ -23,6 +23,7 @@ $(document).ready(function() {
             $('#cliente-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#468847');
                 $('#Telefone_em').css('color', '#468847');
+                $('#cliente-button').removeAttr('disabled');
                 $('#cliente-form').find('.tel_label').each(function() {
                     $(this).css('color', '#468847');
                 });
@@ -31,6 +32,7 @@ $(document).ready(function() {
             $('#cliente-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#B94A48');
                 $('#Telefone_em').css('color', '#B94A48');
+                $('#cliente-button').attr('disabled', 'disabled');
                 $('#cliente-form').find('.tel_label').each(function() {
                     $(this).css('color', '#B94A48');
                 });
@@ -58,4 +60,16 @@ function limpaTelefone(str) {
     str = str.replace(/\-/g, '');
     str = str.replace(/\_/g, '');
     return str;
+}
+
+function checkTelefone() {
+    temp1 = $('#cliente-form').find('#Telefone_residencial').val();
+    temp2 = $('#cliente-form').find('#Telefone_celular').val();
+    temp3 = $('#cliente-form').find('#Telefone_comercial').val();
+    
+    if (temp1.length || temp2.length || temp3.length) {
+        $('#cliente-button').removeAttr('disabled', 'disabled');
+    } else {
+        $('#cliente-button').attr('disabled', 'disabled');
+    }
 }

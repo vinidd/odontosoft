@@ -1,3 +1,9 @@
+<script>
+    $(document).ready(function() {
+        checkTelefone();
+    });
+</script>
+
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'cliente-form',
@@ -23,13 +29,29 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->textFieldRow($model_pessoa, 'email'); ?>
 </fieldset>
 
-<fieldset>
-    <legend>Usuário <small>(opcional)</small></legend>
+<?php if (isset($model_usuario)) { ?>
+    <fieldset>
+        <legend>Usuário <small>(opcional)</small></legend>
 
-    <?php echo $form->textFieldRow($model_usuario, 'username'); ?>
-    <?php echo $form->passwordFieldRow($model_usuario, 'password'); ?>
-    <?php echo $form->passwordFieldRow($model_usuario, 'password_confirm'); ?>
-</fieldset>
+        <?php echo $form->textFieldRow($model_usuario, 'username'); ?>
+        <?php echo $form->passwordFieldRow($model_usuario, 'password'); ?>
+        <?php echo $form->passwordFieldRow($model_usuario, 'password_confirm'); ?>
+    </fieldset>
+<?php } ?>
+
+<?php
+if (isset($model_telefones)) {
+    foreach ($model_telefones as $model_telefone) {
+        if ($model_telefone->tipo == 0) {
+            $tel_res = $model_telefone->numero;
+        } else if ($model_telefone->tipo == 1) {
+            $tel_cel = $model_telefone->numero;
+        } else if ($model_telefone->tipo == 2) {
+            $tel_com = $model_telefone->numero;
+        }
+    }
+}
+?>
 
 <fieldset>
     <legend>Contato <small id="Telefone_em">(preencha pelo menos um telefone)</small></legend>
@@ -37,21 +59,24 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <div class="control-group ">
         <label class="control-label tel_label" for="Telefone_residencial">Telefone Residencial</label>
         <div class="controls">
-            <input class="telefone" id="Telefone_residencial" type="text" name="Telefone[residencial]">
+            <input class="telefone" id="Telefone_residencial" type="text" name="Telefone[residencial]"
+                   <?php echo isset($tel_res) ? ' value="' . $tel_res . '"' : ''; ?>>
         </div>
     </div>
 
     <div class="control-group ">
         <label class="control-label tel_label" for="Telefone_celular">Telefone Celular</label>
         <div class="controls">
-            <input class="telefone" id="Telefone_celular" type="text" name="Telefone[celular]">
+            <input class="telefone" id="Telefone_celular" type="text" name="Telefone[celular]"
+                   <?php echo isset($tel_cel) ? ' value="' . $tel_cel . '"' : ''; ?>>
         </div>
     </div>
 
     <div class="control-group ">
         <label class="control-label tel_label" for="Telefone_comercial">Telefone Comercial</label>
         <div class="controls">
-            <input class="telefone" id="Telefone_comercial" type="text" name="Telefone[comercial]">
+            <input class="telefone" id="Telefone_comercial" type="text" name="Telefone[comercial]"
+                   <?php echo isset($tel_com) ? ' value="' . $tel_com . '"' : ''; ?>>
         </div>
     </div>
 
@@ -108,7 +133,8 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'submit',
         'type' => 'inverse',
-        'label' => 'Salvar'
+        'label' => 'Salvar',
+        'htmlOptions' => array('id' => 'cliente-button')
     ));
     ?>
 </div>
