@@ -18,6 +18,8 @@
  */
 abstract class BaseCliente extends GxActiveRecord {
 
+    public $nome_cliente;
+    
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -38,7 +40,7 @@ abstract class BaseCliente extends GxActiveRecord {
         return array(
             array('id_pessoa, data_criacao', 'required'),
             array('id_pessoa', 'numerical', 'integerOnly' => true),
-            array('id_cliente, id_pessoa, data_criacao', 'safe', 'on' => 'search'),
+            array('id_cliente, id_pessoa, data_criacao, nome_cliente', 'safe', 'on' => 'search'),
         );
     }
 
@@ -67,12 +69,21 @@ abstract class BaseCliente extends GxActiveRecord {
     public function search() {
         $criteria = new CDbCriteria;
         
+        $criteria->with = array('idPessoa');
+        
         $criteria->compare('id_cliente', $this->id_cliente);
         $criteria->compare('id_pessoa', $this->id_pessoa);
         $criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('idPessoa.nome', $this->nome_cliente, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+    
+    public function afterFind() {
+        $this->nome_cliente = isset($this->idPessoa->nome) ? $this->idPessoa->nome : '';
+                
+        parent::afterFind();
     }
 }

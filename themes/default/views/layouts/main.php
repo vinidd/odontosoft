@@ -33,22 +33,60 @@
                             'class' => 'bootstrap.widgets.TbMenu',
                             'htmlOptions' => array('class' => 'pull-left'),
                             'items' => array(
-                                array('label' => Yii::t('zii', 'Home'), 'url' => array('/site/index')),
-                                array('label' => 'Cliente', 'url' => array('/cliente'), 'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
+                                array(
+                                    'label' => 'Cliente',
+                                    'url' => array('/cliente'), 
+                                    'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                     'items' => array(
-                                        array('label' => 'Incluir', 'url' => array('/cliente/create')),
-                                        array('label' => 'Gerenciar', 'url' => array('/cliente/admin'))
-                                    )),
+                                        array(
+                                            'label' => 'Incluir', 
+                                            'url' => array('/cliente/create'),
+                                            'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
+                                        ),
+                                        array(
+                                            'label' => 'Gerenciar', 
+                                            'url' => array('/cliente/admin'),
+                                            'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         array(
                             'class' => 'bootstrap.widgets.TbMenu',
                             'htmlOptions' => array('class' => 'pull-right'),
                             'items' => array(
-                                array('label' => 'User', 'url' => array('/userGroups'), 'visible' => !Yii::app()->user->isGuest),
+                                array(
+                                    'label' => 'User', 
+                                    'url' => array('/userGroups'), 
+                                    'visible' => Yii::app()->user->pbac('userGroups.admin.admin')
+                                ),
+                                array(
+                                    'label' => 'Meu Perfil',
+                                    'url' => array('/cliente'),
+                                    'visible' => Yii::app()->user->pbac('Basic.cliente.write') && !Yii::app()->user->pbac('Basic.cliente.admin')
+                                ),
+                                array(
+                                    'label' => 'Meu Perfil',
+                                    'url' => array('/recepcionista'),
+                                    'visible' => Yii::app()->user->pbac('Basic.recepcionista.write') && !Yii::app()->user->pbac('Basic.recepcionista.admin')
+                                ),
+                                array(
+                                    'label' => 'Meu Perfil',
+                                    'url' => array('/dentista'),
+                                    'visible' => Yii::app()->user->pbac('Basic.recepcionista.write') && !Yii::app()->user->pbac('Basic.dentista.admin')
+                                ),
                                 '---',
-                                array('label' => 'Login', 'url' => array('/userGroups'), 'visible' => Yii::app()->user->isGuest),
-                                array('label' => 'Logout (' . Yii::app()->user->name . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest),
+                                array(
+                                    'label' => 'Login', 
+                                    'url' => array('/userGroups'), 
+                                    'visible' => Yii::app()->user->isGuest
+                                ),
+                                array(
+                                    'label' => 'Logout (' . Yii::app()->user->name . ')', 
+                                    'url' => array('/userGroups/user/logout'), 
+                                    'visible' => !Yii::app()->user->isGuest
+                                ),
                                 '---',
                             ),
                         ),

@@ -11,12 +11,16 @@ class ClienteController extends GxController {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'view' actions
-                'actions' => array('view', 'update', 'index'),
+                'actions' => array('view', 'update'),
                 'users' => array('@'),
+            ),
+            array('allow',
+                'actions' => array('index'),
+                'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
                 'actions' => array('delete', 'admin', 'create'),
-                'pbac' => array('admin', 'admin.admin'),
+                'pbac' => array('admin'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),
@@ -217,10 +221,14 @@ class ClienteController extends GxController {
     }
 
     public function actionIndex() {
-        $dataProvider = new CActiveDataProvider('Cliente');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ));
+        if (Yii::app()->user->pbac('Basic.cliente.admin')) {
+            $this->redirect('admin');
+        } else {
+            $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
+            $model = $model_pessoa->getPerfil();
+            
+            $this->redirect(array('view', 'id' => $model->id_cliente));
+        }
     }
 
     public function actionAdmin() {

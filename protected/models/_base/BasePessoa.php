@@ -129,4 +129,14 @@ abstract class BasePessoa extends GxActiveRecord {
             case 1: return 'Feminino';
         }
     }
+    
+    public function getPerfil() {
+        if ($model_cliente = Cliente::model()->find(array('condition' => 'id_pessoa = ' . $this->id_pessoa))) {
+            return $model_cliente;
+        } else if ($model_dentista = Dentista::model()->find(array('condition' => 'id_pessoa = ' . $this->id_pessoa))) {
+            return $model_dentista;
+        } else if ($model_recepcionista = Recepcionista::model()->find(array('condition' => 'id_pessoa = ' . $this->id_pessoa))) {
+            return $model_recepcionista;
+        }
+    }
 }

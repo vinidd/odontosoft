@@ -4,13 +4,20 @@ $this->breadcrumbs = array(
     Yii::t('app', Yii::t('zii', 'Create')),
 );
 
-$this->menu = array(
-    array('label' => Yii::t('app', 'List') . ' ' . $model->label(2), 'url' => array('index')),
-    array('label' => Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
-);
+//$this->menu = array(
+//    array('label' => Yii::t('app', 'List') . ' ' . $model->label(2), 'url' => array('index')),
+//    array('label' => Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
+//);
 ?>
     
-<h1><?php echo Yii::t('zii', 'Create') . ' ' . GxHtml::encode($model->label()); ?></h1>
+<h1>
+    <?php echo GxHtml::encode($model->label(2)); ?>
+    <span style="float: right;">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>">
+            <i class="icon-reorder"></i>
+        </a>
+    </span>
+</h1>
     
 <?php
 $this->renderPartial('_form', array(

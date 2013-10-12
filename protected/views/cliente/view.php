@@ -3,17 +3,22 @@ $this->breadcrumbs = array(
     $model->label(2) => array('index'),
     GxHtml::valueEx($model),
 );
-
-$this->menu = array(
-    array('label' => Yii::t('app', 'List') . ' ' . $model->label(2), 'url' => array('index')),
-    array('label' => Yii::t('app', 'Create') . ' ' . $model->label(), 'url' => array('create')),
-    array('label' => Yii::t('app', 'Update') . ' ' . $model->label(), 'url' => array('update', 'id' => $model->id_cliente)),
-    array('label' => Yii::t('app', 'Delete') . ' ' . $model->label(), 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id_cliente), 'confirm' => 'Are you sure you want to delete this item?')),
-    array('label' => Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
-);
 ?>
 
-<h1><?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?></h1>
+<h1>
+    <?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?>
+    <span style="float: right;">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/update', array('id' => $model->id_cliente)); ?>">
+            <i class="icon-pencil"></i>
+        </a>
+        <?php if (Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
+            &nbsp;
+            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/delete', array('id' => $model->id_cliente)); ?>">
+                <i class="icon-trash"></i>
+            </a>
+        <?php } ?>
+    </span>
+</h1>
 <br>
 <fieldset>
     <legend>Dados Pessoais</legend>
@@ -41,7 +46,8 @@ $this->menu = array(
 <fieldset>
     <legend>Contato</legend>
     <br>
-    <?php foreach ($model_telefones as $model_telefone) {
+    <?php
+    foreach ($model_telefones as $model_telefone) {
         $this->widget('bootstrap.widgets.TbDetailView', array(
             'type' => 'striped',
             //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
@@ -54,7 +60,8 @@ $this->menu = array(
                 )
             )
         ));
-    } ?>
+    }
+    ?>
 </fieldset>
 <br>
 <fieldset>
