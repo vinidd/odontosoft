@@ -6,7 +6,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'enableClientValidation' => true,
         ));
 ?>
-
+<br>
 <fieldset>
     <legend>Dados Pessoais</legend>
 

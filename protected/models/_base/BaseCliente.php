@@ -31,7 +31,7 @@ abstract class BaseCliente extends GxActiveRecord {
     }
 
     public static function representingColumn() {
-        return 'data_criacao';
+        return 'idPessoa';
     }
 
     public function rules() {

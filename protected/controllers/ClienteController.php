@@ -25,8 +25,17 @@ class ClienteController extends GxController {
     }
 
     public function actionView($id) {
+        $model = $this->loadModel($id, 'Cliente');
+        $model_pessoa = $this->loadModel($model->id_pessoa, 'Pessoa');
+        $model_pessoa->changeDate(true);
+        $model_endereco = Endereco::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'id_endereco DESC'));
+        $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
+        
         $this->render('view', array(
-            'model' => $this->loadModel($id, 'Cliente'),
+            'model' => $model,
+            'model_pessoa' => $model_pessoa,
+            'model_endereco' => $model_endereco,
+            'model_telefones' => $model_telefones,
         ));
     }
 
@@ -100,7 +109,7 @@ class ClienteController extends GxController {
         
         //salva cliente e redireciona
         if ($model->save()) {
-            $this->redirect(Yii::app()->request->baseUrl . '/site/index');
+            $this->redirect(array('view', 'id' => $model->getPrimaryKey()));
         }
         
         $this->render('create', array(

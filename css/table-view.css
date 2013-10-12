@@ -1,0 +1,15 @@
+table.detail-view
+{
+    margin-bottom: 0;
+}
+
+.detail-view th
+{
+    text-align: right;
+}
+
+.detail-view td, .detail-view th
+{
+    border-top: 0;
+    background-color: #FFFFFF !important;
+}

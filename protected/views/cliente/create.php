@@ -9,9 +9,9 @@ $this->menu = array(
     array('label' => Yii::t('app', 'Manage') . ' ' . $model->label(2), 'url' => array('admin')),
 );
 ?>
-
+    
 <h1><?php echo Yii::t('zii', 'Create') . ' ' . GxHtml::encode($model->label()); ?></h1>
-
+    
 <?php
 $this->renderPartial('_form', array(
     'model' => $model,

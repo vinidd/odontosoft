@@ -80,11 +80,28 @@ abstract class BaseTelefone extends GxActiveRecord {
     public function setTelefone($id_pessoa, $numero, $tipo = 0) {
         $this->id_pessoa = $id_pessoa;
         $this->numero = $numero;
-        
-        switch($tipo) {
-            case 0: $this->tipo = 0; break;
-            case 1: $this->tipo = 1; break;
-            case 2: $this->tipo = 2; break;
+
+        switch ($tipo) {
+            case 0: $this->tipo = 0;
+                break;
+            case 1: $this->tipo = 1;
+                break;
+            case 2: $this->tipo = 2;
+                break;
         }
     }
+
+    public function getTipo($tipo = false) {
+
+        if (!is_numeric($tipo)) {
+            $tipo = $this->tipo;
+        }
+
+        switch ($tipo) {
+            case 0: return 'Residencial';
+            case 1: return 'Celular';
+            case 2: return 'Comercial';
+        }
+    }
+
 }

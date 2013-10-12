@@ -122,4 +122,15 @@ abstract class BasePessoa extends GxActiveRecord {
         $newData = DateTime::createFromFormat($in, $this->data_nascimento);
         $this->data_nascimento = $newData->format($out);
     }
+    
+    public function getSexo($sexo = false) {
+        if (!is_numeric($sexo)) {
+            $sexo = $this->sexo;
+        }
+        
+        switch ($sexo) {
+            case 0: return 'Masculino';
+            case 1: return 'Feminino';
+        }
+    }
 }

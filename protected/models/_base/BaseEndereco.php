@@ -26,82 +26,98 @@
  */
 abstract class BaseEndereco extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public function tableName() {
-		return 'endereco';
-	}
+    public function tableName() {
+        return 'endereco';
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Endereco|Enderecos', $n);
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Endereco|Enderecos', $n);
+    }
 
-	public static function representingColumn() {
-		return 'cep';
-	}
+    public static function representingColumn() {
+        return 'cep';
+    }
 
-	public function rules() {
-		return array(
-			array('cep, rua, numero, bairro, id_pessoa, id_cidade', 'required'),
-			array('tipo, id_pessoa, id_cidade', 'numerical', 'integerOnly'=>true),
-			array('nome, rua, bairro', 'length', 'max'=>120),
-			array('cep', 'length', 'max'=>9),
-			array('numero, complemento', 'length', 'max'=>6),
-			array('descricao', 'safe'),
-			array('nome, tipo, complemento, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_endereco, nome, cep, tipo, rua, numero, complemento, descricao, bairro, id_pessoa, id_cidade', 'safe', 'on'=>'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('cep, rua, numero, bairro, id_pessoa, id_cidade', 'required'),
+            array('tipo, id_pessoa, id_cidade', 'numerical', 'integerOnly' => true),
+            array('nome, rua, bairro', 'length', 'max' => 120),
+            array('cep', 'length', 'max' => 9),
+            array('numero, complemento', 'length', 'max' => 6),
+            array('descricao', 'safe'),
+            array('nome, tipo, complemento, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id_endereco, nome, cep, tipo, rua, numero, complemento, descricao, bairro, id_pessoa, id_cidade', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
-			'idCidade' => array(self::BELONGS_TO, 'Cidade', 'id_cidade'),
-		);
-	}
+    public function relations() {
+        return array(
+            'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
+            'idCidade' => array(self::BELONGS_TO, 'Cidade', 'id_cidade'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_endereco' => Yii::t('app', 'Id Endereco'),
-			'nome' => Yii::t('app', 'Nome'),
-			'cep' => Yii::t('app', 'CEP'),
-			'tipo' => Yii::t('app', 'Tipo'),
-			'rua' => Yii::t('app', 'Rua'),
-			'numero' => Yii::t('app', 'Número'),
-			'complemento' => Yii::t('app', 'Complemento'),
-			'descricao' => Yii::t('app', 'Descrição'),
-			'bairro' => Yii::t('app', 'Bairro'),
-			'id_pessoa' => null,
-			'id_cidade' => null,
-			'idPessoa' => null,
-			'idCidade' => null,
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id_endereco' => Yii::t('app', 'Id Endereco'),
+            'nome' => Yii::t('app', 'Nome'),
+            'cep' => Yii::t('app', 'CEP'),
+            'tipo' => Yii::t('app', 'Tipo'),
+            'rua' => Yii::t('app', 'Rua'),
+            'numero' => Yii::t('app', 'Número'),
+            'complemento' => Yii::t('app', 'Complemento'),
+            'descricao' => Yii::t('app', 'Descrição'),
+            'bairro' => Yii::t('app', 'Bairro'),
+            'id_pessoa' => null,
+            'id_cidade' => null,
+            'idPessoa' => null,
+            'idCidade' => null,
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_endereco', $this->id_endereco);
-		$criteria->compare('nome', $this->nome, true);
-		$criteria->compare('cep', $this->cep, true);
-		$criteria->compare('tipo', $this->tipo);
-		$criteria->compare('rua', $this->rua, true);
-		$criteria->compare('numero', $this->numero, true);
-		$criteria->compare('complemento', $this->complemento, true);
-		$criteria->compare('descricao', $this->descricao, true);
-		$criteria->compare('bairro', $this->bairro, true);
-		$criteria->compare('id_pessoa', $this->id_pessoa);
-		$criteria->compare('id_cidade', $this->id_cidade);
+        $criteria->compare('id_endereco', $this->id_endereco);
+        $criteria->compare('nome', $this->nome, true);
+        $criteria->compare('cep', $this->cep, true);
+        $criteria->compare('tipo', $this->tipo);
+        $criteria->compare('rua', $this->rua, true);
+        $criteria->compare('numero', $this->numero, true);
+        $criteria->compare('complemento', $this->complemento, true);
+        $criteria->compare('descricao', $this->descricao, true);
+        $criteria->compare('bairro', $this->bairro, true);
+        $criteria->compare('id_pessoa', $this->id_pessoa);
+        $criteria->compare('id_cidade', $this->id_cidade);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function getTipo($tipo = false) {
+        if (!is_numeric($tipo)) {
+            $tipo = $this->tipo;
+        }
+        
+        switch ($tipo) {
+            case 0: return 'Casa';
+            case 1: return 'Apartamento';
+            case 2: return 'Comercial';
+        }
+    }
+    
+    public function getCidade() {
+        return $this->idCidade . ', ' . $this->idCidade->idEstado->uf . ' - ' . $this->idCidade->idEstado->idPais;
+    }
 }
