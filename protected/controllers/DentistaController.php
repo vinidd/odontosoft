@@ -207,7 +207,15 @@ class DentistaController extends GxController {
 
     public function actionDelete($id) {
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $this->loadModel($id, 'Dentista')->delete();
+            $model_dentista = $this->loadModel($id, 'Dentista');
+            $model_pessoa = $this->loadModel($model_dentista->id_pessoa, 'Pessoa');
+
+            //deletar usuário
+            $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
+            $model_usuario->status = 0; //banned
+
+            $model_usuario->save();
+            $model_pessoa->delete();
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
@@ -217,10 +225,14 @@ class DentistaController extends GxController {
     }
 
     public function actionIndex() {
-        $dataProvider = new CActiveDataProvider('Dentista');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ));
+        if (Yii::app()->user->pbac('Basic.dentista.admin')) {
+            $this->redirect('admin');
+        } else {
+            $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
+            $model = $model_pessoa->getPerfil();
+            
+            $this->redirect(array('view', 'id' => $model->id_dentista));
+        }
     }
 
     public function actionAdmin() {

@@ -205,9 +205,14 @@ class ClienteController extends GxController {
     public function actionDelete($id) {
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $model_cliente = $this->loadModel($id, 'Cliente');
-            $this->loadModel($model_cliente->id_pessoa, 'Pessoa')->delete();
+            $model_pessoa = $this->loadModel($model_cliente->id_pessoa, 'Pessoa');
 
             //deletar usuário
+            $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
+            $model_usuario->status = 0; //banned
+            
+            $model_usuario->save();
+            $model_pessoa->delete();
             
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));

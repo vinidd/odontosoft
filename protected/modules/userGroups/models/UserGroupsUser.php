@@ -511,7 +511,7 @@ class UserGroupsUser extends CActiveRecord
 			return true;
 		}
 		else if ($this->_identity->errorCode === UserGroupsIdentity::ERROR_USER_BANNED)
-			$this->addError('username',Yii::t('userGroupsModule.general','We are sorry, but your account is banned'));
+			$this->addError('password',Yii::t('userGroupsModule.general','Desculpe, mas a sua conta está banida'));
 		else if ($this->_identity->errorCode === UserGroupsIdentity::ERROR_USER_INACTIVE)
 			$this->addError('username',Yii::t('userGroupsModule.general','Account not active').'<br/>'.CHtml::link(Yii::t('userGroupsModule.general','Activate the account'), array('/userGroups/user/activate')));
 		else if ($this->_identity->errorCode === UserGroupsIdentity::ERROR_USER_APPROVAL)
@@ -523,7 +523,7 @@ class UserGroupsUser extends CActiveRecord
 		else if ($this->_identity->errorCode === UserGroupsIdentity::ERROR_USER_ACTIVE)
 			$this->addError('activation_code',Yii::t('userGroupsModule.recovery','This user cannot login in recovery mode.'));
 		else
-			$this->addError('password',Yii::t('userGroupsModule.recovery','wrong user or password.').'<br/>'.CHtml::link(Yii::t('userGroupsModule.recovery', 'Password Recovery'), array('/userGroups/user/passRequest')));
+			$this->addError('password',Yii::t('userGroupsModule.recovery','Usuário ou senha inválidos'));
 			return false;
 	}
 

@@ -87,7 +87,7 @@
                                 array(
                                     'label' => 'Meu Perfil',
                                     'url' => array('/dentista'),
-                                    'visible' => Yii::app()->user->pbac('Basic.recepcionista.write') && !Yii::app()->user->pbac('Basic.dentista.admin')
+                                    'visible' => Yii::app()->user->pbac('Basic.dentista.write') && !Yii::app()->user->pbac('Basic.dentista.admin')
                                 ),
                                 '---',
                                 array(

@@ -45,6 +45,16 @@ $this->breadcrumbs = array(
         ),
     ));
     ?>
+
+    <?php
+    $this->widget('bootstrap.widgets.TbDetailView', array(
+        'type' => 'striped',
+        'data' => $model,
+        'attributes' => array(
+            'cro',
+        )
+    ));
+    ?>
 </fieldset>
 <br>
 <fieldset>
