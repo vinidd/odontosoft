@@ -1,12 +1,12 @@
 <script>
     $(document).ready(function() {
-        checkTelefone('cliente');
+        checkTelefone('dentista');
     });
 </script>
 
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-    'id' => 'cliente-form',
+    'id' => 'dentista-form',
     'type' => 'horizontal',
     'enableAjaxValidation' => true,
     'enableClientValidation' => true,
@@ -28,6 +28,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->maskedTextFieldRow($model_pessoa, 'cpf', '999.999.999-99'); ?>
     <?php echo $form->textFieldRow($model_pessoa, 'rg', array('class' => 'rg')); ?>
     <?php echo $form->textFieldRow($model_pessoa, 'email'); ?>
+    <?php echo $form->textFieldRow($model, 'cro'); ?>
 </fieldset>
 
 <?php if (isset($model_usuario)) { ?>
@@ -135,9 +136,9 @@ if (isset($model_telefones)) {
         'buttonType' => 'submit',
         'type' => 'inverse',
         'label' => 'Salvar',
-        'htmlOptions' => array('id' => 'cliente-button')
+        'htmlOptions' => array('id' => 'dentista-button')
     ));
     ?>
 </div>
 
-<?php $this->endWidget('cliente-form'); ?>
+<?php $this->endWidget('dentista-form'); ?>

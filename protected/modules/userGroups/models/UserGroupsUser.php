@@ -135,6 +135,7 @@ class UserGroupsUser extends CActiveRecord
 		$rules = array(
                         // rules for form
                         array('username', 'unique', 'on' => 'form'),
+                        array('username', 'match', 'pattern' => '/^[a-zA-Z0-9]+$/', 'on' => 'form', 'message' => 'Utilize apenas letras números'),
                         array('password', 'match', 'pattern' => '/^(?=.*[a-zA-Z0-9]).{5,}$/', 'on' => 'form', 'message' => 'A senha deve ter pelo menos 5 caracteres'),
                         array('password_confirm', 'compare', 'compareAttribute' => 'password', 'on' => 'form', 'message' => 'Senha não confere'),
                     

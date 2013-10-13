@@ -8,14 +8,14 @@ $this->breadcrumbs = array(
 
 <h1>
     <?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?>
-    <?php if (Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
+    <?php if (Yii::app()->user->pbac('Basic.dentista.admin')) { ?>
         <span style="float: right;">
             &nbsp;
-            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/delete', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Excluir">
+            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('dentista/delete', array('id' => $model->id_dentista)); ?>" data-toggle="tooltip" data-placement="bottom" title="Excluir">
                 <i class="icon-trash"></i>
             </a>
             &nbsp;
-            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="Gerenciar">
+            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('dentista/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="Gerenciar">
                 <i class="icon-reorder"></i>
             </a>
         </span>

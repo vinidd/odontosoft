@@ -19,65 +19,77 @@
  */
 abstract class BaseDentista extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public $nome_dentista;
 
-	public function tableName() {
-		return 'dentista';
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Dentista|Dentistas', $n);
-	}
+    public function tableName() {
+        return 'dentista';
+    }
 
-	public static function representingColumn() {
-		return 'data_criacao';
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Dentista|Dentistas', $n);
+    }
 
-	public function rules() {
-		return array(
-			array('id_pessoa, data_criacao', 'required'),
-			array('id_pessoa', 'numerical', 'integerOnly'=>true),
-			array('cro', 'length', 'max'=>45),
-			array('cro', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_dentista, id_pessoa, cro, data_criacao', 'safe', 'on'=>'search'),
-		);
-	}
+    public static function representingColumn() {
+        return 'idPessoa';
+    }
 
-	public function relations() {
-		return array(
-			'consultas' => array(self::HAS_MANY, 'Consulta', 'id_dentista'),
-			'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('id_pessoa, data_criacao', 'required'),
+            array('id_pessoa', 'numerical', 'integerOnly' => true),
+            array('cro', 'length', 'max' => 45),
+            array('cro', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id_dentista, id_pessoa, cro, data_criacao, nome_dentista', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function relations() {
+        return array(
+            'consultas' => array(self::HAS_MANY, 'Consulta', 'id_dentista'),
+            'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_dentista' => Yii::t('app', 'Id Dentista'),
-			'id_pessoa' => null,
-			'cro' => Yii::t('app', 'Cro'),
-			'data_criacao' => Yii::t('app', 'Data Criacao'),
-			'consultas' => null,
-			'idPessoa' => null,
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function attributeLabels() {
+        return array(
+            'id_dentista' => Yii::t('app', 'Id Dentista'),
+            'id_pessoa' => null,
+            'cro' => Yii::t('app', 'CRO'),
+            'data_criacao' => Yii::t('app', 'Data Criacao'),
+            'consultas' => null,
+            'idPessoa' => null,
+        );
+    }
 
-		$criteria->compare('id_dentista', $this->id_dentista);
-		$criteria->compare('id_pessoa', $this->id_pessoa);
-		$criteria->compare('cro', $this->cro, true);
-		$criteria->compare('data_criacao', $this->data_criacao, true);
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        $criteria->with = array('idPessoa');
+
+        $criteria->compare('id_dentista', $this->id_dentista);
+        $criteria->compare('id_pessoa', $this->id_pessoa);
+        $criteria->compare('cro', $this->cro, true);
+        $criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('idPessoa.nome', $this->nome_dentista, true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function afterFind() {
+        $this->nome_dentista = isset($this->idPessoa->nome) ? $this->idPessoa->nome : '';
+
+        parent::afterFind();
+    }
+
 }

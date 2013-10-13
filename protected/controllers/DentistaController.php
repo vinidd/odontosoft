@@ -1,6 +1,6 @@
 <?php
 
-class ClienteController extends GxController {
+class DentistaController extends GxController {
 
     public function filters() {
         return array(
@@ -25,7 +25,7 @@ class ClienteController extends GxController {
     }
 
     public function actionView($id) {
-        $model = $this->loadModel($id, 'Cliente');
+        $model = $this->loadModel($id, 'Dentista');
         $model_pessoa = $this->loadModel($model->id_pessoa, 'Pessoa');
         $model_pessoa->changeDate(true);
         $model_endereco = Endereco::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'id_endereco DESC'));
@@ -40,12 +40,12 @@ class ClienteController extends GxController {
     }
 
     public function actionCreate() {
-        $model = new Cliente;
+        $model = new Dentista;
         $model_pessoa = new Pessoa('create');
         $model_usuario = new UserGroupsUser('form');
         $model_endereco = new Endereco;
 
-        $this->performAjaxValidation(array($model_pessoa, $model_usuario, $model_endereco), 'cliente-form');
+        $this->performAjaxValidation(array($model_pessoa, $model_usuario, $model_endereco), 'dentista-form');
 
         //pessoa
         if (isset($_POST['Pessoa'])) {
@@ -55,9 +55,10 @@ class ClienteController extends GxController {
                 $model_pessoa->changeDate();
                 $model_pessoa->save();
 
-                //cliente
+                //dentista
                 $model->id_pessoa = $model_pessoa->getPrimaryKey();
                 $model->data_criacao = date('Y-m-d');
+                $model->cro = isset($_POST['Dentista']['cro']) ? $_POST['Dentista']['cro'] : null;
                 //$model->save();
             }
         }
@@ -65,7 +66,7 @@ class ClienteController extends GxController {
         //usuário
         if (isset($_POST['UserGroupsUser']) && $_POST['UserGroupsUser']['username'] && $_POST['UserGroupsUser']['password']) {
             $model_usuario->setScenario('admin');
-            $model_usuario->group_id = 3; //cliente
+            $model_usuario->group_id = 4; //dentista
             $model_usuario->status = 4; //ativo
             $model_usuario->username = $_POST['UserGroupsUser']['username'];
             $model_usuario->email = $model_pessoa->email;
@@ -105,7 +106,7 @@ class ClienteController extends GxController {
             }
         }
 
-        //salva cliente e redireciona
+        //salva dentista e redireciona
         if ($model->save()) {
             $this->redirect(array('view', 'id' => $model->getPrimaryKey()));
         }
@@ -119,12 +120,12 @@ class ClienteController extends GxController {
     }
 
     public function actionUpdate($id) {
-        $model = $this->loadModel($id, 'Cliente');
+        $model = $this->loadModel($id, 'Dentista');
         $model_pessoa = $this->loadModel($model->id_pessoa, 'Pessoa');
         $model_pessoa->changeDate(true);
         $model_endereco = Endereco::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'id_endereco DESC'));
 
-        $this->performAjaxValidation(array($model_pessoa, $model_endereco), 'cliente-form');
+        $this->performAjaxValidation(array($model_pessoa, $model_endereco), 'dentista-form');
 
         //pessoa
         if (isset($_POST['Pessoa'])) {
@@ -133,6 +134,8 @@ class ClienteController extends GxController {
             if ($model_pessoa->validate()) {
                 $model_pessoa->changeDate();
                 $model_pessoa->save();
+                $model->cro = (isset($_POST['Dentista']['cro'])) ? $_POST['Dentista']['cro'] : null;
+                $model->save();
             }
         }
 
@@ -178,7 +181,7 @@ class ClienteController extends GxController {
                 }
             }
         }
-        
+
         //endereco
         if (isset($_POST['Endereco'])) {
             $model_endereco->attributes = $_POST['Endereco'];
@@ -188,12 +191,12 @@ class ClienteController extends GxController {
         }
 
         //redirect
-        if (isset($_POST['Pessoa']) || isset($_POST['Telefone']) || isset($_POST['Endereco'])) {
-            $this->redirect(array('view', 'id' => $model->id_cliente));
+        if (isset($_POST['Pessoa']) || isset($_POST['Telefone']) || isset($_POST['Endereco']) || isset($_POST['Dentista'])) {
+            $this->redirect(array('view', 'id' => $model->id_dentista));
         }
 
         $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
-        
+
         $this->render('update', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
@@ -204,11 +207,8 @@ class ClienteController extends GxController {
 
     public function actionDelete($id) {
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $model_cliente = $this->loadModel($id, 'Cliente');
-            $this->loadModel($model_cliente->id_pessoa, 'Pessoa')->delete();
+            $this->loadModel($id, 'Dentista')->delete();
 
-            //deletar usuário
-            
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
         }
@@ -217,26 +217,22 @@ class ClienteController extends GxController {
     }
 
     public function actionIndex() {
-        if (Yii::app()->user->pbac('Basic.cliente.admin')) {
-            $this->redirect('admin');
-        } else {
-            $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
-            $model = $model_pessoa->getPerfil();
-            
-            $this->redirect(array('view', 'id' => $model->id_cliente));
-        }
+        $dataProvider = new CActiveDataProvider('Dentista');
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
     }
 
     public function actionAdmin() {
-        $model = new Cliente('search');
+        $model = new Dentista('search');
         $model->unsetAttributes();
 
-        if (isset($_GET['Cliente']))
-            $model->setAttributes($_GET['Cliente']);
+        if (isset($_GET['Dentista']))
+            $model->setAttributes($_GET['Dentista']);
 
         $this->render('admin', array(
             'model' => $model,
         ));
     }
-    
+
 }

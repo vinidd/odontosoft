@@ -8,6 +8,11 @@ $(document).ready(function() {
         $(".telefone").mask("(99)9999-9999");
     });
 
+    if (!$('#cliente-form').find('#Pessoa_nome').val()) {
+        $('#cliente-form').find('#Pessoa_sexo_0').attr('checked', 'checked');
+        $('#cliente-form').find('#Endereco_tipo_0').attr('checked', 'checked');
+    }
+
     $('#cliente-form').find('.telefone').live('blur', function() {
 
         temp1 = $('#cliente-form').find('#Telefone_residencial').val();
@@ -52,6 +57,56 @@ $(document).ready(function() {
             $('#cliente-form').find('#id_cidade_em_').show();
         }
     });
+
+    if (!$('#dentista-form').find('#Pessoa_nome').val()) {
+        $('#dentista-form').find('#Pessoa_sexo_0').attr('checked', 'checked');
+        $('#dentista-form').find('#Endereco_tipo_0').attr('checked', 'checked');
+    }
+
+    $('#dentista-form').find('.telefone').live('blur', function() {
+
+        temp1 = $('#dentista-form').find('#Telefone_residencial').val();
+        temp1 = limpaTelefone(temp1);
+
+        temp2 = $('#dentista-form').find('#Telefone_celular').val();
+        temp2 = limpaTelefone(temp2);
+
+        temp3 = $('#dentista-form').find('#Telefone_comercial').val();
+        temp3 = limpaTelefone(temp3);
+
+        if (temp1.length === 10 || temp2.length === 10 || temp3.length === 10) {
+            $('#dentista-form').find('.telefone').each(function() {
+                $(this).css('border-color', '#468847');
+                $('#Telefone_em').css('color', '#468847');
+                $('#dentista-button').removeAttr('disabled');
+                $('#dentista-form').find('.tel_label').each(function() {
+                    $(this).css('color', '#468847');
+                });
+            });
+        } else {
+            $('#dentista-form').find('.telefone').each(function() {
+                $(this).css('border-color', '#B94A48');
+                $('#Telefone_em').css('color', '#B94A48');
+                $('#dentista-button').attr('disabled', 'disabled');
+                $('#dentista-form').find('.tel_label').each(function() {
+                    $(this).css('color', '#B94A48');
+                });
+            });
+        }
+    });
+
+    $('#dentista-form').find('#id_cidade').live('blur', function() {
+        if ($(this).val() && $('#dentista-form').find('#Endereco_id_cidade').val()) {
+            $(this).css('border-color', '#468847');
+            $('.cidade_label').css('color', '#468847');
+            $('#dentista-form').find('#id_cidade_em_').hide();
+        } else {
+            $(this).css('border-color', '#B94A48');
+            $('#dentista-form').find('#Endereco_id_cidade').val('');
+            $('.cidade_label').css('color', '#B94A48');
+            $('#dentista-form').find('#id_cidade_em_').show();
+        }
+    });
 });
 
 function limpaTelefone(str) {
@@ -62,14 +117,14 @@ function limpaTelefone(str) {
     return str;
 }
 
-function checkTelefone() {
-    temp1 = $('#cliente-form').find('#Telefone_residencial').val();
-    temp2 = $('#cliente-form').find('#Telefone_celular').val();
-    temp3 = $('#cliente-form').find('#Telefone_comercial').val();
-    
+function checkTelefone(name) {
+    temp1 = $('#' + name + '-form').find('#Telefone_residencial').val();
+    temp2 = $('#' + name + '-form').find('#Telefone_celular').val();
+    temp3 = $('#' + name + '-form').find('#Telefone_comercial').val();
+
     if (temp1.length || temp2.length || temp3.length) {
-        $('#cliente-button').removeAttr('disabled', 'disabled');
+        $('#' + name + '-button').removeAttr('disabled', 'disabled');
     } else {
-        $('#cliente-button').attr('disabled', 'disabled');
+        $('#' + name + '-button').attr('disabled', 'disabled');
     }
 }

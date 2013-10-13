@@ -41,13 +41,26 @@
                                         array(
                                             'label' => 'Incluir', 
                                             'url' => array('/cliente/create'),
-                                            'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                         ),
                                         array(
                                             'label' => 'Gerenciar', 
                                             'url' => array('/cliente/admin'),
-                                            'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                         ),
+                                    ),
+                                ),
+                                array(
+                                    'label' => 'Dentista',
+                                    'url' => array('/dentista'),
+                                    'visible' => Yii::app()->user->pbac('Basic.dentista.admin'),
+                                    'items' => array(
+                                        array(
+                                            'label' => 'Incluir',
+                                            'url' => array('/dentista/create'),
+                                        ),
+                                        array(
+                                            'label' => 'Gerenciar',
+                                            'url' => array('/dentista/admin'),
+                                        )                                            
                                     ),
                                 ),
                             ),
