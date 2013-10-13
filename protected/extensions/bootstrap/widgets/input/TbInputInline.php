@@ -70,7 +70,6 @@ class TbInputInline extends TbInputVertical
 	protected function maskedTextField()
 	{
 		$this->setPlaceholder();
-		$this->htmlOptions['placeholder'] = $this->model->getAttributeLabel($this->attribute);
 		echo $this->getPrepend();
 		echo $this->form->maskedTextField($this->model, $this->attribute, $this->data, $this->htmlOptions);
 		echo $this->getAppend();
@@ -83,12 +82,11 @@ class TbInputInline extends TbInputVertical
 	protected function typeAheadField()
 	{
 		$this->setPlaceholder();
-		$this->htmlOptions['placeholder'] = $this->model->getAttributeLabel($this->attribute);
 		echo $this->getPrepend();
 		echo $this->form->typeAheadField($this->model, $this->attribute, $this->data, $this->htmlOptions);
 		echo $this->getAppend();
 	}
-    
+
      /**
      * Renders a datepicker field.
      * @return string the rendered content
@@ -122,9 +120,42 @@ class TbInputInline extends TbInputVertical
         echo $this->getError() . $this->getHint();
     }
 
+     /**
+     * Renders a datetimepicker field.
+     * @return string the rendered content
+     * @author Hrumpa
+     */
+    protected function datetimepickerField()
+    {
+        if (isset($this->htmlOptions['options'])) {
+            $options = $this->htmlOptions['options'];
+            unset($this->htmlOptions['options']);
+        }
+
+        if (isset($this->htmlOptions['events'])) {
+            $events = $this->htmlOptions['events'];
+            unset($this->htmlOptions['events']);
+        }
+
+        echo $this->setPlaceholder();
+        echo $this->getPrepend();
+        $this->widget(
+            'bootstrap.widgets.TbDateTimePicker',
+            array(
+                'model' => $this->model,
+                'attribute' => $this->attribute,
+                'options' => isset($options) ? $options : array(),
+                'events' => isset($events) ? $events : array(),
+                'htmlOptions' => $this->htmlOptions,
+            )
+        );
+        echo $this->getAppend();
+        echo $this->getError() . $this->getHint();
+    }
+
 	protected function setPlaceholder()
 	{
-		if (empty($this->htmlOptions['placeholder'])) {
+		if (!isset($this->htmlOptions['placeholder'])) {
 			$this->htmlOptions['placeholder'] = $this->model->getAttributeLabel($this->attribute);
 		}
 	}

@@ -13,7 +13,7 @@ $this->breadcrumbs = array(
 <h1>
     <?php echo GxHtml::encode($model->label(2)); ?>
     <span style="float: right;">
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="Gerenciar">
             <i class="icon-reorder"></i>
         </a>
     </span>

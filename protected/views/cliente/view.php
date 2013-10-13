@@ -8,12 +8,12 @@ $this->breadcrumbs = array(
 <h1>
     <?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?>
     <span style="float: right;">
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/update', array('id' => $model->id_cliente)); ?>">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/update', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Editar">
             <i class="icon-pencil"></i>
         </a>
         <?php if (Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
             &nbsp;
-            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/delete', array('id' => $model->id_cliente)); ?>">
+            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/delete', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Excluir">
                 <i class="icon-trash"></i>
             </a>
         <?php } ?>

@@ -3,10 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2013 at 07:14 PM
+-- Generation Time: Oct 13, 2013 at 08:04 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -5620,7 +5621,15 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_cliente`),
   KEY `fk_cliente_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `cliente`
+--
+
+INSERT INTO `cliente` (`id_cliente`, `id_pessoa`, `data_criacao`) VALUES
+(5, 5, '2013-10-12'),
+(6, 6, '2013-10-12');
 
 -- --------------------------------------------------------
 
@@ -5679,7 +5688,15 @@ CREATE TABLE IF NOT EXISTS `endereco` (
   PRIMARY KEY (`id_endereco`),
   KEY `fk_endereco_pessoa1_idx` (`id_pessoa`),
   KEY `fk_endereco_cidade1_idx` (`id_cidade`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `endereco`
+--
+
+INSERT INTO `endereco` (`id_endereco`, `nome`, `cep`, `tipo`, `rua`, `numero`, `complemento`, `descricao`, `bairro`, `id_pessoa`, `id_cidade`) VALUES
+(5, 'Minha Casa', '11111-111', 1, 'teste teste', '123', '12A', 'testete testetetsetest testes test testes testest tes tes t estesets tes  tsetestse', 'teste', 5, 1479),
+(6, NULL, '22222-222', 2, 'rua2', '321', '322e', NULL, 'teste2', 6, 115);
 
 -- --------------------------------------------------------
 
@@ -6066,7 +6083,15 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `email` varchar(120) NOT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_usergroups_user1_idx` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `pessoa`
+--
+
+INSERT INTO `pessoa` (`id_pessoa`, `id_usuario`, `nome`, `data_nascimento`, `sexo`, `cpf`, `rg`, `email`) VALUES
+(5, 4, 'Teste', '1991-11-12', 0, '036.491.781-41', NULL, 'teste@teste.com'),
+(6, 5, 'teste2', '1212-12-12', 1, '443.770.554-88', NULL, 'teste2@teste.com');
 
 -- --------------------------------------------------------
 
@@ -6121,7 +6146,16 @@ CREATE TABLE IF NOT EXISTS `telefone` (
   `id_pessoa` int(11) NOT NULL,
   PRIMARY KEY (`id_telefone`),
   KEY `fk_telefone_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `telefone`
+--
+
+INSERT INTO `telefone` (`id_telefone`, `tipo`, `numero`, `id_pessoa`) VALUES
+(11, 0, '(11)1111-1111', 5),
+(12, 2, '(33)3333-3333', 5),
+(13, 1, '(99)9999-9999', 6);
 
 -- --------------------------------------------------------
 
@@ -6158,7 +6192,16 @@ CREATE TABLE IF NOT EXISTS `usergroups_access` (
   `controller` varchar(140) NOT NULL,
   `permission` varchar(7) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `usergroups_access`
+--
+
+INSERT INTO `usergroups_access` (`id`, `element`, `element_id`, `module`, `controller`, `permission`) VALUES
+(2, 2, 3, 'Basic', 'pessoa', 'read'),
+(3, 2, 3, 'Basic', 'site', 'read'),
+(4, 2, 3, 'Basic', 'cliente', 'write');
 
 -- --------------------------------------------------------
 
@@ -6215,8 +6258,8 @@ CREATE TABLE IF NOT EXISTS `usergroups_cron` (
 --
 
 INSERT INTO `usergroups_cron` (`id`, `name`, `lapse`, `last_occurrence`) VALUES
-(1, 'garbage_collection', 7, '2013-09-29 00:00:00'),
-(2, 'unban', 1, '2013-10-05 00:00:00');
+(1, 'garbage_collection', 7, '2013-10-12 00:00:00'),
+(2, 'unban', 1, '2013-10-13 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -6231,7 +6274,7 @@ CREATE TABLE IF NOT EXISTS `usergroups_group` (
   `home` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `groupname` (`groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `usergroups_group`
@@ -6239,7 +6282,8 @@ CREATE TABLE IF NOT EXISTS `usergroups_group` (
 
 INSERT INTO `usergroups_group` (`id`, `groupname`, `level`, `home`) VALUES
 (1, 'root', 100, NULL),
-(2, 'user', 1, '/userGroups');
+(2, 'user', 1, '/userGroups'),
+(3, 'cliente', 5, '/site');
 
 -- --------------------------------------------------------
 
@@ -6292,14 +6336,16 @@ CREATE TABLE IF NOT EXISTS `usergroups_user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `group_id_idxfk` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `usergroups_user`
 --
 
 INSERT INTO `usergroups_user` (`id`, `group_id`, `username`, `password`, `email`, `home`, `status`, `question`, `answer`, `creation_date`, `activation_code`, `activation_time`, `last_login`, `ban`, `ban_reason`) VALUES
-(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-05 15:37:55', NULL, NULL);
+(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-13 17:14:29', NULL, NULL),
+(4, 3, 'teste', '8453606295a9865a1f16529a271b41f1', 'teste@teste.com', NULL, 4, NULL, NULL, '2013-10-12 20:13:10', NULL, NULL, '2013-10-12 20:46:59', NULL, NULL),
+(5, 2, 'teste2', '251f5cbb477b0afa721a0cd927be6d71', 'teste2@teste.com', NULL, 4, NULL, NULL, '2013-10-12 20:15:16', NULL, NULL, '2013-10-12 19:26:18', NULL, NULL);
 
 --
 -- Constraints for dumped tables
@@ -6389,6 +6435,7 @@ ALTER TABLE `telefone`
 --
 ALTER TABLE `usergroups_user`
   ADD CONSTRAINT `usergroups_user_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `usergroups_group` (`id`) ON DELETE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

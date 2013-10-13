@@ -26,7 +26,7 @@ $this->breadcrumbs = array(
 <h1>
     <?php echo GxHtml::encode($model->label(2)); ?>
     <span style="float: right;">
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/create'); ?>">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/create'); ?>" data-toggle="tooltip" data-placement="bottom" title="Incluir">
             <i class="icon-plus"></i>
         </a>
     </span>
