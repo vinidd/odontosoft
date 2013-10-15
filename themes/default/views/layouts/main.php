@@ -111,7 +111,7 @@
             <div id="tread">
                 <?php
                 $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
-                    'heading' => 'I\'M NOT YELLING!',
+                    'heading' => 'Odontosoft',
                     'headingOptions' => array('style' => 'color:#eeeeee; display: inline;'),
                 ));
                 ?>
@@ -131,7 +131,7 @@
                     ?>
                 </div>
             </div>
-
+           
             <div class="container">
 
                 <?php echo $content; ?>
@@ -139,7 +139,7 @@
                 <div class="clear"></div>
 
             </div>
-
+             
             <div id="footer">
                 All Rights Reserved.<br/>
                 <?php echo Yii::powered(); ?>

@@ -3,7 +3,8 @@ $this->breadcrumbs = array(
     'Login',
 );
 ?>
-<div id="userGroups-container">
+<div class="logbg"> 
+<div id="userGroups-container" style="padding-top: 80px;">
     <?php if (isset(Yii::app()->request->cookies['success'])): ?>
         <div class="info">
             <?php echo Yii::app()->request->cookies['success']->value; ?>
@@ -44,4 +45,5 @@ $this->breadcrumbs = array(
 
         <?php $this->endWidget(); ?>
     </div><!-- form -->
+</div>
 </div>

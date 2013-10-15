@@ -257,3 +257,16 @@ div.search-form
 {
     background: #80CFFF;
 }
+
+.logbg{
+    
+    height:350px;
+    background: url(img/bglog.png) no-repeat;
+    background-position: center center;
+    margin-top: -40px;
+    margin-bottom: -40px;
+}
+.gg{
+    margin-top: 50px;
+    
+}
