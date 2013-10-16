@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2013 at 08:04 PM
+-- Generation Time: Oct 17, 2013 at 01:02 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -5621,15 +5621,14 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_cliente`),
   KEY `fk_cliente_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `cliente`
 --
 
 INSERT INTO `cliente` (`id_cliente`, `id_pessoa`, `data_criacao`) VALUES
-(5, 5, '2013-10-12'),
-(6, 6, '2013-10-12');
+(5, 5, '2013-10-12');
 
 -- --------------------------------------------------------
 
@@ -5665,7 +5664,14 @@ CREATE TABLE IF NOT EXISTS `dentista` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_dentista`),
   KEY `fk_dentista_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `dentista`
+--
+
+INSERT INTO `dentista` (`id_dentista`, `id_pessoa`, `cro`, `data_criacao`) VALUES
+(2, 10, 'df-asd-123', '2013-10-13');
 
 -- --------------------------------------------------------
 
@@ -5688,7 +5694,7 @@ CREATE TABLE IF NOT EXISTS `endereco` (
   PRIMARY KEY (`id_endereco`),
   KEY `fk_endereco_pessoa1_idx` (`id_pessoa`),
   KEY `fk_endereco_cidade1_idx` (`id_cidade`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `endereco`
@@ -5696,7 +5702,8 @@ CREATE TABLE IF NOT EXISTS `endereco` (
 
 INSERT INTO `endereco` (`id_endereco`, `nome`, `cep`, `tipo`, `rua`, `numero`, `complemento`, `descricao`, `bairro`, `id_pessoa`, `id_cidade`) VALUES
 (5, 'Minha Casa', '11111-111', 1, 'teste teste', '123', '12A', 'testete testetetsetest testes test testes testest tes tes t estesets tes  tsetestse', 'teste', 5, 1479),
-(6, NULL, '22222-222', 2, 'rua2', '321', '322e', NULL, 'teste2', 6, 115);
+(8, 'casa', '11111-111', 1, 'teste', '123', NULL, NULL, 'teste', 10, 5270),
+(9, NULL, '11111-111', 0, '11111', '111', NULL, NULL, '111', 12, 3328);
 
 -- --------------------------------------------------------
 
@@ -6083,15 +6090,16 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `email` varchar(120) NOT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_usergroups_user1_idx` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `pessoa`
 --
 
 INSERT INTO `pessoa` (`id_pessoa`, `id_usuario`, `nome`, `data_nascimento`, `sexo`, `cpf`, `rg`, `email`) VALUES
-(5, 4, 'Teste', '1991-11-12', 0, '036.491.781-41', NULL, 'teste@teste.com'),
-(6, 5, 'teste2', '1212-12-12', 1, '443.770.554-88', NULL, 'teste2@teste.com');
+(5, 4, 'Cliente', '1991-11-12', 1, '036.491.781-41', NULL, 'teste@teste.com'),
+(10, 6, 'Dentista', '1999-11-12', 0, '876.868.978-00', '1111111111', 'teste@dentista.com'),
+(12, 8, 'Recepcionista', '1999-11-12', 1, '190.282.366-43', NULL, 'teste@recepcionista.com');
 
 -- --------------------------------------------------------
 
@@ -6102,10 +6110,17 @@ INSERT INTO `pessoa` (`id_pessoa`, `id_usuario`, `nome`, `data_nascimento`, `sex
 CREATE TABLE IF NOT EXISTS `recepcionista` (
   `id_recepcionista` int(11) NOT NULL AUTO_INCREMENT,
   `id_pessoa` int(11) NOT NULL,
-  `data_criaca` date NOT NULL,
+  `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_recepcionista`),
   KEY `fk_recepcionista_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `recepcionista`
+--
+
+INSERT INTO `recepcionista` (`id_recepcionista`, `id_pessoa`, `data_criacao`) VALUES
+(2, 12, '2013-10-17');
 
 -- --------------------------------------------------------
 
@@ -6146,7 +6161,7 @@ CREATE TABLE IF NOT EXISTS `telefone` (
   `id_pessoa` int(11) NOT NULL,
   PRIMARY KEY (`id_telefone`),
   KEY `fk_telefone_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `telefone`
@@ -6155,7 +6170,9 @@ CREATE TABLE IF NOT EXISTS `telefone` (
 INSERT INTO `telefone` (`id_telefone`, `tipo`, `numero`, `id_pessoa`) VALUES
 (11, 0, '(11)1111-1111', 5),
 (12, 2, '(33)3333-3333', 5),
-(13, 1, '(99)9999-9999', 6);
+(15, 0, '(11)1111-1111', 10),
+(16, 2, '(11)1111-1111', 10),
+(18, 0, '(11)1111-1111', 12);
 
 -- --------------------------------------------------------
 
@@ -6192,7 +6209,7 @@ CREATE TABLE IF NOT EXISTS `usergroups_access` (
   `controller` varchar(140) NOT NULL,
   `permission` varchar(7) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `usergroups_access`
@@ -6201,7 +6218,15 @@ CREATE TABLE IF NOT EXISTS `usergroups_access` (
 INSERT INTO `usergroups_access` (`id`, `element`, `element_id`, `module`, `controller`, `permission`) VALUES
 (2, 2, 3, 'Basic', 'pessoa', 'read'),
 (3, 2, 3, 'Basic', 'site', 'read'),
-(4, 2, 3, 'Basic', 'cliente', 'write');
+(4, 2, 3, 'Basic', 'cliente', 'write'),
+(8, 2, 4, 'Basic', 'dentista', 'write'),
+(9, 2, 4, 'Basic', 'pessoa', 'read'),
+(10, 2, 4, 'Basic', 'site', 'read'),
+(15, 2, 5, 'Basic', 'site', 'read'),
+(16, 2, 5, 'Basic', 'cliente', 'admin'),
+(17, 2, 5, 'Basic', 'dentista', 'admin'),
+(18, 2, 5, 'Basic', 'pessoa', 'admin'),
+(20, 2, 5, 'Basic', 'recepcionista', 'write');
 
 -- --------------------------------------------------------
 
@@ -6259,7 +6284,7 @@ CREATE TABLE IF NOT EXISTS `usergroups_cron` (
 
 INSERT INTO `usergroups_cron` (`id`, `name`, `lapse`, `last_occurrence`) VALUES
 (1, 'garbage_collection', 7, '2013-10-12 00:00:00'),
-(2, 'unban', 1, '2013-10-13 00:00:00');
+(2, 'unban', 1, '2013-10-16 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -6274,7 +6299,7 @@ CREATE TABLE IF NOT EXISTS `usergroups_group` (
   `home` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `groupname` (`groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `usergroups_group`
@@ -6283,7 +6308,9 @@ CREATE TABLE IF NOT EXISTS `usergroups_group` (
 INSERT INTO `usergroups_group` (`id`, `groupname`, `level`, `home`) VALUES
 (1, 'root', 100, NULL),
 (2, 'user', 1, '/userGroups'),
-(3, 'cliente', 5, '/site');
+(3, 'cliente', 5, '/site'),
+(4, 'dentista', 10, '/dentista'),
+(5, 'recepcionista', 15, '/recepcionista');
 
 -- --------------------------------------------------------
 
@@ -6336,16 +6363,17 @@ CREATE TABLE IF NOT EXISTS `usergroups_user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `group_id_idxfk` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `usergroups_user`
 --
 
 INSERT INTO `usergroups_user` (`id`, `group_id`, `username`, `password`, `email`, `home`, `status`, `question`, `answer`, `creation_date`, `activation_code`, `activation_time`, `last_login`, `ban`, `ban_reason`) VALUES
-(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-13 17:14:29', NULL, NULL),
-(4, 3, 'teste', '8453606295a9865a1f16529a271b41f1', 'teste@teste.com', NULL, 4, NULL, NULL, '2013-10-12 20:13:10', NULL, NULL, '2013-10-12 20:46:59', NULL, NULL),
-(5, 2, 'teste2', '251f5cbb477b0afa721a0cd927be6d71', 'teste2@teste.com', NULL, 4, NULL, NULL, '2013-10-12 20:15:16', NULL, NULL, '2013-10-12 19:26:18', NULL, NULL);
+(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-16 22:57:47', NULL, NULL),
+(4, 3, 'cliente', 'b9ffb515227fa9cfe7169ff6e0343851', 'teste@cliente.com', NULL, 4, 'teste', 'teste', '2013-10-12 20:13:10', NULL, NULL, '2013-10-16 22:19:34', NULL, NULL),
+(6, 4, 'dentista', 'dd38562eca0f5a99c0169cfadd47e65c', 'teste@dentista.com', NULL, 4, NULL, NULL, '2013-10-13 21:47:37', NULL, NULL, '2013-10-13 20:39:52', NULL, NULL),
+(8, 5, 'recepcionista', '67e4dcd6d74f4ea53bdb296e63f5e6cf', 'teste@recepcionista.com', NULL, 4, NULL, NULL, '2013-10-17 00:30:22', NULL, NULL, '2013-10-16 23:00:58', NULL, NULL);
 
 --
 -- Constraints for dumped tables
