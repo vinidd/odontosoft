@@ -222,10 +222,14 @@ class RecepcionistaController extends GxController {
     }
 
     public function actionIndex() {
-        $dataProvider = new CActiveDataProvider('Recepcionista');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ));
+        if (Yii::app()->user->pbac('Basic.recepcionista.admin')) {
+            $this->redirect('admin');
+        } else {
+            $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
+            $model = $model_pessoa->getPerfil();
+            
+            $this->redirect(array('view', 'id' => $model->id_recepcionista));
+        }
     }
 
     public function actionAdmin() {
