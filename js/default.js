@@ -107,6 +107,56 @@ $(document).ready(function() {
             $('#dentista-form').find('#id_cidade_em_').show();
         }
     });
+    
+    if (!$('#recepcionista-form').find('#Pessoa_nome').val()) {
+        $('#recepcionista-form').find('#Pessoa_sexo_0').attr('checked', 'checked');
+        $('#recepcionista-form').find('#Endereco_tipo_0').attr('checked', 'checked');
+    }
+
+    $('#recepcionista-form').find('.telefone').live('blur', function() {
+
+        temp1 = $('#recepcionista-form').find('#Telefone_residencial').val();
+        temp1 = limpaTelefone(temp1);
+
+        temp2 = $('#recepcionista-form').find('#Telefone_celular').val();
+        temp2 = limpaTelefone(temp2);
+
+        temp3 = $('#recepcionista-form').find('#Telefone_comercial').val();
+        temp3 = limpaTelefone(temp3);
+
+        if (temp1.length === 10 || temp2.length === 10 || temp3.length === 10) {
+            $('#recepcionista-form').find('.telefone').each(function() {
+                $(this).css('border-color', '#468847');
+                $('#Telefone_em').css('color', '#468847');
+                $('#recepcionista-button').removeAttr('disabled');
+                $('#recepcionista-form').find('.tel_label').each(function() {
+                    $(this).css('color', '#468847');
+                });
+            });
+        } else {
+            $('#recepcionista-form').find('.telefone').each(function() {
+                $(this).css('border-color', '#B94A48');
+                $('#Telefone_em').css('color', '#B94A48');
+                $('#recepcionista-button').attr('disabled', 'disabled');
+                $('#recepcionista-form').find('.tel_label').each(function() {
+                    $(this).css('color', '#B94A48');
+                });
+            });
+        }
+    });
+
+    $('#recepcionista-form').find('#id_cidade').live('blur', function() {
+        if ($(this).val() && $('#recepcionista-form').find('#Endereco_id_cidade').val()) {
+            $(this).css('border-color', '#468847');
+            $('.cidade_label').css('color', '#468847');
+            $('#recepcionista-form').find('#id_cidade_em_').hide();
+        } else {
+            $(this).css('border-color', '#B94A48');
+            $('#recepcionista-form').find('#Endereco_id_cidade').val('');
+            $('.cidade_label').css('color', '#B94A48');
+            $('#recepcionista-form').find('#id_cidade_em_').show();
+        }
+    });
 });
 
 function limpaTelefone(str) {

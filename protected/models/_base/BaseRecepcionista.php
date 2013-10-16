@@ -11,65 +11,77 @@
  *
  * @property integer $id_recepcionista
  * @property integer $id_pessoa
- * @property string $data_criaca
+ * @property string $data_criacao
  *
  * @property Pessoa $idPessoa
  */
 abstract class BaseRecepcionista extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public $nome_recepcionista;
 
-	public function tableName() {
-		return 'recepcionista';
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Recepcionista|Recepcionistas', $n);
-	}
+    public function tableName() {
+        return 'recepcionista';
+    }
 
-	public static function representingColumn() {
-		return 'data_criaca';
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Recepcionista|Recepcionistas', $n);
+    }
 
-	public function rules() {
-		return array(
-			array('id_pessoa, data_criaca', 'required'),
-			array('id_pessoa', 'numerical', 'integerOnly'=>true),
-			array('id_recepcionista, id_pessoa, data_criaca', 'safe', 'on'=>'search'),
-		);
-	}
+    public static function representingColumn() {
+        return 'idPessoa';
+    }
 
-	public function relations() {
-		return array(
-			'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('id_pessoa, data_criacao', 'required'),
+            array('id_pessoa', 'numerical', 'integerOnly' => true),
+            array('id_recepcionista, id_pessoa, data_criacao, nome_recepcionista', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function relations() {
+        return array(
+            'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_recepcionista' => Yii::t('app', 'Id Recepcionista'),
-			'id_pessoa' => null,
-			'data_criaca' => Yii::t('app', 'Data Criaca'),
-			'idPessoa' => null,
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function attributeLabels() {
+        return array(
+            'id_recepcionista' => Yii::t('app', 'Id Recepcionista'),
+            'id_pessoa' => null,
+            'data_criacao' => Yii::t('app', 'Data Criacao'),
+            'idPessoa' => null,
+        );
+    }
 
-		$criteria->compare('id_recepcionista', $this->id_recepcionista);
-		$criteria->compare('id_pessoa', $this->id_pessoa);
-		$criteria->compare('data_criaca', $this->data_criaca, true);
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        $criteria->with = array('idPessoa');
+
+        $criteria->compare('id_recepcionista', $this->id_recepcionista);
+        $criteria->compare('id_pessoa', $this->id_pessoa);
+        $criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('idPessoa.nome', $this->nome_recepcionista, true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function afterFind() {
+        $this->nome_recepcionista = isset($this->idPessoa->nome) ? $this->idPessoa->nome : '';
+
+        parent::afterFind();
+    }
+
 }
