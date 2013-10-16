@@ -60,7 +60,22 @@
                                         array(
                                             'label' => 'Gerenciar',
                                             'url' => array('/dentista/admin'),
-                                        )                                            
+                                        ),                                            
+                                    ),
+                                ),
+                                array(
+                                    'label' => 'Recepcionista',
+                                    'url' => array('/recepcionista'),
+                                    'visible' => Yii::app()->user->pbac('Basic.recepcionista.admin'),
+                                    'items' => array(
+                                        array(
+                                            'label' => 'Incluir',
+                                            'url' => array('/recepcionista/create'),
+                                        ),
+                                        array(
+                                            'label' => 'Gerenciar',
+                                            'url' => array('/recepcionista/admin'),
+                                        ),
                                     ),
                                 ),
                             ),
@@ -81,13 +96,13 @@
                                 ),
                                 array(
                                     'label' => 'Meu Perfil',
-                                    'url' => array('/recepcionista'),
-                                    'visible' => Yii::app()->user->pbac('Basic.recepcionista.write') && !Yii::app()->user->pbac('Basic.recepcionista.admin')
+                                    'url' => array('/dentista'),
+                                    'visible' => Yii::app()->user->pbac('Basic.dentista.write') && !Yii::app()->user->pbac('Basic.dentista.admin')
                                 ),
                                 array(
                                     'label' => 'Meu Perfil',
-                                    'url' => array('/dentista'),
-                                    'visible' => Yii::app()->user->pbac('Basic.dentista.write') && !Yii::app()->user->pbac('Basic.dentista.admin')
+                                    'url' => array('/recepcionista'),
+                                    'visible' => Yii::app()->user->pbac('Basic.recepcionista.write') && !Yii::app()->user->pbac('Basic.recepcionista.admin')
                                 ),
                                 '---',
                                 array(
