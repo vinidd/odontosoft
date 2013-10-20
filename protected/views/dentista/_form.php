@@ -130,6 +130,28 @@ if (isset($model_telefones)) {
 
 </fieldset>
 
+<fieldset>
+    <legend>Procedimentos</legend>
+
+    <div class="control-group">
+        <label class="control-label required" for="Endereco_bairro">
+            Procedimentos
+        </label>
+        <div class="controls">
+            <?php
+            $this->widget('bootstrap.widgets.TbSelect2', array(
+                'name' => 'Procedimento',
+                'data' => GxHtml::listDataEx(Procedimento::model()->findAll(array('order' => 'procedimento ASC'))),
+                'htmlOptions' => array(
+                    'multiple' => 'multiple',
+                ),
+            ));
+            ?>
+        </div>
+    </div>
+
+</fieldset>
+
 <div class="form-actions">
     <?php
     $this->widget('bootstrap.widgets.TbButton', array(

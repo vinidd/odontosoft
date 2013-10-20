@@ -15,7 +15,7 @@ class DentistaController extends GxController {
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create'),
+                'actions' => array('delete', 'admin', 'create', 'teste'),
                 'pbac' => array('admin'),
             ),
             array('deny', // deny all users
@@ -108,6 +108,17 @@ class DentistaController extends GxController {
 
         //salva dentista e redireciona
         if ($model->save()) {
+
+            //procedimento
+            if (isset($_POST['Procedimento'])) {
+                foreach ($_POST['Procedimento'] as $procedimento) {
+                    $model_phd = new ProcedimentoHasDentista;
+                    $model_phd->id_dentista = $model->getPrimaryKey();
+                    $model_phd->id_procedimento = $procedimento;
+                    $model_phd->save();
+                }
+            }
+
             $this->redirect(array('view', 'id' => $model->getPrimaryKey()));
         }
 
@@ -196,7 +207,7 @@ class DentistaController extends GxController {
         }
 
         $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
-
+        
         $this->render('update', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
@@ -230,7 +241,7 @@ class DentistaController extends GxController {
         } else {
             $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
             $model = $model_pessoa->getPerfil();
-            
+
             $this->redirect(array('view', 'id' => $model->id_dentista));
         }
     }
@@ -245,6 +256,16 @@ class DentistaController extends GxController {
         $this->render('admin', array(
             'model' => $model,
         ));
+    }
+
+    public function actionTeste() {
+        if (isset($_POST['Procedimento'])) {
+            foreach ($_POST['Procedimento'] as $proc) {
+                echo $proc . '<br>';
+            }
+            exit;
+        }
+        $this->render('teste');
     }
 
 }

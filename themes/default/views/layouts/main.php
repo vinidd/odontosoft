@@ -78,6 +78,21 @@
                                         ),
                                     ),
                                 ),
+                                array(
+                                    'label' => 'Procedimento',
+                                    'url' => array('/procedimento'),
+                                    'visible' => Yii::app()->user->pbac('Basic.procedimento.admin'),
+                                    'items' => array(
+                                        array(
+                                            'label' => 'Incluir',
+                                            'url' => array('/procedimento/create'),
+                                        ),
+                                        array(
+                                            'label' => 'Gerenciar',
+                                            'url' => array('/procedimento/admin'),
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         array(
