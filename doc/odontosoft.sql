@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2013 at 01:02 AM
+-- Generation Time: Oct 20, 2013 at 09:58 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -5633,6 +5633,36 @@ INSERT INTO `cliente` (`id_cliente`, `id_pessoa`, `data_criacao`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cliente_has_procedimento`
+--
+
+CREATE TABLE IF NOT EXISTS `cliente_has_procedimento` (
+  `id_cliente_has_procedimento` int(11) NOT NULL AUTO_INCREMENT,
+  `id_procedimento` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  PRIMARY KEY (`id_cliente_has_procedimento`),
+  KEY `fk_cliente_has_procedimento_procedimento1_idx` (`id_procedimento`),
+  KEY `fk_cliente_has_procedimento_cliente1_idx` (`id_cliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cliente_has_procedimento_has_consulta`
+--
+
+CREATE TABLE IF NOT EXISTS `cliente_has_procedimento_has_consulta` (
+  `id_cliente_has_procedimento_has_consulta` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cliente_has_procedimento` int(11) NOT NULL,
+  `id_consulta` int(11) NOT NULL,
+  PRIMARY KEY (`id_cliente_has_procedimento_has_consulta`),
+  KEY `fk_cliente_has_procedimento_has_consulta_cliente_has_proced_idx` (`id_cliente_has_procedimento`),
+  KEY `fk_cliente_has_procedimento_has_consulta_consulta1_idx` (`id_consulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `consulta`
 --
 
@@ -5645,6 +5675,7 @@ CREATE TABLE IF NOT EXISTS `consulta` (
   `duracao` decimal(2,2) NOT NULL DEFAULT '0.25',
   `id_status` int(11) NOT NULL,
   `data_criacao` date NOT NULL,
+  `descricao` text,
   PRIMARY KEY (`id_consulta`),
   KEY `fk_consulta_cliente1_idx` (`id_cliente`),
   KEY `fk_consulta_dentista1_idx` (`id_dentista`),
@@ -5752,23 +5783,6 @@ INSERT INTO `estado` (`id_estado`, `nome`, `uf`, `id_pais`) VALUES
 (25, 'Sergipe', 'SE', 1),
 (26, 'São Paulo', 'SP', 1),
 (27, 'Tocantins', 'TO', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `historico`
---
-
-CREATE TABLE IF NOT EXISTS `historico` (
-  `id_historico` int(11) NOT NULL AUTO_INCREMENT,
-  `id_consulta` int(11) NOT NULL,
-  `descricao` text NOT NULL,
-  `data_criacao` date NOT NULL,
-  `id_usuario` bigint(20) NOT NULL,
-  PRIMARY KEY (`id_historico`),
-  KEY `fk_historico_consulta1_idx` (`id_consulta`),
-  KEY `fk_historico_usergroups_user1_idx` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -6104,6 +6118,33 @@ INSERT INTO `pessoa` (`id_pessoa`, `id_usuario`, `nome`, `data_nascimento`, `sex
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `procedimento`
+--
+
+CREATE TABLE IF NOT EXISTS `procedimento` (
+  `id_procedimento` int(11) NOT NULL AUTO_INCREMENT,
+  `procedimento` varchar(120) NOT NULL,
+  PRIMARY KEY (`id_procedimento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `procedimento_has_dentista`
+--
+
+CREATE TABLE IF NOT EXISTS `procedimento_has_dentista` (
+  `id_procedimento_has_dentista` int(11) NOT NULL AUTO_INCREMENT,
+  `id_procedimento` int(11) NOT NULL,
+  `id_dentista` int(11) NOT NULL,
+  PRIMARY KEY (`id_procedimento_has_dentista`),
+  KEY `fk_procedimento_has_dentista_procedimento1_idx` (`id_procedimento`),
+  KEY `fk_procedimento_has_dentista_dentista1_idx` (`id_dentista`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `recepcionista`
 --
 
@@ -6283,8 +6324,8 @@ CREATE TABLE IF NOT EXISTS `usergroups_cron` (
 --
 
 INSERT INTO `usergroups_cron` (`id`, `name`, `lapse`, `last_occurrence`) VALUES
-(1, 'garbage_collection', 7, '2013-10-12 00:00:00'),
-(2, 'unban', 1, '2013-10-16 00:00:00');
+(1, 'garbage_collection', 7, '2013-10-20 00:00:00'),
+(2, 'unban', 1, '2013-10-20 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -6370,8 +6411,8 @@ CREATE TABLE IF NOT EXISTS `usergroups_user` (
 --
 
 INSERT INTO `usergroups_user` (`id`, `group_id`, `username`, `password`, `email`, `home`, `status`, `question`, `answer`, `creation_date`, `activation_code`, `activation_time`, `last_login`, `ban`, `ban_reason`) VALUES
-(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-16 22:57:47', NULL, NULL),
-(4, 3, 'cliente', 'b9ffb515227fa9cfe7169ff6e0343851', 'teste@cliente.com', NULL, 4, 'teste', 'teste', '2013-10-12 20:13:10', NULL, NULL, '2013-10-16 22:19:34', NULL, NULL),
+(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-20 16:57:08', NULL, NULL),
+(4, 3, 'cliente', 'b9ffb515227fa9cfe7169ff6e0343851', 'teste@cliente.com', NULL, 4, 'teste', 'teste', '2013-10-12 20:13:10', NULL, NULL, '2013-10-20 16:54:37', NULL, NULL),
 (6, 4, 'dentista', 'dd38562eca0f5a99c0169cfadd47e65c', 'teste@dentista.com', NULL, 4, NULL, NULL, '2013-10-13 21:47:37', NULL, NULL, '2013-10-13 20:39:52', NULL, NULL),
 (8, 5, 'recepcionista', '67e4dcd6d74f4ea53bdb296e63f5e6cf', 'teste@recepcionista.com', NULL, 4, NULL, NULL, '2013-10-17 00:30:22', NULL, NULL, '2013-10-16 23:00:58', NULL, NULL);
 
@@ -6390,6 +6431,20 @@ ALTER TABLE `cidade`
 --
 ALTER TABLE `cliente`
   ADD CONSTRAINT `fk_cliente_pessoa1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cliente_has_procedimento`
+--
+ALTER TABLE `cliente_has_procedimento`
+  ADD CONSTRAINT `fk_cliente_has_procedimento_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_cliente_has_procedimento_cliente1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cliente_has_procedimento_has_consulta`
+--
+ALTER TABLE `cliente_has_procedimento_has_consulta`
+  ADD CONSTRAINT `fk_cliente_has_procedimento_has_consulta_cliente_has_procedim1` FOREIGN KEY (`id_cliente_has_procedimento`) REFERENCES `cliente_has_procedimento` (`id_cliente_has_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_cliente_has_procedimento_has_consulta_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `consulta`
@@ -6419,13 +6474,6 @@ ALTER TABLE `estado`
   ADD CONSTRAINT `fk_id_pais` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `historico`
---
-ALTER TABLE `historico`
-  ADD CONSTRAINT `fk_historico_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_historico_usergroups_user1` FOREIGN KEY (`id_usuario`) REFERENCES `usergroups_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `pagamento`
 --
 ALTER TABLE `pagamento`
@@ -6445,6 +6493,13 @@ ALTER TABLE `parcela`
 --
 ALTER TABLE `pessoa`
   ADD CONSTRAINT `fk_pessoa_usergroups_user1` FOREIGN KEY (`id_usuario`) REFERENCES `usergroups_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `procedimento_has_dentista`
+--
+ALTER TABLE `procedimento_has_dentista`
+  ADD CONSTRAINT `fk_procedimento_has_dentista_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_procedimento_has_dentista_dentista1` FOREIGN KEY (`id_dentista`) REFERENCES `dentista` (`id_dentista`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `recepcionista`

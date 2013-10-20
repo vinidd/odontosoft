@@ -14,6 +14,7 @@
  * @property string $data_criacao
  *
  * @property Pessoa $idPessoa
+ * @property ClienteHasProcedimento[] $clienteHasProcedimentos
  * @property Consulta[] $consultas
  */
 abstract class BaseCliente extends GxActiveRecord {
@@ -48,6 +49,7 @@ abstract class BaseCliente extends GxActiveRecord {
         return array(
             'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
             'consultas' => array(self::HAS_MANY, 'Consulta', 'id_cliente'),
+            'clienteHasProcedimentos' => array(self::HAS_MANY, 'ClienteHasProcedimento', 'id_cliente'),
         );
     }
 
@@ -63,6 +65,7 @@ abstract class BaseCliente extends GxActiveRecord {
             'data_criacao' => Yii::t('app', 'Data Criacao'),
             'idPessoa' => null,
             'consultas' => null,
+            'clienteHasProcedimentos' => null,
         );
     }
     

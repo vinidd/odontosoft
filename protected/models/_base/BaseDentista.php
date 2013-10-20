@@ -16,6 +16,7 @@
  *
  * @property Consulta[] $consultas
  * @property Pessoa $idPessoa
+ * @property ProcedimentoHasDentista[] $procedimentoHasDentistas
  */
 abstract class BaseDentista extends GxActiveRecord {
 
@@ -51,6 +52,7 @@ abstract class BaseDentista extends GxActiveRecord {
         return array(
             'consultas' => array(self::HAS_MANY, 'Consulta', 'id_dentista'),
             'idPessoa' => array(self::BELONGS_TO, 'Pessoa', 'id_pessoa'),
+            'procedimentoHasDentistas' => array(self::HAS_MANY, 'ProcedimentoHasDentista', 'id_dentista'),
         );
     }
 
@@ -67,6 +69,7 @@ abstract class BaseDentista extends GxActiveRecord {
             'data_criacao' => Yii::t('app', 'Data Criacao'),
             'consultas' => null,
             'idPessoa' => null,
+            'procedimentoHasDentistas' => null,
         );
     }
 

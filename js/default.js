@@ -107,7 +107,7 @@ $(document).ready(function() {
             $('#dentista-form').find('#id_cidade_em_').show();
         }
     });
-    
+
     if (!$('#recepcionista-form').find('#Pessoa_nome').val()) {
         $('#recepcionista-form').find('#Pessoa_sexo_0').attr('checked', 'checked');
         $('#recepcionista-form').find('#Endereco_tipo_0').attr('checked', 'checked');
@@ -178,3 +178,14 @@ function checkTelefone(name) {
         $('#' + name + '-button').attr('disabled', 'disabled');
     }
 }
+
+$(document).ready(function() {
+    $('.accordion-toggle').live('click', function() {
+        console.log($(this).attr('href'));
+        if ($($(this).attr('href')).hasClass('in')) {
+            $(this).find('i').attr('class', 'icon-angle-up icon-large');
+        } else {
+            $(this).find('i').attr('class', 'icon-angle-down icon-large');
+        }
+    });
+});

@@ -17,88 +17,101 @@
  * @property string $duracao
  * @property integer $id_status
  * @property string $data_criacao
+ * @property string $descricao
  *
+ * @property ClienteHasProcedimentoHasConsulta[] $clienteHasProcedimentoHasConsultas
  * @property Cliente $idCliente
  * @property Dentista $idDentista
  * @property Status $idStatus
- * @property Historico[] $historicos
  * @property Pagamento[] $pagamentos
  */
 abstract class BaseConsulta extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public function tableName() {
-		return 'consulta';
-	}
+    public function tableName() {
+        return 'consulta';
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Consulta|Consultas', $n);
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Consulta|Consultas', $n);
+    }
 
-	public static function representingColumn() {
-		return 'data';
-	}
+    public static function representingColumn() {
+        return 'data';
+    }
 
-	public function rules() {
-		return array(
-			array('id_cliente, id_dentista, data, horario, id_status, data_criacao', 'required'),
-			array('id_cliente, id_dentista, id_status', 'numerical', 'integerOnly'=>true),
-			array('duracao', 'length', 'max'=>2),
-			array('duracao', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao', 'safe', 'on'=>'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('id_cliente, id_dentista, data, horario, id_status, data_criacao', 'required'),
+            array('id_cliente, id_dentista, id_status', 'numerical', 'integerOnly' => true),
+            array('duracao', 'type', 'type' => 'float'),
+            array('duracao', 'match', 'pattern' => '^(\d.\d{1,2}|\d)$'),
+            array('duracao, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('descricao', 'safe'),
+            array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, descricao', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'idCliente' => array(self::BELONGS_TO, 'Cliente', 'id_cliente'),
-			'idDentista' => array(self::BELONGS_TO, 'Dentista', 'id_dentista'),
-			'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
-			'historicos' => array(self::HAS_MANY, 'Historico', 'id_consulta'),
-			'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_consulta'),
-		);
-	}
+    public function relations() {
+        return array(
+            'idCliente' => array(self::BELONGS_TO, 'Cliente', 'id_cliente'),
+            'idDentista' => array(self::BELONGS_TO, 'Dentista', 'id_dentista'),
+            'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
+            'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_consulta'),
+            'clienteHasProcedimentoHasConsultas' => array(self::HAS_MANY, 'ClienteHasProcedimentoHasConsulta', 'id_consulta'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_consulta' => Yii::t('app', 'Id Consulta'),
-			'id_cliente' => null,
-			'id_dentista' => null,
-			'data' => Yii::t('app', 'Data'),
-			'horario' => Yii::t('app', 'Horario'),
-			'duracao' => Yii::t('app', 'Duracao'),
-			'id_status' => null,
-			'data_criacao' => Yii::t('app', 'Data Criacao'),
-			'idCliente' => null,
-			'idDentista' => null,
-			'idStatus' => null,
-			'historicos' => null,
-			'pagamentos' => null,
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id_consulta' => Yii::t('app', 'Id Consulta'),
+            'id_cliente' => null,
+            'id_dentista' => null,
+            'data' => Yii::t('app', 'Data'),
+            'horario' => Yii::t('app', 'Horário'),
+            'duracao' => Yii::t('app', 'Duração'),
+            'id_status' => null,
+            'data_criacao' => Yii::t('app', 'Data Criação'),
+            'descricao' => Yii::t('app', 'Descrição'),
+            'clienteHasProcedimentoHasConsultas' => null,
+            'idCliente' => null,
+            'idDentista' => null,
+            'idStatus' => null,
+            'pagamentos' => null,
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_consulta', $this->id_consulta);
-		$criteria->compare('id_cliente', $this->id_cliente);
-		$criteria->compare('id_dentista', $this->id_dentista);
-		$criteria->compare('data', $this->data, true);
-		$criteria->compare('horario', $this->horario, true);
-		$criteria->compare('duracao', $this->duracao, true);
-		$criteria->compare('id_status', $this->id_status);
-		$criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('id_consulta', $this->id_consulta);
+        $criteria->compare('id_cliente', $this->id_cliente);
+        $criteria->compare('id_dentista', $this->id_dentista);
+        $criteria->compare('data', $this->data, true);
+        $criteria->compare('horario', $this->horario, true);
+        $criteria->compare('duracao', $this->duracao, true);
+        $criteria->compare('id_status', $this->id_status);
+        $criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('descricao', $this->descricao, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    public function changeHorario($inverse = false) {
+        if ($inverse) {
+            $this->horario /= 60;
+        } else {
+            $this->horario *= 60;
+        }
+    }
 }

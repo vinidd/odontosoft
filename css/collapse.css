@@ -1,0 +1,22 @@
+.dark
+{
+    background-color: #eeeeee;
+}
+
+.separator
+{
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.right
+{
+    float: right;
+}
+
+.legend
+{
+    color:#777777;
+    font-size: 10pt;
+    margin: 5px 0 5px;
+}
