@@ -28,5 +28,6 @@ $this->renderPartial('_form', array(
     'model_pessoa' => $model_pessoa,
     'model_endereco' => $model_endereco,
     'model_telefones' => $model_telefones,
+    'model_procedimentos' => $model_procedimentos,
 ));
 ?>

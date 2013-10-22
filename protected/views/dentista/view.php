@@ -32,6 +32,7 @@ $this->breadcrumbs = array(
         'type' => 'striped',
         'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
         'data' => $model_pessoa,
+        'nullDisplay' => '-',
         'attributes' => array(
             'nome',
             'data_nascimento',
@@ -50,6 +51,7 @@ $this->breadcrumbs = array(
     $this->widget('bootstrap.widgets.TbDetailView', array(
         'type' => 'striped',
         'data' => $model,
+        'nullDisplay' => '-',
         'attributes' => array(
             'cro',
         )
@@ -66,6 +68,7 @@ $this->breadcrumbs = array(
             'type' => 'striped',
             //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
             'data' => $model_telefone,
+            'nullDisplay' => '-',
             'attributes' => array(
                 array(
                     'type' => 'raw',
@@ -86,6 +89,7 @@ $this->breadcrumbs = array(
         'type' => 'striped',
         //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
         'data' => $model_endereco,
+        'nullDisplay' => '-',
         'attributes' => array(
             'nome',
             array(
@@ -104,5 +108,23 @@ $this->breadcrumbs = array(
             )
         )
     ));
+    ?>
+</fieldset>
+<br>
+<fieldset>
+    <legend>Procedimentos</legend>
+    <br>
+    <?php
+    foreach ($model_procedimentos as $procedimento) {
+        $this->widget('bootstrap.widgets.TbDetailView', array(
+            'type' => 'striped',
+            //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
+            'data' => $procedimento,
+            'nullDisplay' => '-',
+            'attributes' => array(
+                'procedimento',
+            )
+        ));
+    }
     ?>
 </fieldset>

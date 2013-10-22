@@ -134,20 +134,46 @@ if (isset($model_telefones)) {
     <legend>Procedimentos</legend>
 
     <div class="control-group">
-        <label class="control-label required" for="Endereco_bairro">
-            Procedimentos
-        </label>
+        <label class="control-label cidade_label" for="id_cidade">Procedimentos</label>
         <div class="controls">
             <?php
-            $this->widget('bootstrap.widgets.TbSelect2', array(
-                'name' => 'Procedimento',
-                'data' => GxHtml::listDataEx(Procedimento::model()->findAll(array('order' => 'procedimento ASC'))),
+            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'name' => 'procedimentos',
+                'value' => '',
+                'source' => Yii::app()->createUrl('/procedimento/getProcedimento'),
+                'options' => array(
+                    'select' => 'js:function(event, ui) {
+                        addProcedimento(ui.item.id, ui.item.label);
+                    }'
+                ),
                 'htmlOptions' => array(
-                    'multiple' => 'multiple',
+                    'id' => 'procedimentos',
                 ),
             ));
             ?>
         </div>
+    </div>
+
+    <div class="procedimentos-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Procedimento</th>
+                    <th style="width:50px;"></th>
+                </tr>
+            </thead>
+            <tbody id="receptor">
+                <?php if (isset($model_procedimentos)) { ?>
+                    <?php foreach ($model_procedimentos as $procedimento) { ?>
+                        <tr id='<?php echo $procedimento->id_procedimento; ?>'>
+                            <td class='procedimento-label'><?php echo $procedimento->procedimento; ?></td>
+                            <td class='delete'><a style='text-decoration:none;' onclick='deleteRow(this, <?php echo $procedimento->id_procedimento; ?>);' href='javascript:void(0)' title='' data-placement='right' data-toggle='tooltip' data-original-title='Excluir'><i class='icon-trash'></i></a></td>
+                            <input type='hidden' name='Procedimento[]' value='<?php echo $procedimento->id_procedimento; ?>'>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
 
 </fieldset>

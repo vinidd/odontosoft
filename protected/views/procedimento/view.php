@@ -29,6 +29,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
     'type' => 'striped',
     'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
     'data' => $model,
+    'nullDisplay' => '-',
     'attributes' => array(
         'procedimento',
     ),

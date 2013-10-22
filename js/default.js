@@ -189,3 +189,21 @@ $(document).ready(function() {
         }
     });
 });
+
+function addProcedimento(id, label) {
+    if ($(".procedimentos-content").find("#receptor").find("tr#" + id).length) {
+        alert("Você já adicionou o procedimento escolhido!");
+    } else {
+        $(".procedimentos-content").find("#receptor").append("<tr id='" + id + "'><td class='procedimento-label'>" + label + "</td><td class='delete'><a style='text-decoration:none;' onclick='deleteRow(this, id);' href='javascript:void(0)' title='' data-placement='right' data-toggle='tooltip' data-original-title='Excluir'><i class='icon-trash'></i></a></td><input type='hidden' name='Procedimento[]' value='" + id + "'></tr>");
+        $(".procedimentos-content").show();
+    }
+}
+
+function deleteRow(el, id) {
+    var response = confirm("Deseja realmente excluir este item?\nOBS: A exclusão só será efetuada após o cadastro ser salvo!");
+
+    if (response) {
+        $('.procedimentos-content').append('<input type="hidden" name="Procedimento_delete[]" value="' + id + '">');
+        el.parentNode.parentNode.remove();
+    }
+}

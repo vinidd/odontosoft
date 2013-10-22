@@ -35,6 +35,7 @@ $this->breadcrumbs = array(
         'attributes' => array(
             'nome',
             'data_nascimento',
+            'nullDisplay' => '-',
             array(
                 'name' => 'sexo',
                 'value' => $model_pessoa->getSexo(),

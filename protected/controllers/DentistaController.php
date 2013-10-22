@@ -30,12 +30,18 @@ class DentistaController extends GxController {
         $model_pessoa->changeDate(true);
         $model_endereco = Endereco::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'id_endereco DESC'));
         $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
+        $model_procedimentos = Procedimento::model()->findAll(array(
+            'join' => 'inner join procedimento_has_dentista phd on t.id_procedimento = phd.id_procedimento',
+            'condition' => 'phd.id_dentista = ' . $model->getPrimaryKey(),
+            'order' => 't.procedimento ASC',
+        ));
 
         $this->render('view', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
             'model_endereco' => $model_endereco,
             'model_telefones' => $model_telefones,
+            'model_procedimentos' => $model_procedimentos,
         ));
     }
 
@@ -201,18 +207,44 @@ class DentistaController extends GxController {
             }
         }
 
+        //procedimentos
+        if (isset($_POST['Procedimento_delete'])) {
+            foreach ($_POST['Procedimento_delete'] as $delete) {
+                if ($model_delete = ProcedimentoHasDentista::model()->find(array('condition' => 'id_dentista = ' . $model->getPrimaryKey() . ' AND id_procedimento = ' . $delete))) {
+                    $model_delete->delete();
+                }
+            }
+        }
+
+        if (isset($_POST['Procedimento'])) {
+            foreach ($_POST['Procedimento'] as $procedimento) {
+                if (!ProcedimentoHasDentista::model()->find(array('condition' => 'id_dentista = ' . $model->getPrimaryKey() . ' AND id_procedimento = ' . $procedimento))) {
+                    $model_procedimento = new ProcedimentoHasDentista;
+                    $model_procedimento->id_procedimento = $procedimento;
+                    $model_procedimento->id_dentista = $model->getPrimaryKey();
+                    $model_procedimento->save();
+                }
+            }
+        }
+
         //redirect
         if (isset($_POST['Pessoa']) || isset($_POST['Telefone']) || isset($_POST['Endereco']) || isset($_POST['Dentista'])) {
             $this->redirect(array('view', 'id' => $model->id_dentista));
         }
 
         $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
-        
+        $model_procedimentos = Procedimento::model()->findAll(array(
+            'join' => 'inner join procedimento_has_dentista phd on t.id_procedimento = phd.id_procedimento',
+            'condition' => 'phd.id_dentista = ' . $model->getPrimaryKey(),
+            'order' => 't.procedimento ASC',
+        ));
+
         $this->render('update', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
             'model_endereco' => $model_endereco,
             'model_telefones' => $model_telefones,
+            'model_procedimentos' => $model_procedimentos,
         ));
     }
 

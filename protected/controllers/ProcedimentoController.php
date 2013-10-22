@@ -11,7 +11,7 @@ class ProcedimentoController extends GxController {
     public function accessRules() {
         return array(
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create', 'index', 'update', 'view'),
+                'actions' => array('delete', 'admin', 'create', 'index', 'update', 'view', 'getProcedimento'),
                 'pbac' => array('admin'),
             ),
             array('deny', // deny all users
@@ -30,7 +30,7 @@ class ProcedimentoController extends GxController {
         $model = new Procedimento;
 
         $this->performAjaxValidation($model, 'procedimento-form');
-        
+
         if (isset($_POST['Procedimento'])) {
             $model->setAttributes($_POST['Procedimento']);
 
@@ -89,6 +89,23 @@ class ProcedimentoController extends GxController {
         $this->render('admin', array(
             'model' => $model,
         ));
+    }
+
+    public function actionGetProcedimento($term) {
+        if (!empty($_GET['term'])) {
+            $sql = 'SELECT id_procedimento as id, procedimento as value, procedimento as label
+                FROM procedimento
+                WHERE procedimento LIKE :qterm';
+            $sql .= ' ORDER BY procedimento ASC';
+            $command = Yii::app()->db->createCommand($sql);
+            $qterm = $_GET['term'] . '%';
+            $command->bindParam(":qterm", $qterm, PDO::PARAM_STR);
+            $result = $command->queryAll();
+            echo CJSON::encode($result);
+            exit;
+        } else {
+            return false;
+        }
     }
 
 }
