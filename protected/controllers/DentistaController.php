@@ -11,6 +11,10 @@ class DentistaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
+                'actions' => array('adminCliente'),
+                'pbac' => array('read'),
+            ),
+            array('allow',
                 'actions' => array('index', 'view', 'update'),
                 'pbac' => array('write'),
             ),
@@ -45,6 +49,14 @@ class DentistaController extends GxController {
         ));
     }
 
+    public function actionAdminCliente() {
+        $dentistas = Dentista::model()->findAll();
+        
+        $this->render('admin_cliente', array(
+            'dentistas' => $dentistas,
+        ));
+    }
+    
     public function actionCreate() {
         $model = new Dentista;
         $model_pessoa = new Pessoa('create');

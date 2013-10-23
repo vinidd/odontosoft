@@ -289,3 +289,28 @@ div.search-form
     text-align: center;
     font-size: 14pt;
 }
+
+.header-box i
+{
+    font-size: 24pt !important;
+}
+
+.header-box h3
+{
+    font-size: 16pt !important;
+    vertical-align: middle;
+}
+
+.column
+{
+    width: 49%;
+    float: left;
+}
+
+.widget-right
+{
+    height: 400px;
+    width: 90px;
+    background-color: red;
+    float: right;
+}

@@ -115,16 +115,24 @@ $this->breadcrumbs = array(
     <legend>Procedimentos</legend>
     <br>
     <?php
-    foreach ($model_procedimentos as $procedimento) {
-        $this->widget('bootstrap.widgets.TbDetailView', array(
-            'type' => 'striped',
-            //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
-            'data' => $procedimento,
-            'nullDisplay' => '-',
-            'attributes' => array(
-                'procedimento',
-            )
-        ));
-    }
+    $this->widget('bootstrap.widgets.TbDetailView', array(
+        'type' => 'striped',
+        //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
+        'data' => $model,
+        'nullDisplay' => '-',
+        'attributes' => array(
+            array(
+                'label' => 'Procedimentos',
+                'type' => 'raw',
+                'value' => function ($data) {
+                    $str = '';
+                    foreach ($data->procedimentoHasDentistas as $procedimento) {
+                        $str .= $procedimento->idProcedimento . '. <br>';
+                    }
+                    return $str;
+                }
+            ),
+        )
+    ));
     ?>
 </fieldset>
