@@ -93,6 +93,21 @@
                                         ),
                                     ),
                                 ),
+                                array(
+                                    'label' => 'Consulta',
+                                    'url' => array('/consulta'),
+                                    'visible' => Yii::app()->user->pbac('Basic.consulta.admin'),
+                                    'items' => array(
+                                        array(
+                                            'label' => 'Incluir',
+                                            'url' => array('/consulta/create'),
+                                        ),
+                                        array(
+                                            'label' => 'Gerenciar',
+                                            'url' => array('/consulta/admin'),
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         array(

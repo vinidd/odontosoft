@@ -15,7 +15,7 @@ class PessoaController extends GxController {
                 'users' => array('@'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create', 'cidadeAutoComplete'),
+                'actions' => array('delete', 'admin', 'create', 'cidadeAutoComplete', 'pessoaAutoComplete', 'pessoaBuscaContato'),
                 'pbac' => array('admin', 'admin.admin'),
             ),
             array('deny', // deny all users
@@ -108,9 +108,35 @@ class PessoaController extends GxController {
             $command->bindParam(":qterm", $qterm, PDO::PARAM_STR);
             $result = $command->queryAll();
             echo CJSON::encode($result);
-            exit;
         } else {
             return false;
+        }
+    }
+    
+    public function actionPessoaAutoComplete($grupo = '') {
+        if (!empty($_GET['term'])) {
+            $sql = 'SELECT p.id_pessoa as id, p.nome as value, p.nome as label';
+            $sql .= ' FROM pessoa p ';
+            
+            if ($grupo) {
+                $sql .= ' INNER JOIN ' . $grupo . ' gr ON p.id_pessoa = gr.id_pessoa';
+            }
+            
+            $sql .= ' WHERE p.nome LIKE :qterm';
+            $sql .= ' ORDER BY p.nome ASC';
+            $command = Yii::app()->db->createCommand($sql);
+            $qterm = $_GET['term'] . '%';
+            $command->bindParam(':qterm', $qterm, PDO::PARAM_STR);
+            $result = $command->queryAll();
+            echo CJSON::encode($result);
+        } else {
+            return false;
+        }
+    }
+    
+    public function actionPessoaBuscaContato() {
+        if ($_POST['id']) {
+            echo $_POST['id'];
         }
     }
 }

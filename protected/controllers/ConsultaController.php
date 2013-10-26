@@ -32,6 +32,7 @@ class ConsultaController extends GxController {
 
     public function actionCreate() {
         $model = new Consulta;
+        $model_pessoa = new Pessoa;
 
         if (isset($_POST['Consulta'])) {
             $model->setAttributes($_POST['Consulta']);
@@ -44,7 +45,10 @@ class ConsultaController extends GxController {
             }
         }
 
-        $this->render('create', array('model' => $model));
+        $this->render('create', array(
+            'model' => $model,
+            'model_pessoa' => $model_pessoa,
+        ));
     }
 
     public function actionUpdate($id) {

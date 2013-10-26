@@ -157,6 +157,19 @@ $(document).ready(function() {
             $('#recepcionista-form').find('#id_cidade_em_').show();
         }
     });
+    
+    $('#consulta-form').find('#id_pessoa').live('blur', function() {
+        if ($(this).val() && $('#consulta-form').find('#Pessoa_id_pessoa').val()) {
+            $(this).css('border-color', '#468847');
+            $('.pessoa_label').css('color', '#468847');
+            $('#consulta-form').find('#id_pessoa_em_').hide();
+        } else {
+            $(this).css('border-color', '#B94A48');
+            $('#consulta-form').find('#Pessoa_id_pessoa').val('');
+            $('.pessoa_label').css('color', '#B94A48');
+            $('#consulta-form').find('#id_pessoa_em_').show();
+        }
+    });
 });
 
 function limpaTelefone(str) {
