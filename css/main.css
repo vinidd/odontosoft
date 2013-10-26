@@ -266,12 +266,7 @@ div.search-form
     margin-bottom: -40px;
 }
 
-.procedimentos-content
-{
-    margin-left: 180px;
-    width: 430px;
-}
-
+ 
 .procedimentos-content tr, .procedimentos-content td, .procedimentos-content table
 {
     border: 1px #333333 solid;
@@ -313,4 +308,74 @@ div.search-form
     width: 90px;
     background-color: red;
     float: right;
+}
+
+
+.procedimentos-content {
+	margin:0px;padding:0px;
+	width: 430px;
+	 border:0px solid #000000;
+          margin-left: 180px;
+	 
+}.procedimentos-content table{
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}.procedimentos-content tr:last-child td:last-child {
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+}
+.procedimentos-content table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+.procedimentos-content table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}.procedimentos-content tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+}.procedimentos-content tr:hover td{
+	
+}
+.procedimentos-content tr:nth-child(odd){ background-color:#e5e5e5; }
+.procedimentos-content tr:nth-child(even)    { background-color:#ffffff; }.procedimentos-content td{
+	vertical-align:middle;
+	
+	
+	border:1px solid #000000;
+	 
+	text-align:center;
+	padding:7px;
+	 
+        font: normal 12pt Arial,Helvetica,sans-serif;
+	color:#000000;
+}.procedimentos-content tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}.procedimentos-content tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}.procedimentos-content tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+.procedimentos-content thead{
+		background:-o-linear-gradient(bottom, #232222 5%, #1e1e1e 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #232222), color-stop(1, #1e1e1e) );
+	background:-moz-linear-gradient( center top, #232222 5%, #1e1e1e 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#232222", endColorstr="#1e1e1e");	background: -o-linear-gradient(top,#232222,1e1e1e);
+
+	background-color:#232222;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 1px 1px 1px;
+	font: normal 10pt Arial,Helvetica,sans-serif;
+	color:#ffffff;
+} 
+.procedimentos-content tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.procedimentos-content tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
 }
