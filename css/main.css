@@ -303,13 +303,49 @@ div.search-form
 }
 
 .widget-right
-{
-    height: 400px;
-    width: 90px;
-    background-color: red;
+{background-color: #46474a;
+border: 1px solid #282828;
+-moz-border-radius: 15px;
+-webkit-border-radius: 15px;
+border-radius: 15px;
+/*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+-moz-box-shadow: 0px 0px 11px #000000;
+-webkit-box-shadow: 0px 0px 11px #000000;
+box-shadow: 0px 0px 11px #000000;
+/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+
+    height: auto;
+    width: 90px; 
     float: right;
+    margin-top: -20px; 
+    
+}
+.widget-right ul li{
+   color: #fff;
+    width: 80px; 
+    padding: 20px;
+    list-style-type:none;
+    
+}
+.widget-right ul li a{
+    text-decoration: none;
+    
+}
+.widget-right ul{
+     width: 80px; 
+     margin: 4px;
+ 
 }
 
+.widget-right ul li a:hover{
+    text-decoration: none;
+    font-size: 16px;
+    
+    -webkit-transition: all 0.2s ease-in-out ;
+-moz-transition: all 0.2s ease-in-out ;
+-o-transition: all 0.2s ease-in-out ;
+transition: all 0.2s ease-in-out ; 
+}
 
 .procedimentos-content {
 	margin:0px;padding:0px;
@@ -379,3 +415,5 @@ div.search-form
 .procedimentos-content tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }
+
+ 

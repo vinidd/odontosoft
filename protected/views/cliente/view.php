@@ -5,6 +5,7 @@ $this->breadcrumbs = array(
 );
 ?>
 
+
 <h1>
     <?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?>
     <span style="float: right;">
