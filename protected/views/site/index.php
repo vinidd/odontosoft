@@ -1,15 +1,39 @@
-<div class='widget-right'>
-    <ul> <!-- sei la man coloca as coisa aqui -->
-        <li> <a href=""><i class="icon-linkedin-sign icon-3x "></i><br>asda 1</a></li> 
-        <li><a href=""><i class="icon-bug icon-3x "></i><br>asda 2</a></li> 
-        <li><a href=""><i class="icon-check-sign icon-3x "></i><br>asda 3</a></li> 
- 
- 
-</ul>
-</div>
+<?php if (Yii::app()->user->pbac('Basic.cliente.write') && !Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
+    <div class='widget-right'>
+        <ul>
+            <li>
+                <a href="<?php echo Yii::app()->request->baseUrl . '/cliente'; ?>">
+                    <div>
+                        <i class="icon-user icon-3x "></i>
+                        <br>
+                        <span>Perfil</span>
+                    </div>
+                </a>
+            </li> 
+            <li>
+                <a href="">
+                    <div>
+                        <i class="icon-book icon-3x "></i>
+                        <br>
+                        <span>Agendar Consulta</span>
+                    </div>
+                </a>
+            </li> 
+            <li>
+                <a href="">
+                    <div>
+                        <i class="icon-list-alt icon-3x "></i>
+                        <br>
+                        <span>Ver Consultas</span>
+                    </div>
+                </a>
+            </li> 
+        </ul>
+    </div>
+<?php } ?>
 
 <div class='main-site'>
- 
+
     <div class='column'>
         <?php
         $this->beginWidget('bootstrap.widgets.TbBox', array(

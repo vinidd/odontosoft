@@ -170,6 +170,38 @@ $(document).ready(function() {
             $('#consulta-form').find('#id_pessoa_em_').show();
         }
     });
+    
+    $('#consulta-form').find('.telefone').live('blur', function() {
+
+        temp1 = $('#consulta-form').find('#Telefone_residencial').val();
+        temp1 = limpaTelefone(temp1);
+
+        temp2 = $('#consulta-form').find('#Telefone_celular').val();
+        temp2 = limpaTelefone(temp2);
+
+        temp3 = $('#consulta-form').find('#Telefone_comercial').val();
+        temp3 = limpaTelefone(temp3);
+
+        if (temp1.length === 10 || temp2.length === 10 || temp3.length === 10) {
+            $('#consulta-form').find('.telefone').each(function() {
+                $(this).css('border-color', '#468847');
+                $('#Telefone_em').hide();
+                $('#consulta-button').removeAttr('disabled');
+                $('#consulta-form').find('.tel_label').each(function() {
+                    $(this).css('color', '#468847');
+                });
+            });
+        } else {
+            $('#consulta-form').find('.telefone').each(function() {
+                $(this).css('border-color', '#B94A48');
+                $('#Telefone_em').show();
+                $('#consulta-button').attr('disabled', 'disabled');
+                $('#consulta-form').find('.tel_label').each(function() {
+                    $(this).css('color', '#B94A48');
+                });
+            });
+        }
+    });
 });
 
 function limpaTelefone(str) {

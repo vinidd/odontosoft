@@ -136,7 +136,29 @@ class PessoaController extends GxController {
     
     public function actionPessoaBuscaContato() {
         if ($_POST['id']) {
-            echo $_POST['id'];
+            $model = $this->loadModel($_POST['id'], 'Pessoa');
+            $model->changeDate(true);
+            
+            if (isset($model->telefones) && count($model->telefones)) {
+                foreach ($model->telefones as $telefone) {
+                    switch ($telefone->tipo) {
+                        case 0: $tel_residencial = $telefone->numero; break;
+                        case 1: $tel_celular = $telefone->numero; break;
+                        case 2: $tel_comercial = $telefone->numero; break;
+                    }
+                }
+            }
+            
+            $result = array(
+                'data_nascimento' => $model->data_nascimento,
+                'sexo' => $model->sexo ? "Masculino" : "Feminino",
+                'email' => $model->email,
+                'telefone_residencial' => isset($tel_residencial) ? $tel_residencial : '',
+                'telefone_celular' => isset($tel_celular) ? $tel_celular : '',
+                'telefone_comercial' => isset($tel_comercial) ? $tel_comercial : '',
+            );
+            
+            echo CJSON::encode($result);
         }
     }
 }
