@@ -137,7 +137,7 @@ class UserGroupsUser extends CActiveRecord
                         array('username', 'unique', 'on' => 'form'),
                         array('username', 'match', 'pattern' => '/^[a-zA-Z0-9]+$/', 'on' => 'form', 'message' => 'Utilize apenas letras números'),
                         array('password', 'match', 'pattern' => '/^(?=.*[a-zA-Z0-9]).{5,}$/', 'on' => 'form', 'message' => 'A senha deve ter pelo menos 5 caracteres'),
-                        array('password_confirm', 'compare', 'compareAttribute' => 'password', 'on' => 'form', 'message' => 'Senha não confere'),
+                        array('password_confirm', 'compare', 'compareAttribute' => 'password', 'on' => 'form', 'message' => Yii::t('app', 'Password doesn\'t match')),
                     
 			array('group_id', 'length', 'max'=>20),
 			array('username, password, home', 'length', 'max'=>120),
@@ -319,9 +319,9 @@ class UserGroupsUser extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'group_id' => Yii::t('userGroupsModule.general','Group'),
-			'username' => Yii::t('userGroupsModule.general','Usuário'),
-			'password' => Yii::t('userGroupsModule.general','Senha'),
-			'password_confirm' => Yii::t('userGroupsModule.general','Confirma Senha'),
+			'username' => Yii::t('app','User'),
+			'password' => Yii::t('app','Password'),
+			'password_confirm' => Yii::t('app','Password confirm'),
 			'old_password' => Yii::t('userGroupsModule.general','Old Password'),
 			'email' => Yii::t('userGroupsModule.general','Email'),
 			'access' => Yii::t('userGroupsModule.general','Access'),

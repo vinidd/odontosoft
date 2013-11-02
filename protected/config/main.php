@@ -8,7 +8,7 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'OdontoSoft',
     'theme' => 'default',
-    'language' => 'pt_br',
+    'language' => 'pt',
     'sourceLanguage' => 'pt_br',
     // preloading 'log' component
     'preload' => array(
@@ -22,6 +22,10 @@ return array(
         'application.controllers.*',
         'application.messages.*',
         'ext.giix-components.*',
+        'application.modules.userGroups.models.*',
+        'application.modules.userGroups.controllers.*',
+        'application.modules.userGroups.components.*',
+        'application.modules.userGroups.userGroupsModule',
     ),
     'modules' => array(
         'userGroups' => array(
@@ -84,11 +88,11 @@ return array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
                 ),
-                // uncomment the following to show log messages on web pages
+            // uncomment the following to show log messages on web pages
             /*
-                array(
+              array(
               'class'=>'CWebLogRoute',
-                ),
+              ),
              */
             ),
         ),

@@ -269,3 +269,7 @@ function btnReset() {
     $("#Telefone_comercial").attr("readonly", "readonly");
     $("#consulta-button").attr("disabled", "disabled");
 }
+
+function changeLang(lang) {
+    $('#lang-form').find('#lang').val(lang);
+}

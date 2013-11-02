@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
 <h1>
     <?php echo GxHtml::encode($model->label()); ?>
     <span style="float: right;">
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="Gerenciar">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('app', 'Manage'); ?>">
             <i class="icon-reorder"></i>
         </a>
     </span>

@@ -159,11 +159,11 @@ class FlowingCalendarWidget extends CWidget
 	{
 		if(($this->month == NULL) || ($this->year == NULL))
 		{
-			$this->title = date("M Y");	
+			$this->title = Yii::t('app', date("F")) . " " . date("Y");	
 		}
 		else
 		{
-			$this->title = date('M Y',mktime(0,0,0,$this->month,1,$this->year));
+			$this->title = Yii::t('app', date('F',mktime(0,0,0,$this->month,1,$this->year))) . " " . date('Y',mktime(0,0,0,$this->month,1,$this->year));
 		}		
 	}
 	
@@ -270,7 +270,7 @@ class FlowingCalendarWidget extends CWidget
 		$this->calendar = '<table cellpadding="0" cellspacing="0" class="'. $this->style .'">';
 		
 		/* table headings */
-		$headings = array(Yii::t('app', 'domingo1'),Yii::t('app', 'segunda1'),Yii::t('app', 'terça1'),Yii::t('app', 'quarta1'),Yii::t('app', 'quinta1'),Yii::t('app', 'sexta1'),Yii::t('app', 'sábado1'));
+		$headings = array(Yii::t('app', 'domingo1'),Yii::t('app', 'segunda1'),Yii::t('app', 'terca1'),Yii::t('app', 'quarta1'),Yii::t('app', 'quinta1'),Yii::t('app', 'sexta1'),Yii::t('app', 'sabado1'));
 		$this->calendar.= '<tr class="'. $this->style .'-row"><td class="'. $this->style .'-day-head">'
 			.implode('</td><td class="'. $this->style .'-day-head">',$headings).'</td></tr>';
 

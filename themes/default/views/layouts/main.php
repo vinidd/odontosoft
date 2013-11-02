@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/default.js'); ?>
-        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.maskedinput.js'); ?>
+        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.maskedinput.js'); ?>
 
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
@@ -159,6 +159,13 @@
                     'heading' => 'Odontosoft',
                     'headingOptions' => array('style' => 'color:#eeeeee; display: inline;'),
                 ));
+                echo CHtml::form(Yii::app()->request->baseUrl . '/site/changeLanguage', 'post', array('id' => 'lang-form', 'style' => 'float:right;'));
+                echo CHtml::imageButton(Yii::app()->request->baseUrl . '/images/brasil-icon.png', array('style' => 'width: 50px; margin-right: 10px;', 'onclick' => 'changeLang("pt")'));
+                echo CHtml::imageButton(Yii::app()->request->baseUrl . '/images/usa-icon.png', array('style' => 'width: 50px;', 'onclick' => 'changeLang("en")'));
+                echo CHtml::hiddenField('lang', '');
+                
+                echo CHtml::hiddenField('path', Yii::app()->request->requestUri);
+                echo CHtml::endForm();
                 ?>
 
                 <?php $this->endWidget(); ?>
@@ -176,7 +183,6 @@
                     ?>
                 </div>
             </div>
-
             <div class="container">
 
                 <?php echo $content; ?>
