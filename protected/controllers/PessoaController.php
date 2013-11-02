@@ -115,7 +115,7 @@ class PessoaController extends GxController {
     
     public function actionPessoaAutoComplete($grupo = '') {
         if (!empty($_GET['term'])) {
-            $sql = 'SELECT p.id_pessoa as id, p.nome as value, p.nome as label';
+            $sql = 'SELECT p.id_pessoa as id, p.nome as value, p.nome as label, gr.id_'.$grupo.' as id_grupo';
             $sql .= ' FROM pessoa p ';
             
             if ($grupo) {

@@ -20,6 +20,7 @@ return array(
         'application.models.*',
         'application.components.*',
         'application.controllers.*',
+        'application.messages.*',
         'ext.giix-components.*',
     ),
     'modules' => array(

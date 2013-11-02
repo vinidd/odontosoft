@@ -158,16 +158,25 @@ $(document).ready(function() {
         }
     });
     
-    $('#consulta-form').find('#id_pessoa').live('blur', function() {
-        if ($(this).val() && $('#consulta-form').find('#Pessoa_id_pessoa').val()) {
+    $('#consulta-form').find('#id_cliente').live('blur', function() {
+        if ($(this).val() && $('#consulta-form').find('#Cliente_id_cliente').val()) {
             $(this).css('border-color', '#468847');
-            $('.pessoa_label').css('color', '#468847');
-            $('#consulta-form').find('#id_pessoa_em_').hide();
+            $('#consulta-form').find('#id_cliente_em_').hide();
         } else {
             $(this).css('border-color', '#B94A48');
-            $('#consulta-form').find('#Pessoa_id_pessoa').val('');
-            $('.pessoa_label').css('color', '#B94A48');
-            $('#consulta-form').find('#id_pessoa_em_').show();
+            $('#consulta-form').find('#Cliente_id_cliente').val('');
+            $('#consulta-form').find('#id_cliente_em_').show();
+        }
+    });
+    
+    $('#consulta-form').find('#id_dentista').live('blur', function() {
+        if ($(this).val() && $('#consulta-form').find('#Dentista_id_dentista').val()) {
+            $(this).css('border-color', '#468847');
+            $('#consulta-form').find('#id_dentista_em_').hide();
+        } else {
+            $(this).css('border-color', '#B94A48');
+            $('#consulta-form').find('#Dentista_id_dentista').val('');
+            $('#consulta-form').find('#id_dentista_em_').show();
         }
     });
     
@@ -186,7 +195,7 @@ $(document).ready(function() {
             $('#consulta-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#468847');
                 $('#Telefone_em').hide();
-                $('#consulta-button').removeAttr('disabled');
+                //$('#consulta-button').removeAttr('disabled');
                 $('#consulta-form').find('.tel_label').each(function() {
                     $(this).css('color', '#468847');
                 });
@@ -195,7 +204,7 @@ $(document).ready(function() {
             $('#consulta-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#B94A48');
                 $('#Telefone_em').show();
-                $('#consulta-button').attr('disabled', 'disabled');
+                //$('#consulta-button').attr('disabled', 'disabled');
                 $('#consulta-form').find('.tel_label').each(function() {
                     $(this).css('color', '#B94A48');
                 });
@@ -251,4 +260,12 @@ function deleteRow(el, id) {
         $('.procedimentos-content').append('<input type="hidden" name="Procedimento_delete[]" value="' + id + '">');
         el.parentNode.parentNode.remove();
     }
+}
+
+function btnReset() {
+    $("#id_cliente").removeAttr("readonly");
+    $("#Telefone_residencial").attr("readonly", "readonly");
+    $("#Telefone_celular").attr("readonly", "readonly");
+    $("#Telefone_comercial").attr("readonly", "readonly");
+    $("#consulta-button").attr("disabled", "disabled");
 }

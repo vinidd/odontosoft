@@ -1,0 +1,71 @@
+.pointer
+{
+    padding: 12px;
+    /*border: 1px solid black;*/
+    background-color: #EEEEEE;
+    border: 1px solid #EEEEEE;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border-radius: 4px;
+    color: #555555;
+}
+
+.left
+{
+    float: left;
+    text-align: left;
+    width: 50px;
+    margin-top: -3px;
+    /*background-color: lightcoral;*/
+}
+
+.center
+{
+    margin: auto;
+    text-align: center;
+    /*background-color: lightgreen;*/
+}
+
+.center span
+{
+    margin-left: -50px;
+    font-size: 14pt;
+}
+
+.right
+{
+    float: right;
+    text-align: right;
+    width: 50px;
+    margin-top: -23px;
+    /*background-color: lightskyblue;*/
+}
+
+.calendar th
+{
+    text-align: center;
+    border: 1px solid #FFFFFF;
+    font-size: 12pt;
+    width: 14.2%;
+}
+
+.calendar td
+{
+    height: 60px;
+    background-color: #EEEEEE;
+    border: 1px solid #FFFFFF;
+    
+    vertical-align: text-top;
+    text-align: right;
+    font-size: 10pt;
+}
+
+.calendar td:hover
+{
+    background-color: #CCCCCC;
+}
+
+.calendar .off
+{
+    background-color: #CCCCCC;
+}

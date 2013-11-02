@@ -45,11 +45,10 @@ abstract class BaseConsulta extends GxActiveRecord {
 
     public function rules() {
         return array(
-            array('id_cliente, id_dentista, data, horario, id_status, data_criacao', 'required'),
-            array('id_cliente, id_dentista, id_status', 'numerical', 'integerOnly' => true),
-            array('duracao', 'type', 'type' => 'float'),
-            array('duracao', 'match', 'pattern' => '^(\d.\d{1,2}|\d)$'),
-            array('duracao, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id_cliente, data, horario, id_status, data_criacao', 'required'),
+            array('id_cliente, id_dentista, id_status, duracao', 'numerical', 'integerOnly' => true),
+//            array('duracao', 'match', 'pattern' => '^(\d.\d{1,2}|\d)$'),
+            array('duracao, descricao, id_dentista, duracao', 'default', 'setOnEmpty' => true, 'value' => null),
             array('descricao', 'safe'),
             array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, descricao', 'safe', 'on' => 'search'),
         );

@@ -16,7 +16,7 @@
 
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/default.js'); ?>
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.maskedinput.js'); ?>
-        
+
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
 
@@ -35,22 +35,22 @@
                             'items' => array(
                                 array(
                                     'label' => 'Cliente',
-                                    'url' => array('/cliente'), 
+                                    'url' => array('/cliente/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                     'items' => array(
                                         array(
-                                            'label' => 'Incluir', 
+                                            'label' => 'Incluir',
                                             'url' => array('/cliente/create'),
                                         ),
                                         array(
-                                            'label' => 'Gerenciar', 
+                                            'label' => 'Gerenciar',
                                             'url' => array('/cliente/admin'),
                                         ),
                                     ),
                                 ),
                                 array(
                                     'label' => 'Dentista',
-                                    'url' => array('/dentista'),
+                                    'url' => array('/dentista/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.dentista.admin'),
                                     'items' => array(
                                         array(
@@ -60,12 +60,12 @@
                                         array(
                                             'label' => 'Gerenciar',
                                             'url' => array('/dentista/admin'),
-                                        ),                                            
+                                        ),
                                     ),
                                 ),
                                 array(
                                     'label' => 'Recepcionista',
-                                    'url' => array('/recepcionista'),
+                                    'url' => array('/recepcionista/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.recepcionista.admin'),
                                     'items' => array(
                                         array(
@@ -80,7 +80,7 @@
                                 ),
                                 array(
                                     'label' => 'Procedimento',
-                                    'url' => array('/procedimento'),
+                                    'url' => array('/procedimento/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.procedimento.admin'),
                                     'items' => array(
                                         array(
@@ -95,7 +95,7 @@
                                 ),
                                 array(
                                     'label' => 'Consulta',
-                                    'url' => array('/consulta'),
+                                    'url' => array('/consulta/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.consulta.admin'),
                                     'items' => array(
                                         array(
@@ -115,8 +115,8 @@
                             'htmlOptions' => array('class' => 'pull-right'),
                             'items' => array(
                                 array(
-                                    'label' => 'User', 
-                                    'url' => array('/userGroups'), 
+                                    'label' => 'User',
+                                    'url' => array('/userGroups'),
                                     'visible' => Yii::app()->user->pbac('userGroups.admin.admin')
                                 ),
                                 array(
@@ -136,13 +136,13 @@
                                 ),
                                 '---',
                                 array(
-                                    'label' => 'Login', 
-                                    'url' => array('/userGroups'), 
+                                    'label' => 'Login',
+                                    'url' => array('/userGroups'),
                                     'visible' => Yii::app()->user->isGuest
                                 ),
                                 array(
-                                    'label' => 'Logout (' . Yii::app()->user->name . ')', 
-                                    'url' => array('/userGroups/user/logout'), 
+                                    'label' => 'Logout (' . Yii::app()->user->name . ')',
+                                    'url' => array('/userGroups/user/logout'),
                                     'visible' => !Yii::app()->user->isGuest
                                 ),
                                 '---',
@@ -176,7 +176,7 @@
                     ?>
                 </div>
             </div>
-           
+
             <div class="container">
 
                 <?php echo $content; ?>
@@ -184,7 +184,7 @@
                 <div class="clear"></div>
 
             </div>
-             
+
             <div id="footer">
                 All Rights Reserved.<br/>
                 <?php echo Yii::powered(); ?>
