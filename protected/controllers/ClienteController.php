@@ -11,12 +11,12 @@ class ClienteController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update'),
+                'actions' => array('index', 'view', 'update', 'printView'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
                 'actions' => array('delete', 'admin', 'create'),
-                'pbac' => array('admin'),
+                'pbac' => array('admin'),   
             ),
             array('deny', // deny all users
                 'users' => array('*'),
@@ -178,7 +178,7 @@ class ClienteController extends GxController {
                 }
             }
         }
-        
+
         //endereco
         if (isset($_POST['Endereco'])) {
             $model_endereco->attributes = $_POST['Endereco'];
@@ -193,7 +193,7 @@ class ClienteController extends GxController {
         }
 
         $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
-        
+
         $this->render('update', array(
             'model' => $model,
             'model_pessoa' => $model_pessoa,
@@ -210,10 +210,10 @@ class ClienteController extends GxController {
             //deletar usuário
             $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
             $model_usuario->status = 0; //banned
-            
+
             $model_usuario->save();
             $model_pessoa->delete();
-            
+
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
         }
@@ -227,7 +227,7 @@ class ClienteController extends GxController {
         } else {
             $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
             $model = $model_pessoa->getPerfil();
-            
+
             $this->redirect(array('view', 'id' => $model->id_cliente));
         }
     }
@@ -243,5 +243,29 @@ class ClienteController extends GxController {
             'model' => $model,
         ));
     }
-    
+
+    public function actionPrintView($id) {
+        $model = $this->loadModel($id, 'Cliente');
+
+        $pdf = Yii::app()->ePdf->mpdf();
+
+        $footer = '
+        <table class="inside-table" width="100%" style="border-top: 1px solid black; vertical-align: bottom; font-family: sans-serif; font-size: 9pt; color: black;"><tr class="inside-table">
+<td class="inside-table" width="33%">Odontosoft</td>
+<td class="inside-table" width="33%" align="center">{PAGENO}/{nb}</td>
+<td class="inside-table" width="33%" style="text-align: right;">{DATE j/m/Y}</td>
+</tr></table>
+    ';
+        $pdf->SetHTMLFooter($footer);
+
+        $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/main.css');
+        $pdf->WriteHTML($stylesheet, 1);
+
+        $pdf->WriteHTML(
+            $this->renderPartial('print_view', array('model' => $model), true)
+        );
+        
+        $pdf->Output();
+    }
+
 }

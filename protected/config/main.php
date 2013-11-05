@@ -45,6 +45,31 @@ return array(
     ),
     // application components
     'components' => array(
+        'ePdf' => array(
+            'class' => 'ext.yii-pdf.EYiiPdf',
+            'params' => array(
+                'mpdf' => array(
+                    'librarySourcePath' => 'application.extensions.mpdf.*',
+                    'constants' => array(
+                        '_MPDF_TEMP_PATH' => Yii::getPathOfAlias('application.runtime'),
+                    ),
+                    'class' => 'mpdf',
+                    'defaultParams' => array(
+                        'mode' => 'pt_BR',
+                        'format' => 'A4',
+                        'default_font_size' => 11,
+                        'default_font' => 'Helvetica',
+                        'mgl' => 10,
+                        'mgr' => 10,
+                        'mgt' => 16,
+                        'mgb' => 16,
+                        'mgh' => 9,
+                        'mgf' => 9,
+                        'orientation' => 'P',
+                    ),
+                ),
+            ),
+        ),
         'bootstrap' => array(
             'class' => 'ext.bootstrap.components.Bootstrap',
             'responsiveCss' => true,

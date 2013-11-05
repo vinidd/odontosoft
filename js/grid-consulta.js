@@ -7,7 +7,7 @@ $(document).ready(function() {
 function createConsulta(day) {
     //modal
     console.log(day);
-    console.log(substring(day, 0, 2));
+    console.log(day.substring(0, 2));
     $('#' + day).parent().each(function() {
         console.log('id: ' + $(this).attr('id'));
     });

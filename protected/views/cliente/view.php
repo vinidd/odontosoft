@@ -9,6 +9,10 @@ $this->breadcrumbs = array(
 <h1>
     <?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?>
     <span style="float: right;">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/printView', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Imprimir">
+            <i class="icon-print"></i>
+        </a>
+        &nbsp;
         <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/update', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Editar">
             <i class="icon-pencil"></i>
         </a>

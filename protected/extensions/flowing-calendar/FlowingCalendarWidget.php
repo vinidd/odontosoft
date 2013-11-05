@@ -298,7 +298,7 @@ class FlowingCalendarWidget extends CWidget {
             }
 
             /* add in the day number and set the div id as dd/mm/yyyy */
-            $this->calendar.= '<div class="' . $this->style . '-day-number" id="' . str_pad($list_day, 2, '0', STR_PAD_LEFT) . '/' . $this->month . '/' . $this->year . '">' . $list_day . '</div>';
+            $this->calendar.= '<div class="' . $this->style . '-day-number" id="' . str_pad($list_day, 2, '0', STR_PAD_LEFT) . '-' . $this->month . '-' . $this->year . '">' . $list_day . '</div>';
 
             /** You can query the database for an entry for this day if you like or print out a message on each day.  Uncomment these two lines.  * */
             $current_date = $this->year . '-' . $this->month . '-' . str_pad($list_day, 2, '0', STR_PAD_LEFT);
