@@ -57,12 +57,14 @@ td.calendar-day-head {
 /* Change these colours to alter the respective portion of the calendar */
 td.calendar-day    {
     background-color: #E1E1E1;
+    cursor: pointer;
 }
 td.calendar-weekend-day    {
     background-color: #CFCFCF;
 }
 td.calendar-current-day    {
     background-color: #ECEFF5;
+    cursor: pointer;
 }
 /* These colours are for the mouse over effects on the calendar */
 td.calendar-day:hover {
@@ -92,24 +94,24 @@ div.calendar-day-number {
     it can work :)
     background-color: #C1C1C1;
     */
-    font-weight:bold;
+    /*font-weight:bold;*/
     float:right;
     margin:-5px -5px 0 0;
-    width:20px;
+    width:100%;
+    /*height: 20px;*/
     text-align:right;
     line-height: normal;
 }
 /* This alters the text section for events on the calendar. */
 div.calendar-text {
-    color:#111;    
-}
-div.calendar-text a {
-    color: #111;
-    text-decoration: none;
-}
-div.calendar-text a:hover {
-    color: #333;
-    text-decoration: underline;
+    color: #FFFFFF;
+    width: 100%;
+    float: left;
+    height: 5px;
+    line-height: normal;
+    display: block;
+    padding: 2px;
+    margin-bottom: 2px;
 }
 /* shared */
 td.calendar-day,td.calendar-current-day, td.calendar-weekend-day, td.calendar-day-np {

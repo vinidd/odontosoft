@@ -133,11 +133,12 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
     </div>
 </fieldset>-->
 
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/grid-consulta.js'); ?>
 <?php $this->widget('ext.flowing-calendar.FlowingCalendarWidget'); ?>
 
 <br><br>
 
-<?php $this->renderPartial('grid_consulta'); ?>
+<?php //$this->renderPartial('grid_consulta'); ?>
 
 <div class="form-actions">
     <?php
