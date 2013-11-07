@@ -71,16 +71,16 @@ $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 
 <?php //$this->renderPartial('grid_consulta'); ?>
 
-<div class="form-actions">
-    <?php
-    $this->widget('bootstrap.widgets.TbButton', array(
-        'buttonType' => 'submit',
-        'type' => 'inverse',
-        'label' => 'Salvar',
-        'htmlOptions' => array('id' => 'consulta-button', 'disabled' => 'disabled'),
-    ));
-    ?>
-</div>
+<!--<div class="form-actions">
+<?php
+$this->widget('bootstrap.widgets.TbButton', array(
+    'buttonType' => 'submit',
+    'type' => 'inverse',
+    'label' => 'Salvar',
+    'htmlOptions' => array('id' => 'consulta-button', 'disabled' => 'disabled'),
+));
+?>
+</div>-->
 
 <?php $this->endWidget('consulta-form'); ?>
 
@@ -109,6 +109,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 
 <div class="modal-body">
     <?php echo CHtml::hiddenField('url', Yii::app()->request->baseUrl, array('id' => 'url')); ?>
+    <h3><?php echo Yii::t('app', 'Cliente'); ?></h3>
     <?php echo CHtml::hiddenField('Cliente[id_cliente]', isset($model_cliente->id_cliente) ? $model_cliente->id_cliente : '', array('id' => 'Cliente_id_cliente')); ?>
     <div class="control-group">
         <div class="controls">
@@ -168,6 +169,31 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                     <input class="telefone span2" id="Telefone_comercial" type="text" name="Telefone[comercial]" readonly="readonly" placeholder="Telefone Comercial"/>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <h3><?php echo Yii::t('app', 'Dentista'); ?></h3>
+    <?php echo CHtml::hiddenField('Dentista[id_dentista]', isset($model_cliente->id_dentista) ? $model_cliente->id_dentista : '', array('id' => 'Dentista_id_dentista')); ?>
+    <div class="control-group">
+        <div class="controls">
+            <?php
+            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'name' => 'id_dentista',
+                'value' => isset($model_dentista->id_pessoa) ? $model_dentista->idPessoa : '',
+                'source' => Yii::app()->createUrl('/pessoa/pessoaAutoComplete/', array('grupo' => 'dentista')),
+                'options' => array(
+                    'minLength' => '3',
+                    'select' => 'js:function(event, ui) {
+                        $("#Dentista_id_dentista").val(ui.item.id_grupo);
+                    }'
+                ),
+                'htmlOptions' => array(
+                    'id' => 'id_dentista',
+                    'placeholder' => 'Nome',
+                    'class' => 'span2'
+                ),
+            ));
+            ?>
         </div>
     </div>
 </div>

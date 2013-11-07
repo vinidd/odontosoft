@@ -2,6 +2,9 @@ $(document).ready(function() {
     $('.calendar').find('td.calendar-day').live('click', function() {
         createConsulta($(this).find('.calendar-day-number').attr('id'));
     });
+    $('.calendar').find('td.calendar-current-day').live('click', function() {
+        createConsulta($(this).find('.calendar-day-number').attr('id'));
+    });
 });
 
 function createConsulta(day) {
