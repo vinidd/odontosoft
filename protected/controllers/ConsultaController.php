@@ -11,7 +11,7 @@ class ConsultaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'create'),
+                'actions' => array('index', 'view', 'update', 'create', 'buscaConsulta'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -98,4 +98,9 @@ class ConsultaController extends GxController {
         ));
     }
 
+    public function actionBuscaConsulta() {
+        if (isset($_POST['id'])) {
+            echo $_POST['id'];
+        }
+    }
 }

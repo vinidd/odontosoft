@@ -1,11 +1,12 @@
-.dark
+.head a
 {
-    background-color: #eeeeee;
+    text-decoration: none;
 }
+
 
 .separator
 {
-    margin-top: 10px;
+    margin-top: 4px;
     margin-bottom: 0;
 }
 
@@ -17,6 +18,8 @@
 .legend
 {
     color:#777777;
+    font-weight: bold;
     font-size: 10pt;
     margin: 5px 0 5px;
+    text-decoration: none;
 }

@@ -9,10 +9,12 @@ return array(
     'sabado1' => 'S',
     
     'Cliente|Clientes' => 'Client|Clients',
+    'Consulta|Consultas' => 'Appointment|Appointments',
     
     'Cliente' => 'Client',
     'Dentista' => 'Dentist',
     'Recepcionista' => 'Receptionist',
+    'Consulta' => 'Appointment',
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',
     'Data Nascimento' => 'Date of birth',
@@ -39,5 +41,6 @@ return array(
     'Bairro' => 'District',
     'Cidade' => 'City',
     'Salvar' => 'Save',
+    'Fechar' => 'Close',
 );
 ?>

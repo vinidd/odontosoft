@@ -235,7 +235,6 @@ function checkTelefone(name) {
 
 $(document).ready(function() {
     $('.accordion-toggle').live('click', function() {
-        console.log($(this).attr('href'));
         if ($($(this).attr('href')).hasClass('in')) {
             $(this).find('i').attr('class', 'icon-angle-up icon-large');
         } else {

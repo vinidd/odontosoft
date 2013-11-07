@@ -312,7 +312,15 @@ class FlowingCalendarWidget extends CWidget {
             if (!empty($consultas)) {
                 foreach ($consultas as $consulta) {
                     if ($consulta->data == $current_date) {
-                        $this->calendar .= '<div class="btn-info '. $this->style .'-text" id="'. $consulta->id_consulta . '">' .  '</div><br>';
+                        switch ($consulta->id_status) {
+                            case 1: $cor = 'success'; break;
+                            case 2: $cor = 'info'; break;
+                            case 3: $cor = 'danger'; break;
+                            case 4: $cor = 'warning'; break;
+                            default: $cor = '';
+                        }
+                        
+                        $this->calendar .= '<div class="btn-' . $cor . ' ' . $this->style .'-text" id="'. $consulta->id_consulta . '">' .  '</div><br>';
                     }
                     
                 }
