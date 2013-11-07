@@ -1,6 +1,7 @@
 assets/
 protected/runtime/
 uploads/
+nbproject/
 README.md
 !.gitignore
 !/protected/extensions/bootstrap/assets/
