@@ -6,6 +6,7 @@
 $(document).ready(function() {
     jQuery(function($) {
         $(".telefone").mask("(99)9999-9999");
+        $(".horario").mask("9?9",{placeholder:""});
     });
 
     if (!$('#cliente-form').find('#Pessoa_nome').val()) {
@@ -278,6 +279,8 @@ function btnReset() {
     $("#Telefone_celular").attr("readonly", "readonly");
     $("#Telefone_comercial").attr("readonly", "readonly");
     $("#consulta-button").attr("disabled", "disabled");
+    $("#id_procedimento").empty();
+    $("#id_procedimento").attr("disabled", "disabled");
 }
 
 function changeLang(lang) {

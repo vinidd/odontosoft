@@ -11,7 +11,7 @@ class ProcedimentoController extends GxController {
     public function accessRules() {
         return array(
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create', 'index', 'update', 'view', 'getProcedimento'),
+                'actions' => array('delete', 'admin', 'create', 'index', 'update', 'view', 'getProcedimento', 'dentistaBuscaProcedimento'),
                 'pbac' => array('admin'),
             ),
             array('deny', // deny all users
@@ -68,8 +68,7 @@ class ProcedimentoController extends GxController {
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        }
-        else
+        } else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 
@@ -105,6 +104,24 @@ class ProcedimentoController extends GxController {
             exit;
         } else {
             return false;
+        }
+    }
+
+    public function actionDentistaBuscaProcedimento() {
+        if (isset($_POST['id'])) {
+            $procedimentos = Procedimento::model()->findAll(array(
+                'join' => 'inner join procedimento_has_dentista phd on phd.id_procedimento = t.id_procedimento'
+                . ' inner join dentista d on phd.id_dentista = d.id_dentista',
+                'condition' => 'd.id_dentista = ' . $_POST['id'],
+                'order' => 't.procedimento ASC',
+            ));
+
+            $data = CHtml::listData($procedimentos, 'id_procedimento', 'procedimento');
+
+            echo "<option value=''>" . Yii::t('app', 'Selecione um procedimento') ."</option>";
+            foreach ($data as $value => $procedimento_name) {
+                echo CHtml::tag('option', array('value' => $value), CHtml::encode($procedimento_name), true);
+            }
         }
     }
 

@@ -37,6 +37,7 @@ abstract class BaseProcedimento extends GxActiveRecord {
         return array(
             array('procedimento', 'required'),
             array('procedimento', 'length', 'max' => 120),
+            array('procedimento', 'unique'),
             array('id_procedimento, procedimento', 'safe', 'on' => 'search'),
         );
     }

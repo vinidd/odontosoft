@@ -3,11 +3,10 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2013 at 09:58 PM
+-- Generation Time: Nov 09, 2013 at 08:49 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -22,6 +21,20 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `odontosoft` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `odontosoft`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `atestado`
+--
+
+CREATE TABLE IF NOT EXISTS `atestado` (
+  `id_atestado` int(11) NOT NULL AUTO_INCREMENT,
+  `id_consulta` int(11) NOT NULL,
+  `atestado` text NOT NULL,
+  PRIMARY KEY (`id_atestado`),
+  KEY `fk_atestado_consulta1_idx` (`id_consulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -5671,8 +5684,8 @@ CREATE TABLE IF NOT EXISTS `consulta` (
   `id_cliente` int(11) NOT NULL,
   `id_dentista` int(11) NOT NULL,
   `data` date NOT NULL,
-  `horario` time NOT NULL,
-  `duracao` decimal(2,2) NOT NULL DEFAULT '0.25',
+  `horario` varchar(5) NOT NULL,
+  `duracao` int(11) DEFAULT NULL,
   `id_status` int(11) NOT NULL,
   `data_criacao` date NOT NULL,
   `descricao` text,
@@ -5680,7 +5693,14 @@ CREATE TABLE IF NOT EXISTS `consulta` (
   KEY `fk_consulta_cliente1_idx` (`id_cliente`),
   KEY `fk_consulta_dentista1_idx` (`id_dentista`),
   KEY `fk_consulta_status1_idx` (`id_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `consulta`
+--
+
+INSERT INTO `consulta` (`id_consulta`, `id_cliente`, `id_dentista`, `data`, `horario`, `duracao`, `id_status`, `data_criacao`, `descricao`) VALUES
+(1, 5, 2, '2013-11-12', '12:00', NULL, 1, '2013-11-09', NULL);
 
 -- --------------------------------------------------------
 
@@ -5695,14 +5715,15 @@ CREATE TABLE IF NOT EXISTS `dentista` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_dentista`),
   KEY `fk_dentista_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `dentista`
 --
 
 INSERT INTO `dentista` (`id_dentista`, `id_pessoa`, `cro`, `data_criacao`) VALUES
-(2, 10, 'df-asd-123', '2013-10-13');
+(2, 10, 'df-asd-123', '2013-10-13'),
+(3, 13, NULL, '2013-11-09');
 
 -- --------------------------------------------------------
 
@@ -5725,7 +5746,7 @@ CREATE TABLE IF NOT EXISTS `endereco` (
   PRIMARY KEY (`id_endereco`),
   KEY `fk_endereco_pessoa1_idx` (`id_pessoa`),
   KEY `fk_endereco_cidade1_idx` (`id_cidade`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `endereco`
@@ -5734,7 +5755,8 @@ CREATE TABLE IF NOT EXISTS `endereco` (
 INSERT INTO `endereco` (`id_endereco`, `nome`, `cep`, `tipo`, `rua`, `numero`, `complemento`, `descricao`, `bairro`, `id_pessoa`, `id_cidade`) VALUES
 (5, 'Minha Casa', '11111-111', 1, 'teste teste', '123', '12A', 'testete testetetsetest testes test testes testest tes tes t estesets tes  tsetestse', 'teste', 5, 1479),
 (8, 'casa', '11111-111', 1, 'teste', '123', NULL, NULL, 'teste', 10, 5270),
-(9, NULL, '11111-111', 0, '11111', '111', NULL, NULL, '111', 12, 3328);
+(9, NULL, '11111-111', 0, '11111', '111', NULL, NULL, '111', 12, 3328),
+(10, NULL, '11111-111', 0, 'teste', 'teste', NULL, NULL, 'teste', 13, 5219);
 
 -- --------------------------------------------------------
 
@@ -6104,7 +6126,7 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `email` varchar(120) NOT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_usergroups_user1_idx` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `pessoa`
@@ -6113,7 +6135,8 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
 INSERT INTO `pessoa` (`id_pessoa`, `id_usuario`, `nome`, `data_nascimento`, `sexo`, `cpf`, `rg`, `email`) VALUES
 (5, 4, 'Cliente', '1991-11-12', 1, '036.491.781-41', NULL, 'teste@teste.com'),
 (10, 6, 'Dentista', '1999-11-12', 0, '876.868.978-00', '1111111111', 'teste@dentista.com'),
-(12, 8, 'Recepcionista', '1999-11-12', 1, '190.282.366-43', NULL, 'teste@recepcionista.com');
+(12, 8, 'Recepcionista', '1999-11-12', 1, '190.282.366-43', NULL, 'teste@recepcionista.com'),
+(13, NULL, 'Dentista 2', '1990-11-12', 0, '598.734.351-82', NULL, 'dentista2@teste.com');
 
 -- --------------------------------------------------------
 
@@ -6125,7 +6148,15 @@ CREATE TABLE IF NOT EXISTS `procedimento` (
   `id_procedimento` int(11) NOT NULL AUTO_INCREMENT,
   `procedimento` varchar(120) NOT NULL,
   PRIMARY KEY (`id_procedimento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `procedimento`
+--
+
+INSERT INTO `procedimento` (`id_procedimento`, `procedimento`) VALUES
+(1, 'Procedimento'),
+(2, 'Procedimento 2');
 
 -- --------------------------------------------------------
 
@@ -6140,6 +6171,28 @@ CREATE TABLE IF NOT EXISTS `procedimento_has_dentista` (
   PRIMARY KEY (`id_procedimento_has_dentista`),
   KEY `fk_procedimento_has_dentista_procedimento1_idx` (`id_procedimento`),
   KEY `fk_procedimento_has_dentista_dentista1_idx` (`id_dentista`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `procedimento_has_dentista`
+--
+
+INSERT INTO `procedimento_has_dentista` (`id_procedimento_has_dentista`, `id_procedimento`, `id_dentista`) VALUES
+(1, 1, 2),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receita`
+--
+
+CREATE TABLE IF NOT EXISTS `receita` (
+  `id_receita` int(11) NOT NULL AUTO_INCREMENT,
+  `id_consulta` int(11) NOT NULL,
+  `receita` text NOT NULL,
+  PRIMARY KEY (`id_receita`),
+  KEY `fk_receita_consulta1_idx` (`id_consulta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -6173,7 +6226,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `id_status` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) NOT NULL,
   PRIMARY KEY (`id_status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `status`
@@ -6184,10 +6237,9 @@ INSERT INTO `status` (`id_status`, `nome`) VALUES
 (2, 'Aguardando'),
 (3, 'Cancelado'),
 (4, 'Adiado'),
-(5, 'Triagem'),
-(6, 'Concluído'),
-(7, 'Pago'),
-(8, 'Em aberto');
+(5, 'Concluído'),
+(6, 'Pago'),
+(7, 'Em aberto');
 
 -- --------------------------------------------------------
 
@@ -6202,7 +6254,7 @@ CREATE TABLE IF NOT EXISTS `telefone` (
   `id_pessoa` int(11) NOT NULL,
   PRIMARY KEY (`id_telefone`),
   KEY `fk_telefone_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Dumping data for table `telefone`
@@ -6213,7 +6265,8 @@ INSERT INTO `telefone` (`id_telefone`, `tipo`, `numero`, `id_pessoa`) VALUES
 (12, 2, '(33)3333-3333', 5),
 (15, 0, '(11)1111-1111', 10),
 (16, 2, '(11)1111-1111', 10),
-(18, 0, '(11)1111-1111', 12);
+(18, 0, '(11)1111-1111', 12),
+(19, 0, '(11)1111-1111', 13);
 
 -- --------------------------------------------------------
 
@@ -6324,8 +6377,8 @@ CREATE TABLE IF NOT EXISTS `usergroups_cron` (
 --
 
 INSERT INTO `usergroups_cron` (`id`, `name`, `lapse`, `last_occurrence`) VALUES
-(1, 'garbage_collection', 7, '2013-10-20 00:00:00'),
-(2, 'unban', 1, '2013-10-20 00:00:00');
+(1, 'garbage_collection', 7, '2013-11-07 00:00:00'),
+(2, 'unban', 1, '2013-11-09 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -6411,14 +6464,20 @@ CREATE TABLE IF NOT EXISTS `usergroups_user` (
 --
 
 INSERT INTO `usergroups_user` (`id`, `group_id`, `username`, `password`, `email`, `home`, `status`, `question`, `answer`, `creation_date`, `activation_code`, `activation_time`, `last_login`, `ban`, `ban_reason`) VALUES
-(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-10-20 16:57:08', NULL, NULL),
-(4, 3, 'cliente', 'b9ffb515227fa9cfe7169ff6e0343851', 'teste@cliente.com', NULL, 4, 'teste', 'teste', '2013-10-12 20:13:10', NULL, NULL, '2013-10-20 16:54:37', NULL, NULL),
+(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-11-09 17:21:37', NULL, NULL),
+(4, 3, 'cliente', 'b9ffb515227fa9cfe7169ff6e0343851', 'teste@cliente.com', NULL, 4, 'teste', 'teste', '2013-10-12 20:13:10', NULL, NULL, '2013-10-31 21:41:55', NULL, NULL),
 (6, 4, 'dentista', 'dd38562eca0f5a99c0169cfadd47e65c', 'teste@dentista.com', NULL, 4, NULL, NULL, '2013-10-13 21:47:37', NULL, NULL, '2013-10-13 20:39:52', NULL, NULL),
 (8, 5, 'recepcionista', '67e4dcd6d74f4ea53bdb296e63f5e6cf', 'teste@recepcionista.com', NULL, 4, NULL, NULL, '2013-10-17 00:30:22', NULL, NULL, '2013-10-16 23:00:58', NULL, NULL);
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `atestado`
+--
+ALTER TABLE `atestado`
+  ADD CONSTRAINT `fk_atestado_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cidade`
@@ -6436,8 +6495,8 @@ ALTER TABLE `cliente`
 -- Constraints for table `cliente_has_procedimento`
 --
 ALTER TABLE `cliente_has_procedimento`
-  ADD CONSTRAINT `fk_cliente_has_procedimento_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_cliente_has_procedimento_cliente1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_cliente_has_procedimento_cliente1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_cliente_has_procedimento_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `cliente_has_procedimento_has_consulta`
@@ -6498,8 +6557,14 @@ ALTER TABLE `pessoa`
 -- Constraints for table `procedimento_has_dentista`
 --
 ALTER TABLE `procedimento_has_dentista`
-  ADD CONSTRAINT `fk_procedimento_has_dentista_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_procedimento_has_dentista_dentista1` FOREIGN KEY (`id_dentista`) REFERENCES `dentista` (`id_dentista`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_procedimento_has_dentista_dentista1` FOREIGN KEY (`id_dentista`) REFERENCES `dentista` (`id_dentista`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_procedimento_has_dentista_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `receita`
+--
+ALTER TABLE `receita`
+  ADD CONSTRAINT `fk_receita_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `recepcionista`
@@ -6518,7 +6583,6 @@ ALTER TABLE `telefone`
 --
 ALTER TABLE `usergroups_user`
   ADD CONSTRAINT `usergroups_user_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `usergroups_group` (`id`) ON DELETE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

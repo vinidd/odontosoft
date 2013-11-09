@@ -11,7 +11,7 @@ class ConsultaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'create', 'buscaConsulta'),
+                'actions' => array('index', 'view', 'update', 'create', 'buscaConsulta', 'confereHorario'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -101,6 +101,16 @@ class ConsultaController extends GxController {
     public function actionBuscaConsulta() {
         if (isset($_POST['id'])) {
             echo $_POST['id'];
+        }
+    }
+    
+    public function actionConfereHorario() {
+        if (isset($_POST['horario'], $_POST['data'])) {
+            if ($consultas = Consulta::model()->find(array('condition' => 'data = ' . $_POST['data'] . ' AND horario = ' . $_POST['horario']))) {
+                echo true;
+            } else {
+                echo false;
+            }
         }
     }
 }

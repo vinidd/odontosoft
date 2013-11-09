@@ -92,11 +92,12 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h4><?php echo Yii::t('app', 'Create') . ' ' . Yii::t('app', 'Consulta'); ?></h4>
+    <h4><?php echo Yii::t('app', 'Create') . ' ' . Yii::t('app', 'Consulta'); ?> - <span id="header-data"></span></h4>
 </div>
 
 <div class="modal-body">
     <?php echo CHtml::hiddenField('url', Yii::app()->request->baseUrl, array('id' => 'url')); ?>
+    <?php echo CHtml::hiddenField('data', '', array('id' => 'data')); ?>
     <?php echo CHtml::hiddenField('Cliente[id_cliente]', isset($model_cliente->id_cliente) ? $model_cliente->id_cliente : '', array('id' => 'Cliente_id_cliente')); ?>
     <div class="control-group">
         <div class="controls">
@@ -131,6 +132,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                                 $("#Telefone_residencial").removeAttr("readonly");
                                 $("#Telefone_celular").removeAttr("readonly");
                                 $("#Telefone_comercial").removeAttr("readonly");
+                                $("#id_dentista").focus();
                             }
                         });
                     }'
@@ -160,6 +162,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     </div>
     <br>
     <?php echo CHtml::hiddenField('Dentista[id_dentista]', isset($model_cliente->id_dentista) ? $model_cliente->id_dentista : '', array('id' => 'Dentista_id_dentista')); ?>
+    <?php echo CHtml::hiddenField('Procedimento[id_procedimento]', '', array('id' => 'Procedimento_id_procedimento')); ?>
     <div class="control-group">
         <div class="controls">
             <?php
@@ -171,6 +174,17 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                     'minLength' => '3',
                     'select' => 'js:function(event, ui) {
                         $("#Dentista_id_dentista").val(ui.item.id_grupo);
+                        $.ajax({
+                            "type": "POST",
+                            "data": "id=" + ui.item.id_grupo,
+                            "url":"' . Yii::app()->request->baseUrl . '/procedimento/dentistaBuscaProcedimento",
+                            "success":function(data) {
+                                $("#id_procedimento").empty();
+                                $("#id_procedimento").removeAttr("disabled");
+                                $("#id_procedimento").append(data);
+                                $("#id_procedimento").focus();
+                            }
+                        });
                     }'
                 ),
                 'htmlOptions' => array(
@@ -180,10 +194,16 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                 ),
             ));
             ?>
-            <?php echo $form->textFieldRow($model, 'horario', array('maxlength' => '2', 'append' => ':00 h', 'style' => 'text-align: right; width: 50px;')); ?>
-            <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
+            <?php
+                echo CHtml::dropDownList('id_procedimento', '', array(), array('id' => 'id_procedimento', 'disabled' => 'disabled', 'class' => 'span3'));
+            ?>
         </div>
     </div>
+    <br>
+
+    <?php echo $form->textFieldRow($model, 'horario', array('append' => ':00 h', 'style' => 'text-align: right; width: 50px;', 'class' => 'horario')); ?>
+    <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
+
 
 </div>
 

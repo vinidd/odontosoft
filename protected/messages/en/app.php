@@ -15,6 +15,7 @@ return array(
     'Dentista' => 'Dentist',
     'Recepcionista' => 'Receptionist',
     'Consulta' => 'Appointment',
+    'Procedimento' => 'Procedure',
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',
     'Data Nascimento' => 'Date of birth',
@@ -45,5 +46,6 @@ return array(
     'Limpar' => 'Clear',
     'Horário' => 'Time',
     'Horário indisponível' => 'Time not available',
+    'Selecione um procedimento' => 'Select one procedure',
 );
 ?>
