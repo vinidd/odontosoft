@@ -42,5 +42,8 @@ return array(
     'Cidade' => 'City',
     'Salvar' => 'Save',
     'Fechar' => 'Close',
+    'Limpar' => 'Clear',
+    'Horário' => 'Time',
+    'Horário indisponível' => 'Time not available',
 );
 ?>

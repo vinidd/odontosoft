@@ -84,21 +84,9 @@ $this->widget('bootstrap.widgets.TbButton', array(
 
 <?php $this->endWidget('consulta-form'); ?>
 
-<style>
-    .tel_error
-    {
-        display: none;
-        color: #B94A48;
-    }
-    .clear
-    {
-        margin-top: 10px;
-    }
-</style>
-
 <?php
 $this->beginWidget('bootstrap.widgets.TbModal', array(
-    'id' => 'create-consulta'
+    'id' => 'create-consulta',
 ));
 ?>
 
@@ -109,7 +97,6 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 
 <div class="modal-body">
     <?php echo CHtml::hiddenField('url', Yii::app()->request->baseUrl, array('id' => 'url')); ?>
-    <h3><?php echo Yii::t('app', 'Cliente'); ?></h3>
     <?php echo CHtml::hiddenField('Cliente[id_cliente]', isset($model_cliente->id_cliente) ? $model_cliente->id_cliente : '', array('id' => 'Cliente_id_cliente')); ?>
     <div class="control-group">
         <div class="controls">
@@ -150,7 +137,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                 ),
                 'htmlOptions' => array(
                     'id' => 'id_cliente',
-                    'placeholder' => 'Nome',
+                    'placeholder' => Yii::t('app', 'Cliente'),
                     'class' => 'span2'
                 ),
             ));
@@ -162,17 +149,16 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 
             <div class="clear"></div>
 
-            <div class="control-group ">
+            <div class="control-group">
                 <div class="controls">
-                    <input class="telefone span2" id="Telefone_residencial" type="text" name="Telefone[residencial]" readonly="readonly" placeholder="Telefone Residencial"/>
-                    <input class="telefone span2" id="Telefone_celular" type="text" name="Telefone[celular]" readonly="readonly" placeholder="Telefone Celular"/>
-                    <input class="telefone span2" id="Telefone_comercial" type="text" name="Telefone[comercial]" readonly="readonly" placeholder="Telefone Comercial"/>
+                    <input class="telefone span2" id="Telefone_residencial" type="text" name="Telefone[residencial]" readonly="readonly" placeholder="<?php echo Yii::t('app', 'Telefone Residencial'); ?>"/>
+                    <input class="telefone span2" id="Telefone_celular" type="text" name="Telefone[celular]" readonly="readonly" placeholder="<?php echo Yii::t('app', 'Telefone Celular'); ?>"/>
+                    <input class="telefone span2" id="Telefone_comercial" type="text" name="Telefone[comercial]" readonly="readonly" placeholder="<?php echo Yii::t('app', 'Telefone Comercial'); ?>"/>
                 </div>
             </div>
         </div>
     </div>
-
-    <h3><?php echo Yii::t('app', 'Dentista'); ?></h3>
+    <br>
     <?php echo CHtml::hiddenField('Dentista[id_dentista]', isset($model_cliente->id_dentista) ? $model_cliente->id_dentista : '', array('id' => 'Dentista_id_dentista')); ?>
     <div class="control-group">
         <div class="controls">
@@ -189,13 +175,16 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                 ),
                 'htmlOptions' => array(
                     'id' => 'id_dentista',
-                    'placeholder' => 'Nome',
+                    'placeholder' => Yii::t('app', 'Dentista'),
                     'class' => 'span2'
                 ),
             ));
             ?>
+            <?php echo $form->textFieldRow($model, 'horario', array('maxlength' => '2', 'append' => ':00 h', 'style' => 'text-align: right; width: 50px;')); ?>
+            <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
         </div>
     </div>
+
 </div>
 
 <div id="collapse-receptor">
@@ -230,7 +219,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'reset',
         'type' => 'danger',
-        'label' => 'Limpar',
+        'label' => Yii::t('app', 'Limpar'),
         'htmlOptions' => array('id' => 'dentista-reset', 'onclick' => 'btnReset();'),
     ));
     ?>
@@ -245,3 +234,15 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 </div>
 
 <?php $this->endWidget(); ?>
+
+<style>
+    .tel_error
+    {
+        display: none;
+        color: #B94A48;
+    }
+    .clear
+    {
+        margin-top: 10px;
+    }
+</style>

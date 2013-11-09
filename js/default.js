@@ -211,6 +211,17 @@ $(document).ready(function() {
             });
         }
     });
+    
+    $('#consulta-form').find('#Consulta_horario').live('blur', function() {
+        if ($(this).val() > 24 || $(this).val() < 8) {
+            $(this).val('');
+            $(this).css('border-color', '#B94A48');
+            $('#horario_em').show();
+        } else {
+            $(this).css('border-color', '#468847');
+            $('#horario_em').hide();
+        }
+    });
 });
 
 function limpaTelefone(str) {
