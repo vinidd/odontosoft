@@ -11,11 +11,11 @@ class PessoaController extends GxController {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'view' actions
-                'actions' => array('view', 'update', 'index'),
+                'actions' => array('view', 'update', 'index', 'pessoaAutoComplete', 'cidadeAutoComplete'),
                 'users' => array('@'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create', 'cidadeAutoComplete', 'pessoaAutoComplete', 'pessoaBuscaContato'),
+                'actions' => array('delete', 'admin', 'create', 'pessoaBuscaContato'),
                 'pbac' => array('admin', 'admin.admin'),
             ),
             array('deny', // deny all users

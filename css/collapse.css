@@ -1,3 +1,8 @@
+.accordion a
+{
+    text-decoration: none;
+}
+
 .head a
 {
     text-decoration: none;
@@ -17,9 +22,26 @@
 
 .legend
 {
-    color:#777777;
+    color:black;
     font-weight: bold;
     font-size: 10pt;
     margin: 5px 0 5px;
     text-decoration: none;
+}
+
+.legend span
+{
+    text-shadow: none;
+}
+
+span.label-text
+{
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#collapse-receptor
+{
+    max-height: 400px;
+    overflow-y: auto;
 }

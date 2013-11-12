@@ -10,6 +10,7 @@ return array(
     'theme' => 'default',
     'language' => 'pt',
     'sourceLanguage' => 'pt_br',
+    'timeZone' => 'America/Sao_Paulo',
     // preloading 'log' component
     'preload' => array(
         'log',

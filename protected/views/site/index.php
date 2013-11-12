@@ -11,7 +11,7 @@
                 </a>
             </li> 
             <li>
-                <a href="">
+                <a href="<?php echo Yii::app()->request->baseUrl . '/consulta/create'; ?>">
                     <div>
                         <i class="icon-book icon-3x "></i>
                         <br>

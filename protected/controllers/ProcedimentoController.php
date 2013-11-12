@@ -10,8 +10,12 @@ class ProcedimentoController extends GxController {
 
     public function accessRules() {
         return array(
+            array('allow',
+                'actions' => array('dentistaBuscaProcedimento'),
+                'pbac' => array('read'),
+            ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create', 'index', 'update', 'view', 'getProcedimento', 'dentistaBuscaProcedimento'),
+                'actions' => array('delete', 'admin', 'create', 'index', 'update', 'view', 'getProcedimento'),
                 'pbac' => array('admin'),
             ),
             array('deny', // deny all users

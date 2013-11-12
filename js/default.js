@@ -6,7 +6,7 @@
 $(document).ready(function() {
     jQuery(function($) {
         $(".telefone").mask("(99)9999-9999");
-        $(".horario").mask("9?9",{placeholder:""});
+        $(".horario").mask("9?9", {placeholder: ""});
     });
 
     if (!$('#cliente-form').find('#Pessoa_nome').val()) {
@@ -158,7 +158,7 @@ $(document).ready(function() {
             $('#recepcionista-form').find('#id_cidade_em_').show();
         }
     });
-    
+
     $('#consulta-form').find('#id_cliente').live('blur', function() {
         if ($(this).val() && $('#consulta-form').find('#Cliente_id_cliente').val()) {
             $(this).css('border-color', '#468847');
@@ -169,7 +169,7 @@ $(document).ready(function() {
             $('#consulta-form').find('#id_cliente_em_').show();
         }
     });
-    
+
     $('#consulta-form').find('#id_dentista').live('blur', function() {
         if ($(this).val() && $('#consulta-form').find('#Dentista_id_dentista').val()) {
             $(this).css('border-color', '#468847');
@@ -180,7 +180,7 @@ $(document).ready(function() {
             $('#consulta-form').find('#id_dentista_em_').show();
         }
     });
-    
+
     $('#consulta-form').find('.telefone').live('blur', function() {
 
         temp1 = $('#consulta-form').find('#Telefone_residencial').val();
@@ -212,7 +212,7 @@ $(document).ready(function() {
             });
         }
     });
-    
+
     $('#consulta-form').find('#Consulta_horario').live('blur', function() {
         if ($(this).val() > 24 || $(this).val() < 8) {
             $(this).val('');
@@ -273,14 +273,18 @@ function deleteRow(el, id) {
     }
 }
 
-function btnReset() {
+function btnReset(admin) {
     $("#id_cliente").removeAttr("readonly");
-    $("#Telefone_residencial").attr("readonly", "readonly");
-    $("#Telefone_celular").attr("readonly", "readonly");
-    $("#Telefone_comercial").attr("readonly", "readonly");
     $("#consulta-button").attr("disabled", "disabled");
     $("#id_procedimento").empty();
     $("#id_procedimento").attr("disabled", "disabled");
+    $("#Consulta_horario").attr("disabled", "disabled");
+
+    if (admin === "1") {
+        $("#Telefone_residencial").attr("readonly", "readonly");
+        $("#Telefone_celular").attr("readonly", "readonly");
+        $("#Telefone_comercial").attr("readonly", "readonly");
+    }
 }
 
 function changeLang(lang) {

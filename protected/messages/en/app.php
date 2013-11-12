@@ -39,6 +39,7 @@ return array(
     'Número' => 'Number',
     'Complemento' => 'Ap. Number',
     'Descrição' => 'Description',
+    'Duração' => 'Duration',
     'Bairro' => 'District',
     'Cidade' => 'City',
     'Salvar' => 'Save',
@@ -47,5 +48,15 @@ return array(
     'Horário' => 'Time',
     'Horário indisponível' => 'Time not available',
     'Selecione um procedimento' => 'Select one procedure',
+    'Erro ao agendar consulta, por favor, complete todos os campos.' => 'Appointment scheduling failed, please fill all the fields.',
+    'Consulta agendada com sucesso.' => 'Scheduled appointment successfully.',
+    
+    'Confirmado' => 'Confirmed',
+    'Aguardando' => 'Waiting',
+    'Cancelado' => 'Canceled',
+    'Adiado' => 'Postponed',
+    'Concluído' => 'Completed',
+    'Pago' => 'Paid',
+    'Em aberto' => 'Unpaid',
 );
 ?>

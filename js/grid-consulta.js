@@ -13,7 +13,7 @@ $(document).ready(function() {
         if ($(this).val() !== '') {
             $.ajax({
                 type: "POST",
-                data: {horario: $(this).val(), data: $('#data').val()},
+                data: {horario: $(this).val(), data: $('#data').val(), id_dentista: $('#Dentista_id_dentista').val()},
                 url: $('#url').val() + '/consulta/confereHorario',
                 success: function(data) {
                     if (data) {
@@ -35,18 +35,25 @@ function createConsulta(day) {
 //    console.log(day.substring(0, 2));
     $('#' + day).parent().each(function() {
         $(this).find('.calendar-text').each(function() {
-            $('#collapse-receptor').append('<br><div class="accordion" id="accordion2"><div class="accordion-group"><div class="accordion-heading head"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse' + $(this).attr('id') + '"><span class="legend"><span id="horario"></span> &nbsp; <span id="status"></span></span><div class="separator"><span class="right"><i class="icon-angle-down icon-large"></i></span></div></a></div><div id="collapse' + $(this).attr('id') + '" class="accordion-body collapse"><div class="accordion-inner"><span id="cliente"></span><span id="dentista"></span><span id="duracao"></span><span id="descricao"></span></div></div></div>');
-//            console.log($(this).attr('id'));
+            $('#collapse-receptor').append('<div class="accordion-group"><div class="accordion-heading head' + $(this).attr('id') + '"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse' + $(this).attr('id') + '"><span class="legend"><span id="horario"></span> - <span id="status"></span></span><div class="separator"><span class="right"><i class="icon-angle-down icon-large"></i></span></div></a></div><div id="collapse' + $(this).attr('id') + '" class="accordion-body collapse"><div class="accordion-inner"><span class="label-text">' + $('#cliente_text').val() + '</span><span id="cliente"></span><br><span class="label-text">' + $('#dentista_text').val() + '</span><span id="dentista"></span><br><span class="label-text">' + $('#duracao_text').val() + '</span><span id="duracao"></span><br><span class="label-text">' + $('#procedimento_text').val() + '</span><span id="procedimento"></span><br><span class="label-text">' + $('#descricao_text').val() + '</span><span id="descricao"></span></div></div>');
+            var id = $(this).attr('id');
             var jt = $(this).attr('class');
             j1 = jt.split(' ');
-            $('.head').addClass(j1[0]);
-
+            $('.head' + $(this).attr('id')).addClass(j1[0]);
             $.ajax({
                 type: "POST",
                 data: "id=" + $(this).attr('id'),
                 url: $('#url').val() + '/consulta/buscaConsulta',
                 success: function(data) {
-                    console.log(data);
+                    obj = JSON.parse(data);
+                    $('.head' + id).find('#horario').text(obj.horario);
+                    $('.head' + id).find('#status').text(obj.status);
+                    $('#collapse' + id).find('div').append('ok');
+                    $('#collapse' + id).find('#cliente').text(obj.cliente);
+                    $('#collapse' + id).find('#dentista').text(obj.dentista);
+                    $('#collapse' + id).find('#duracao').text(obj.duracao);
+                    $('#collapse' + id).find('#procedimento').text(obj.procedimento);
+                    $('#collapse' + id).find('#descricao').text(obj.descricao);
                 }
             });
         });
@@ -59,4 +66,8 @@ function changeData(date) {
     var day = date.substring(0, 2);
 
     return year + '-' + month + '-' + day;
+}
+
+function btnSubmit() {
+    $('#consulta-form').submit();
 }

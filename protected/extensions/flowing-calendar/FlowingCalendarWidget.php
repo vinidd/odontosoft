@@ -288,12 +288,12 @@ class FlowingCalendarWidget extends CWidget {
         for ($list_day = 1; $list_day <= $days_in_month; $list_day++):
 
             if ($list_day == date("j", mktime(0, 0, 0, $this->month)) && date("n") == $this->month && date("Y") == $this->year) {
-                $this->calendar.= '<td class="' . $this->style . '-current-day" id="'. $list_day .'">';
+                $this->calendar.= '<td class="' . $this->style . '-current-day" id="' . $list_day . '">';
             } else {
                 if (($running_day == "0") || ($running_day == "6")) {
                     $this->calendar.= '<td class="' . $this->style . '-weekend-day">';
                 } else {
-                    $this->calendar.= '<td class="' . $this->style . '-day" id="'. $list_day .'">';
+                    $this->calendar.= '<td class="' . $this->style . '-day" id="' . $list_day . '">';
                 }
             }
 
@@ -304,28 +304,44 @@ class FlowingCalendarWidget extends CWidget {
             $current_date = $this->year . '-' . $this->month . '-' . str_pad($list_day, 2, '0', STR_PAD_LEFT);
             $first_date = $this->year . '-' . $this->month . '-01';
             $last_date = $this->year . '-' . $this->month . '-' . $days_in_month;
-            $consultas = Consulta::model()->findAll(array(
-                'condition' => 'data between "' . $first_date . '" and "' . $last_date . '"',
-                'order' => 'horario ASC'
-            ));
+
+            $consultas = array();
+            if (Yii::app()->user->pbac('Basic.consulta.admin')) {
+                $consultas = Consulta::model()->findAll(array(
+                    'condition' => 'data between "' . $first_date . '" and "' . $last_date . '"',
+                    'order' => 'horario ASC'
+                ));
+            } else if (Yii::app()->user->pbac('Basic.consulta.write') && !Yii::app()->user->pbac('Basic.consulta.admin')) {
+                $pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
+                $cliente = Cliente::model()->find(array('condition' => 'id_pessoa = ' . $pessoa->id_pessoa));
+                if ($cliente) {
+                    $consultas = Consulta::model()->findAll(array(
+                        'condition' => 'data between "' . $first_date . '" and "' . $last_date . '" AND id_cliente = ' . $cliente->id_cliente,
+                        'order' => 'horario ASC'
+                    ));
+                }
+            }
             
             if (!empty($consultas)) {
                 foreach ($consultas as $consulta) {
                     if ($consulta->data == $current_date) {
                         switch ($consulta->id_status) {
-                            case 1: $cor = 'success'; break;
-                            case 2: $cor = 'info'; break;
-                            case 3: $cor = 'danger'; break;
-                            case 4: $cor = 'warning'; break;
+                            case 1: $cor = 'success';
+                                break;
+                            case 2: $cor = 'info';
+                                break;
+                            case 3: $cor = 'danger';
+                                break;
+                            case 4: $cor = 'warning';
+                                break;
                             default: $cor = '';
                         }
-                        
-                        $this->calendar .= '<div class="btn-' . $cor . ' ' . $this->style .'-text" id="'. $consulta->id_consulta . '">' .  '</div><br>';
+
+                        $this->calendar .= '<div class="btn-' . $cor . ' ' . $this->style . '-text" id="' . $consulta->id_consulta . '">' . '</div><br>';
                     }
-                    
                 }
             }
-            
+
 //            $this->calendar.= '<div class="'. $this->style .'-text"><a href="">Event 1</a></div><br/>';
             //$this->calendar.= '<div class="'. $this->style .'-text"><a href="">Event 2</a></div>';
             ////$this->calendar.= str_repeat('<p> </p>',2);
