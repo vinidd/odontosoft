@@ -29,86 +29,182 @@
  */
 abstract class BaseConsulta extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public $clienteN = null;
+    public $dentistaN = null;
+    public $dataN = null;
+    public $statusN = null;
 
-	public function tableName() {
-		return 'consulta';
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Consulta|Consultas', $n);
-	}
+    public function tableName() {
+        return 'consulta';
+    }
 
-	public static function representingColumn() {
-		return 'data';
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Consulta|Consultas', $n);
+    }
 
-	public function rules() {
-		return array(
-			array('id_cliente, id_dentista, data, horario, id_status, data_criacao', 'required'),
-			array('id_cliente, id_dentista, duracao, id_status', 'numerical', 'integerOnly'=>true),
-			array('horario', 'length', 'max'=>5),
-			array('descricao', 'safe'),
-			array('duracao, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, descricao', 'safe', 'on'=>'search'),
-		);
-	}
+    public static function representingColumn() {
+        return 'data';
+    }
 
-	public function relations() {
-		return array(
-			'atestados' => array(self::HAS_MANY, 'Atestado', 'id_consulta'),
-			'clienteHasProcedimentoHasConsultas' => array(self::HAS_MANY, 'ClienteHasProcedimentoHasConsulta', 'id_consulta'),
-			'idCliente' => array(self::BELONGS_TO, 'Cliente', 'id_cliente'),
-			'idDentista' => array(self::BELONGS_TO, 'Dentista', 'id_dentista'),
-			'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
-			'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_consulta'),
-			'receitas' => array(self::HAS_MANY, 'Receita', 'id_consulta'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('id_cliente, id_dentista, data, horario, id_status, data_criacao', 'required'),
+            array('id_cliente, id_dentista, duracao, id_status', 'numerical', 'integerOnly' => true),
+            array('horario', 'length', 'max' => 5),
+            array('descricao', 'safe'),
+            array('duracao, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, descricao, clienteN, dentistaN, dataN, statusN', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function relations() {
+        return array(
+            'atestados' => array(self::HAS_MANY, 'Atestado', 'id_consulta'),
+            'clienteHasProcedimentoHasConsultas' => array(self::HAS_MANY, 'ClienteHasProcedimentoHasConsulta', 'id_consulta'),
+            'idCliente' => array(self::BELONGS_TO, 'Cliente', 'id_cliente'),
+            'idDentista' => array(self::BELONGS_TO, 'Dentista', 'id_dentista'),
+            'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
+            'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_consulta'),
+            'receitas' => array(self::HAS_MANY, 'Receita', 'id_consulta'),
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_consulta' => Yii::t('app', 'Id Consulta'),
-			'id_cliente' => null,
-			'id_dentista' => null,
-			'data' => Yii::t('app', 'Data'),
-			'horario' => Yii::t('app', 'Horário'),
-			'duracao' => Yii::t('app', 'Duração'),
-			'id_status' => null,
-			'data_criacao' => Yii::t('app', 'Data Criação'),
-			'descricao' => Yii::t('app', 'Descrição'),
-			'atestados' => null,
-			'clienteHasProcedimentoHasConsultas' => null,
-			'idCliente' => null,
-			'idDentista' => null,
-			'idStatus' => null,
-			'pagamentos' => null,
-			'receitas' => null,
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function attributeLabels() {
+        return array(
+            'id_consulta' => Yii::t('app', 'Id Consulta'),
+            'id_cliente' => null,
+            'id_dentista' => null,
+            'ClienteNome' => Yii::t('app', 'Cliente'),
+            'DentistaNome' => Yii::t('app', 'Dentista'),
+            'data' => Yii::t('app', 'Data'),
+            'DataNome' => Yii::t('app', 'Data'),
+            'horario' => Yii::t('app', 'Horário'),
+            'duracao' => Yii::t('app', 'Duração'),
+            'id_status' => null,
+            'StatusNome' => Yii::t('app', 'Status'),
+            'data_criacao' => Yii::t('app', 'Data Criação'),
+            'descricao' => Yii::t('app', 'Descrição'),
+            'atestados' => null,
+            'clienteHasProcedimentoHasConsultas' => null,
+            'idCliente' => null,
+            'idDentista' => null,
+            'idStatus' => null,
+            'pagamentos' => null,
+            'receitas' => null,
+        );
+    }
 
-		$criteria->compare('id_consulta', $this->id_consulta);
-		$criteria->compare('id_cliente', $this->id_cliente);
-		$criteria->compare('id_dentista', $this->id_dentista);
-		$criteria->compare('data', $this->data, true);
-		$criteria->compare('horario', $this->horario, true);
-		$criteria->compare('duracao', $this->duracao);
-		$criteria->compare('id_status', $this->id_status);
-		$criteria->compare('data_criacao', $this->data_criacao, true);
-		$criteria->compare('descricao', $this->descricao, true);
+    public function search($pagination = true) {
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        $criteria->condition = '1=1';
+        $criteria->join = '';
+
+        if (isset($this->clienteN) && strlen($this->clienteN)) {
+            $criteria->join .= ' inner join cliente c on c.id_cliente = t.id_cliente';
+            $criteria->join .= ' inner join pessoa p on p.id_pessoa = c.id_pessoa';
+            $criteria->condition .= ' AND p.nome LIKE "' . $this->clienteN . '%"';
+        }
+
+        if (isset($this->dentistaN) && strlen($this->dentistaN)) {
+            $criteria->join .= ' inner join dentista d on d.id_dentista = t.id_dentista';
+            $criteria->join .= ' inner join pessoa pd on pd.id_pessoa = d.id_pessoa';
+            $criteria->condition .= ' AND pd.nome LIKE "' . $this->dentistaN . '%"';
+        }
+
+        if (isset($this->dataN)) {
+            $data = str_replace('/', '', $this->dataN);
+            $data = str_replace('_', '', $data);
+
+            if (strlen($data) == 8) {
+                $newData = DateTime::createFromFormat('d/m/Y', $this->dataN);
+                $newData = $newData->format('Y-m-d');
+                $criteria->condition .= ' AND data = "' . $newData . '"';
+            } else {
+                $this->dataN = '';
+            }
+        }
+
+        if (isset($this->statusN) && $this->statusN) {
+            $criteria->condition .= ' AND id_status = ' . $this->statusN;
+        }
+        
+        if (!isset($_GET['sort'])) {
+            $criteria->order = 'horario DESC, data DESC';
+        }
+
+        $sort = new CSort();
+        $sort->attributes = array(
+            'DataNome' => array(
+                'asc' => 'data ASC, horario ASC',
+                'desc' => 'data DESC, horario DESC',
+            ),
+            'horario' => array(
+                'asc' => 'horario ASC, data ASC',
+                'desc' => 'horario DESC, data DESC',
+            ),
+            '*', // this adds all of the other columns as sortable
+        );
+
+        $criteria->compare('id_consulta', $this->id_consulta);
+        $criteria->compare('id_cliente', $this->id_cliente);
+        $criteria->compare('id_dentista', $this->id_dentista);
+        $criteria->compare('data', $this->data, true);
+        $criteria->compare('horario', $this->horario, true);
+        $criteria->compare('duracao', $this->duracao);
+        $criteria->compare('id_status', $this->id_status);
+        $criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('descricao', $this->descricao, true);
+
+        if ($pagination) {
+            $pagination = array('pageSize' => 25);
+        }
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'sort' => $sort,
+            'pagination' => $pagination,
+        ));
+    }
+
+    public function getClienteNome() {
+        return $this->idCliente;
+    }
+
+    public function getDentistaNome() {
+        return $this->idDentista;
+    }
+
+    public function getDataNome() {
+        $in = 'Y-m-d';
+        $out = 'd/m/Y';
+        $newData = DateTime::createFromFormat($in, $this->data);
+        return $newData->format($out);
+    }
+
+    public function getStatusNome() {
+        switch ($this->id_status) {
+            case 1: $cor = 'success';
+                break;
+            case 2: $cor = 'info';
+                break;
+            case 3: $cor = 'danger';
+                break;
+            case 4: $cor = 'warning';
+                break;
+            default: $cor = '';
+        }
+        
+        return '<div class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
+    }
+
 }

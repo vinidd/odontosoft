@@ -19,6 +19,7 @@ return array(
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',
     'Data Nascimento' => 'Date of birth',
+    'Data' => 'Date',
     'Sexo' => 'Sex',
     'Masculino' => 'Male',
     'Feminino' => 'Female',

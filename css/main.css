@@ -424,3 +424,8 @@ div.search-form
 {
     clear: both;
 }
+
+a.sort-link
+{
+    color: #EEEEEE;
+}
