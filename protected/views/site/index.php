@@ -20,7 +20,7 @@
                 </a>
             </li> 
             <li>
-                <a href="">
+                <a href="<?php echo Yii::app()->request->baseUrl . '/consulta/admin'; ?>">
                     <div>
                         <i class="icon-list-alt icon-3x "></i>
                         <br>

@@ -11,11 +11,11 @@ class ConsultaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'create', 'buscaConsulta', 'confereHorario'),
+                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin'),
+                'actions' => array('delete'),
                 'pbac' => array('admin'),
             ),
             array('deny', // deny all users
@@ -41,7 +41,7 @@ class ConsultaController extends GxController {
             $model_cliente = Cliente::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->id_pessoa));
             $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
         }
-        
+
         //salvando consulta e relações
         if (isset($_POST['Cliente'], $_POST['id_procedimento'], $_POST['Dentista'], $_POST['data'], $_POST['Consulta'], $_POST['Telefone'])) {
             $cliente = $this->loadModel($_POST['Cliente']['id_cliente'], 'Cliente');
@@ -112,7 +112,7 @@ class ConsultaController extends GxController {
                     $chp->id_cliente = $cliente->primaryKey;
                     $chp->id_procedimento = $_POST['id_procedimento'];
                     $chp->save();
-                    
+
                     $chphc = new ClienteHasProcedimentoHasConsulta;
                     $chphc->id_cliente_has_procedimento = $chp->primaryKey;
                     $chphc->id_consulta = $consulta->primaryKey;
@@ -167,7 +167,8 @@ class ConsultaController extends GxController {
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        } else
+        }
+        else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 
@@ -185,9 +186,15 @@ class ConsultaController extends GxController {
         if (isset($_GET['Consulta']))
             $model->setAttributes($_GET['Consulta']);
 
-        $this->render('admin', array(
-            'model' => $model,
-        ));
+        if (Yii::app()->user->pbac('Basic.consulta.admin')) {
+            $this->render('admin', array(
+                'model' => $model,
+            ));
+        } else if (!Yii::app()->user->pbac('Basic.consulta.admin') && Yii::app()->user->pbac('Basic.consulta.write')) {
+            $this->render('admin_cliente', array(
+                'model' => $model,
+            ));
+        }
     }
 
     public function actionBuscaConsulta() {
