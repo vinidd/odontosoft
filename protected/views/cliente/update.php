@@ -11,10 +11,6 @@ $this->breadcrumbs = array(
     <?php if (Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
         <span style="float: right;">
             &nbsp;
-            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/delete', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('app', 'Delete'); ?>">
-                <i class="icon-trash"></i>
-            </a>
-            &nbsp;
             <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('app', 'Manage'); ?>">
                 <i class="icon-reorder"></i>
             </a>

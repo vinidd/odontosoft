@@ -96,6 +96,7 @@ class ConsultaController extends GxController {
             $consulta->data = $_POST['data'];
             $consulta->horario = $_POST['Consulta']['horario'] . ':00';
             $consulta->id_status = (isset($model_cliente) ? 2 : 1);
+            $consulta->id_procedimento = $_POST['id_procedimento'];
             $consulta->data_criacao = date('Y-m-d');
 
             if ($consulta->validate()) {
@@ -146,7 +147,7 @@ class ConsultaController extends GxController {
 
     public function actionUpdate($id) {
         $model = $this->loadModel($id, 'Consulta');
-
+        
 
         if (isset($_POST['Consulta'])) {
             $model->setAttributes($_POST['Consulta']);
@@ -167,8 +168,7 @@ class ConsultaController extends GxController {
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        }
-        else
+        } else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 
@@ -200,17 +200,13 @@ class ConsultaController extends GxController {
     public function actionBuscaConsulta() {
         if (isset($_POST['id'])) {
             $model_consulta = $this->loadModel($_POST['id'], 'Consulta');
-            $model_procedimento = ClienteHasProcedimento::model()->find(array(
-                'join' => 'inner join cliente_has_procedimento_has_consulta chphc on chphc.id_cliente_has_procedimento = t.id_cliente_has_procedimento',
-                'condition' => 't.id_cliente = ' . $model_consulta->id_cliente . ' AND chphc.id_consulta = ' . $_POST['id'],
-            ));
             $result = array(
                 'horario' => $model_consulta->horario,
                 'status' => Yii::t('app', $model_consulta->idStatus->nome),
                 'cliente' => $model_consulta->idCliente->idPessoa->nome,
                 'dentista' => $model_consulta->idDentista->idPessoa->nome,
                 'duracao' => $model_consulta->duracao ? $model_consulta->duracao : '',
-                'procedimento' => isset($model_procedimento->idProcedimento->procedimento) ? $model_procedimento->idProcedimento->procedimento : '',
+                'procedimento' => $model_consulta->idProcedimento->procedimento,
                 'descricao' => $model_consulta->descricao ? $model_consulta->descricao : '',
             );
 
@@ -228,4 +224,16 @@ class ConsultaController extends GxController {
         }
     }
 
+    
+    public function actionGetReceita() {
+        //cria um arquivo em consulta/view com um formulário pro dentista/recepcionista incluir uma receita
+        //isso vai ficar bem parecido com o actionCreate.. da uma olhada no do Cliente.. e o view do create é o _form
+        
+    }
+    
+    public function actionPrintReceita() {
+        //cria um arquivo em consulta/view só com o html/php pra gerar o pdf.. chama isso depois que tu salvou a receita em GetReceita
+        
+        //tem um exemplo em cliente/printView .. e o view é print_view
+    }
 }

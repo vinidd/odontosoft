@@ -27,14 +27,24 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
         array(
 //            'htmlOptions' => array('nowrap' => 'nowrap'),
             'class' => 'CButtonColumn',
-            'template' => '{receita}',
+            'template' => '{receita}{atestado}{editar}',
             'buttons' => array(
                 'receita' => array(
                     'label' => '',
                     //'imageUrl' => Yii::app()->request->baseUrl . '/images/usa-icon.png',
                     'url' => '"#"',
-                    'options' => array('class' => 'icon-plus', 'style' => 'text-decoration: none;'),
-                )
+                    'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none;'),
+                ),
+                'atestado' => array(
+                    'label' => '',
+                    'url' => '"#"',
+                    'options' => array('class' => 'icon-file-text-alt', 'style' => 'text-decoration: none; margin-left: 5px;'),
+                ),
+                'editar' => array(
+                    'label' => '',
+                    'url' => '"#"',
+                    'options' => array('class' => 'icon-pencil', 'style' => 'text-decoration: none; margin-left: 5px;'),
+                ),
             )
         ),
         array(

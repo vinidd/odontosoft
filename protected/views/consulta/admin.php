@@ -25,11 +25,34 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
     'filter' => $model,
     'columns' => array(
         array(
-            'htmlOptions' => array('nowrap' => 'nowrap'),
-            'class' => 'bootstrap.widgets.TbButtonColumn',
-            'viewButtonUrl' => 'Yii::app()->createUrl("consulta/view", array("id" => $data["id_consulta"]))',
-            'updateButtonUrl' => 'Yii::app()->createUrl("consulta/update", array("id" => $data["id_consulta"]))',
-            'deleteButtonUrl' => 'Yii::app()->createUrl("consulta/delete", array("id" => $data["id_consulta"]))',
+            'class' => 'CButtonColumn',
+            'template' => '{receita}{atestado}{update}{delete}',
+            'htmlOptions' => array('style' => 'width: 60px;'),
+            'buttons' => array(
+                'receita' => array(
+                    'label' => '',
+                    //'imageUrl' => Yii::app()->request->baseUrl . '/images/usa-icon.png',
+                    'url' => '"#"',
+                    'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none;'),
+                ),
+                'atestado' => array(
+                    'label' => '',
+                    'url' => '"#"',
+                    'options' => array('class' => 'icon-file-text-alt', 'style' => 'text-decoration: none; margin-left: 5px;'),
+                ),
+                'update' => array(
+                    'label' => '',
+                    'imageUrl' => '',
+                    'url' => 'Yii::app()->createUrl("consulta/update", array("id"=>$data->id_consulta))',
+                    'options' => array('class' => 'icon-pencil', 'style' => 'text-decoration: none; margin-left: 5px;'),
+                ),
+                'delete' => array(
+                    'label' => '',
+                    'imageUrl' => '',
+                    'url' => 'Yii::app()->createUrl("consulta/delete", array("id"=>$data->id_consulta))',
+                    'options' => array('class' => 'icon-trash', 'style' => 'text-decoration: none; margin-left: 5px;'),
+                ),
+            )
         ),
         array(
             'name' => 'ClienteNome',
@@ -62,9 +85,10 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                 '3' => Yii::t('app', 'Cancelado'),
                 '4' => Yii::t('app', 'Adiado'),
                 '5' => Yii::t('app', 'Concluído'),
-            ), array('prompt' => '')),
+                    ), array('prompt' => '')),
             'htmlOptions' => array(
-                'style' => 'width: 120px; text-align: center;',
+                'style' => 'width: 120px; text-align: center; cursor: pointer;',
+                'onclick' => 'console.log("ok");'
             ),
         )
     ),

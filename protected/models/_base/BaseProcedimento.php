@@ -46,6 +46,7 @@ abstract class BaseProcedimento extends GxActiveRecord {
         return array(
             'clienteHasProcedimentos' => array(self::HAS_MANY, 'ClienteHasProcedimento', 'id_procedimento'),
             'procedimentoHasDentistas' => array(self::HAS_MANY, 'ProcedimentoHasDentista', 'id_procedimento'),
+            'consultas' => array(self::HAS_MANY, 'Consulta', 'id_procedimento'),
         );
     }
 

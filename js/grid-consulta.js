@@ -35,7 +35,7 @@ function createConsulta(day) {
 //    console.log(day.substring(0, 2));
     $('#' + day).parent().each(function() {
         $(this).find('.calendar-text').each(function() {
-            $('#collapse-receptor').append('<div class="accordion-group"><div class="accordion-heading head' + $(this).attr('id') + '"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse' + $(this).attr('id') + '"><span class="legend"><span id="horario"></span> - <span id="status"></span></span><div class="separator"><span class="right"><i class="icon-angle-down icon-large"></i></span></div></a></div><div id="collapse' + $(this).attr('id') + '" class="accordion-body collapse"><div class="accordion-inner"><span class="label-text">' + $('#cliente_text').val() + '</span><span id="cliente"></span><br><span class="label-text">' + $('#dentista_text').val() + '</span><span id="dentista"></span><br><span class="label-text">' + $('#duracao_text').val() + '</span><span id="duracao"></span><br><span class="label-text">' + $('#procedimento_text').val() + '</span><span id="procedimento"></span><br><span class="label-text">' + $('#descricao_text').val() + '</span><span id="descricao"></span></div></div>');
+            $('#collapse-receptor').append('<div class="accordion-group"><div class="accordion-heading head' + $(this).attr('id') + '"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse' + $(this).attr('id') + '"><span class="legend"><span id="horario"></span> - <span id="status"></span></span><div class="separator"><span class="right"><i class="icon-angle-down icon-large"></i></span></div></a></div><div id="collapse' + $(this).attr('id') + '" class="accordion-body collapse"><div class="accordion-inner"><a href="' + $('#url').val() + '/consulta/update/' + $(this).attr('id') + '" style="float:right;"><i class="icon-external-link"></i></a><span class="label-text">' + $('#cliente_text').val() + '</span><span id="cliente"></span><br><span class="label-text">' + $('#dentista_text').val() + '</span><span id="dentista"></span><br><span class="label-text">' + $('#duracao_text').val() + '</span><span id="duracao"></span><br><span class="label-text">' + $('#procedimento_text').val() + '</span><span id="procedimento"></span><br><span class="label-text">' + $('#descricao_text').val() + '</span><span id="descricao"></span></div></div>');
             var id = $(this).attr('id');
             var jt = $(this).attr('class');
             j1 = jt.split(' ');
@@ -48,7 +48,6 @@ function createConsulta(day) {
                     obj = JSON.parse(data);
                     $('.head' + id).find('#horario').text(obj.horario);
                     $('.head' + id).find('#status').text(obj.status);
-                    $('#collapse' + id).find('div').append('ok');
                     $('#collapse' + id).find('#cliente').text(obj.cliente);
                     $('#collapse' + id).find('#dentista').text(obj.dentista);
                     $('#collapse' + id).find('#duracao').text(obj.duracao);

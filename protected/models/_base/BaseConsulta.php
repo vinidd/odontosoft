@@ -12,6 +12,7 @@
  * @property integer $id_consulta
  * @property integer $id_cliente
  * @property integer $id_dentista
+ * @property integer $id_procedimento
  * @property string $data
  * @property string $horario
  * @property integer $duracao
@@ -24,6 +25,7 @@
  * @property Cliente $idCliente
  * @property Dentista $idDentista
  * @property Status $idStatus
+ * @property Procedimento $idProcedimento
  * @property Pagamento[] $pagamentos
  * @property Receita[] $receitas
  */
@@ -52,12 +54,12 @@ abstract class BaseConsulta extends GxActiveRecord {
 
     public function rules() {
         return array(
-            array('id_cliente, id_dentista, data, horario, id_status, data_criacao', 'required'),
+            array('id_cliente, id_dentista, data, horario, id_status, data_criacao, id_procedimento', 'required'),
             array('id_cliente, id_dentista, duracao, id_status', 'numerical', 'integerOnly' => true),
             array('horario', 'length', 'max' => 5),
             array('descricao', 'safe'),
             array('duracao, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, descricao, clienteN, dentistaN, dataN, statusN', 'safe', 'on' => 'search'),
+            array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, id_procedimento, descricao, clienteN, dentistaN, dataN, statusN', 'safe', 'on' => 'search'),
         );
     }
 
@@ -68,6 +70,7 @@ abstract class BaseConsulta extends GxActiveRecord {
             'idCliente' => array(self::BELONGS_TO, 'Cliente', 'id_cliente'),
             'idDentista' => array(self::BELONGS_TO, 'Dentista', 'id_dentista'),
             'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
+            'idProcedimento' => array(self::BELONGS_TO, 'Procedimento', 'id_procedimento'),
             'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_consulta'),
             'receitas' => array(self::HAS_MANY, 'Receita', 'id_consulta'),
         );
@@ -163,6 +166,7 @@ abstract class BaseConsulta extends GxActiveRecord {
         $criteria->compare('duracao', $this->duracao);
         $criteria->compare('id_status', $this->id_status);
         $criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('id_procedimento', $this->id_procedimento);
         $criteria->compare('descricao', $this->descricao, true);
 
         if ($pagination) {
