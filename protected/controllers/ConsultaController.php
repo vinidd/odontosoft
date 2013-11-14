@@ -11,7 +11,7 @@ class ConsultaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario'),
+                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario', 'adiarConsulta', 'concluirConsulta', 'cancelarConsulta'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -94,7 +94,7 @@ class ConsultaController extends GxController {
             $consulta->id_cliente = $cliente->primaryKey;
             $consulta->id_dentista = $_POST['Dentista']['id_dentista'];
             $consulta->data = $_POST['data'];
-            $consulta->horario = $_POST['Consulta']['horario'] . ':00';
+            $consulta->horario = str_pad($_POST['Consulta']['horario'], 2, '0', STR_PAD_LEFT) . ':00';
             $consulta->id_status = (isset($model_cliente) ? 2 : 1);
             $consulta->id_procedimento = $_POST['id_procedimento'];
             $consulta->data_criacao = date('Y-m-d');
@@ -221,9 +221,77 @@ class ConsultaController extends GxController {
             } else {
                 echo false;
             }
+        } else if (isseT($_POST['horario'], $_POST['data'], $_POST['id_consulta'])) {
+            $consulta = Consulta::model()->findByPk($_POST['id_consulta']);
+            if ($consultas = Consulta::model()->find(array('condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $consulta->id_dentista))) {
+                echo true;
+            } else {
+                echo false;
+            }
         }
     }
-
+ 
+    public function actionAdiarConsulta() {
+        if (isset($_POST['data'], $_POST['horario'], $_POST['id']) && strlen($_POST['data']) > 3 && strlen($_POST['horario'])) {
+            $consulta = Consulta::model()->findByPk($_POST['id']);
+            $consulta->data = $_POST['data'];
+            $consulta->horario = str_pad($_POST['horario'], 2, '0', STR_PAD_LEFT) . ':00';
+            $consulta->id_status = 4;
+            if ($consulta->save()) {
+                $text = Yii::t('app', 'Consulta adiada com sucesso!');
+                $status = true;
+            } else {
+                $text = Yii::t('app', 'Erro ao adiar consulta!');;
+                $status = false;
+            }
+            $response = array(
+                'text' => $text,
+                'status' => $status,
+            );
+            echo CJSON::encode($response);
+        }
+    }
+    
+    public function actionConcluirConsulta() {
+        if (isset($_POST['id'])) {
+            $consulta = Consulta::model()->findByPk($_POST['id']);
+            $consulta->id_status = 5;
+            if (isset($_POST['descricao']) && strlen($_POST['descricao'])) {
+                $consulta->descricao = $_POST['descricao'];
+            }
+            if ($consulta->save()) {
+                $text = Yii::t('app', 'Consulta concluída com sucesso!');
+                $status = true;
+            } else {
+                $text = Yii::t('app', 'Erro ao concluir consulta!');;
+                $status = false;
+            }
+            $response = array(
+                'text' => $text,
+                'status' => $status,
+            );
+            echo CJSON::encode($response);
+        }
+    }
+    
+    public function actionCancelarConsulta() {
+        if (isset($_POST['id'])) {
+            $consulta = Consulta::model()->findByPk($_POST['id']);
+            $consulta->id_status = 3;
+            if ($consulta->save()) {
+                $text = Yii::t('app', 'Consulta cancelada com sucesso!');
+                $status = true;
+            } else {
+                $text = Yii::t('app', 'Erro ao cancelar consulta!');;
+                $status = false;
+            }
+            $response = array(
+                'text' => $text,
+                'status' => $status,
+            );
+            echo CJSON::encode($response);
+        }
+    }
     
     public function actionGetReceita() {
         //cria um arquivo em consulta/view com um formulário pro dentista/recepcionista incluir uma receita

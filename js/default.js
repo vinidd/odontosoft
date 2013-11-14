@@ -290,3 +290,11 @@ function btnReset(admin) {
 function changeLang(lang) {
     $('#lang-form').find('#lang').val(lang);
 }
+
+function changeData(date) {
+    var year = date.substring(6);
+    var month = date.substring(3, 5);
+    var day = date.substring(0, 2);
+
+    return year + '-' + month + '-' + day;
+}

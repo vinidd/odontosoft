@@ -334,6 +334,8 @@ class FlowingCalendarWidget extends CWidget {
                                 break;
                             case 4: $cor = 'warning';
                                 break;
+                            case 5: $cor = 'inverse';
+                                break;
                             default: $cor = '';
                         }
 

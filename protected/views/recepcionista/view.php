@@ -28,10 +28,10 @@ $this->breadcrumbs = array(
         'type' => 'striped',
         'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
         'data' => $model_pessoa,
+        'nullDisplay' => '-',
         'attributes' => array(
             'nome',
             'data_nascimento',
-            'nullDisplay' => '-',
             array(
                 'name' => 'sexo',
                 'value' => $model_pessoa->getSexo(),
@@ -53,6 +53,7 @@ $this->breadcrumbs = array(
             'type' => 'striped',
             //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
             'data' => $model_telefone,
+            'nullDisplay' => '-',
             'attributes' => array(
                 array(
                     'type' => 'raw',
@@ -73,6 +74,7 @@ $this->breadcrumbs = array(
         'type' => 'striped',
         //'cssFile' => Yii::app()->request->baseUrl . '/css/table-view.css',
         'data' => $model_endereco,
+        'nullDisplay' => '-',
         'attributes' => array(
             'nome',
             array(

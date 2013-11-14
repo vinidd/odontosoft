@@ -35,6 +35,7 @@ abstract class BaseConsulta extends GxActiveRecord {
     public $dentistaN = null;
     public $dataN = null;
     public $statusN = null;
+    public $idN = null;
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -59,7 +60,7 @@ abstract class BaseConsulta extends GxActiveRecord {
             array('horario', 'length', 'max' => 5),
             array('descricao', 'safe'),
             array('duracao, descricao', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, id_procedimento, descricao, clienteN, dentistaN, dataN, statusN', 'safe', 'on' => 'search'),
+            array('id_consulta, id_cliente, id_dentista, data, horario, duracao, id_status, data_criacao, id_procedimento, descricao, clienteN, dentistaN, dataN, statusN, idN', 'safe', 'on' => 'search'),
         );
     }
 
@@ -84,6 +85,7 @@ abstract class BaseConsulta extends GxActiveRecord {
     public function attributeLabels() {
         return array(
             'id_consulta' => Yii::t('app', 'Id Consulta'),
+            'IdNome' => '#',
             'id_cliente' => null,
             'id_dentista' => null,
             'ClienteNome' => Yii::t('app', 'Cliente'),
@@ -111,7 +113,11 @@ abstract class BaseConsulta extends GxActiveRecord {
 
         $criteria->condition = '1=1';
         $criteria->join = '';
-
+        
+        if (isset($this->idN) && strlen($this->idN)) {
+            $criteria->condition .= ' AND t.id_consulta = ' . $this->idN;
+        }
+        
         if (isset($this->clienteN) && strlen($this->clienteN)) {
             $criteria->join .= ' inner join cliente c on c.id_cliente = t.id_cliente';
             $criteria->join .= ' inner join pessoa p on p.id_pessoa = c.id_pessoa';
@@ -142,7 +148,7 @@ abstract class BaseConsulta extends GxActiveRecord {
         }
         
         if (!isset($_GET['sort'])) {
-            $criteria->order = 'horario DESC, data DESC';
+            $criteria->order = 'id_consulta DESC';
         }
 
         $sort = new CSort();
@@ -154,6 +160,10 @@ abstract class BaseConsulta extends GxActiveRecord {
             'horario' => array(
                 'asc' => 'horario ASC, data ASC',
                 'desc' => 'horario DESC, data DESC',
+            ),
+            'IdNome' => array(
+                'asc' => 'id_consulta ASC',
+                'desc' => 'id_consulta DESC',
             ),
             '*', // this adds all of the other columns as sortable
         );
@@ -205,10 +215,15 @@ abstract class BaseConsulta extends GxActiveRecord {
                 break;
             case 4: $cor = 'warning';
                 break;
+            case 5: $cor = 'inverse';
+                break;
             default: $cor = '';
         }
         
         return '<div class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
     }
 
+    public function getIdNome() {
+        return $this->primaryKey;
+    }
 }

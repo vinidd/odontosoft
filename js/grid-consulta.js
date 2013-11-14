@@ -29,8 +29,8 @@ $(document).ready(function() {
 
 function createConsulta(day) {
     //modal
-    $('#create-consulta').modal('toggle');
     $('#create-consulta').find('#collapse-receptor').empty();
+    $('#create-consulta').modal('toggle');
 //    console.log(day);
 //    console.log(day.substring(0, 2));
     $('#' + day).parent().each(function() {
@@ -57,14 +57,6 @@ function createConsulta(day) {
             });
         });
     });
-}
-
-function changeData(date) {
-    var year = date.substring(6);
-    var month = date.substring(3, 5);
-    var day = date.substring(0, 2);
-
-    return year + '-' + month + '-' + day;
 }
 
 function btnSubmit() {

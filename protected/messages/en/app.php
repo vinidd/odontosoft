@@ -60,5 +60,19 @@ return array(
     'Concluído' => 'Completed',
     'Pago' => 'Paid',
     'Em aberto' => 'Unpaid',
+    
+    'Alterar para:' => 'Change to:',
+    'Adiar para:' => 'Postpone to:',
+    'Adiar' => 'Postpone',
+    'Consulta adiada com sucesso!' => 'Appointment postponed successfully!',
+    'Erro ao adiar consulta!' => 'Appointment postponing failed!',
+    
+    'Concluir' => 'Complete',
+    'Consulta concluída com sucesso!' => 'Appointment completed successfully!',
+    'Erro ao concluir consulta!' => 'Appointment completing failed!',
+    
+    'Você tem certeza disso?' => 'Are you sure about this?',
+    'Consulta cancelada com sucesso!' => 'Appointment canceled successfully!',
+    'Erro ao cancelar consulta!' => 'Appointment canceling failed!',
 );
 ?>

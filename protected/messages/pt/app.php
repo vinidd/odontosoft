@@ -34,6 +34,7 @@ return array(
     'Manage' => 'Gerenciar',
     'Edit' => 'Editar',
     'Delete' => 'Excluir',
+    'Change' => 'Alterar',
     
     'Data Nascimento' => 'Data de nascimento',
     'User' => 'Usuário',
