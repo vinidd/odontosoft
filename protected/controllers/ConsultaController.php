@@ -11,7 +11,7 @@ class ConsultaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario', 'adiarConsulta', 'concluirConsulta', 'cancelarConsulta'),
+                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario', 'adiarConsulta', 'concluirConsulta', 'cancelarConsulta', 'confirmarConsulta'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -147,13 +147,17 @@ class ConsultaController extends GxController {
 
     public function actionUpdate($id) {
         $model = $this->loadModel($id, 'Consulta');
-        
+        $model->changeDate(true);
+
 
         if (isset($_POST['Consulta'])) {
             $model->setAttributes($_POST['Consulta']);
+            $model->changeDate();
+            $model->horario = str_pad($model->horario, 2, '0', STR_PAD_LEFT);
+            $model->horario = $model->horario . ':00';
 
             if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id_consulta));
+                $this->redirect(array('create'));
             }
         }
 
@@ -221,7 +225,7 @@ class ConsultaController extends GxController {
             } else {
                 echo false;
             }
-        } else if (isseT($_POST['horario'], $_POST['data'], $_POST['id_consulta'])) {
+        } else if (isset($_POST['horario'], $_POST['data'], $_POST['id_consulta'])) {
             $consulta = Consulta::model()->findByPk($_POST['id_consulta']);
             if ($consultas = Consulta::model()->find(array('condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $consulta->id_dentista))) {
                 echo true;
@@ -230,7 +234,7 @@ class ConsultaController extends GxController {
             }
         }
     }
- 
+
     public function actionAdiarConsulta() {
         if (isset($_POST['data'], $_POST['horario'], $_POST['id']) && strlen($_POST['data']) > 3 && strlen($_POST['horario'])) {
             $consulta = Consulta::model()->findByPk($_POST['id']);
@@ -241,7 +245,8 @@ class ConsultaController extends GxController {
                 $text = Yii::t('app', 'Consulta adiada com sucesso!');
                 $status = true;
             } else {
-                $text = Yii::t('app', 'Erro ao adiar consulta!');;
+                $text = Yii::t('app', 'Erro ao adiar consulta!');
+                ;
                 $status = false;
             }
             $response = array(
@@ -251,7 +256,7 @@ class ConsultaController extends GxController {
             echo CJSON::encode($response);
         }
     }
-    
+
     public function actionConcluirConsulta() {
         if (isset($_POST['id'])) {
             $consulta = Consulta::model()->findByPk($_POST['id']);
@@ -263,7 +268,8 @@ class ConsultaController extends GxController {
                 $text = Yii::t('app', 'Consulta concluída com sucesso!');
                 $status = true;
             } else {
-                $text = Yii::t('app', 'Erro ao concluir consulta!');;
+                $text = Yii::t('app', 'Erro ao concluir consulta!');
+                ;
                 $status = false;
             }
             $response = array(
@@ -273,7 +279,7 @@ class ConsultaController extends GxController {
             echo CJSON::encode($response);
         }
     }
-    
+
     public function actionCancelarConsulta() {
         if (isset($_POST['id'])) {
             $consulta = Consulta::model()->findByPk($_POST['id']);
@@ -282,7 +288,8 @@ class ConsultaController extends GxController {
                 $text = Yii::t('app', 'Consulta cancelada com sucesso!');
                 $status = true;
             } else {
-                $text = Yii::t('app', 'Erro ao cancelar consulta!');;
+                $text = Yii::t('app', 'Erro ao cancelar consulta!');
+                ;
                 $status = false;
             }
             $response = array(
@@ -292,16 +299,35 @@ class ConsultaController extends GxController {
             echo CJSON::encode($response);
         }
     }
-    
+
+    public function actionConfirmarConsulta() {
+        if (isset($_POST['id'])) {
+            $consulta = Consulta::model()->findByPk($_POST['id']);
+            $consulta->id_status = 1;
+            if ($consulta->save()) {
+                $text = Yii::t('app', 'Consulta confirmada com sucesso!');
+                $status = true;
+            } else {
+                $text = Yii::t('app', 'Erro ao confirmar consulta!');
+                ;
+                $status = false;
+            }
+            $response = array(
+                'text' => $text,
+                'status' => $status,
+            );
+            echo CJSON::encode($response);
+        }
+    }
+
     public function actionGetReceita() {
         //cria um arquivo em consulta/view com um formulário pro dentista/recepcionista incluir uma receita
         //isso vai ficar bem parecido com o actionCreate.. da uma olhada no do Cliente.. e o view do create é o _form
-        
     }
-    
+
     public function actionPrintReceita() {
         //cria um arquivo em consulta/view só com o html/php pra gerar o pdf.. chama isso depois que tu salvou a receita em GetReceita
-        
         //tem um exemplo em cliente/printView .. e o view é print_view
     }
+
 }

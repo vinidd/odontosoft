@@ -113,11 +113,11 @@ abstract class BaseConsulta extends GxActiveRecord {
 
         $criteria->condition = '1=1';
         $criteria->join = '';
-        
+
         if (isset($this->idN) && strlen($this->idN)) {
             $criteria->condition .= ' AND t.id_consulta = ' . $this->idN;
         }
-        
+
         if (isset($this->clienteN) && strlen($this->clienteN)) {
             $criteria->join .= ' inner join cliente c on c.id_cliente = t.id_cliente';
             $criteria->join .= ' inner join pessoa p on p.id_pessoa = c.id_pessoa';
@@ -146,7 +146,7 @@ abstract class BaseConsulta extends GxActiveRecord {
         if (isset($this->statusN) && $this->statusN) {
             $criteria->condition .= ' AND id_status = ' . $this->statusN;
         }
-        
+
         if (!isset($_GET['sort'])) {
             $criteria->order = 'id_consulta DESC';
         }
@@ -190,6 +190,17 @@ abstract class BaseConsulta extends GxActiveRecord {
         ));
     }
 
+    public function changeDate($inverse = false) {
+        $in = 'd/m/Y';
+        $out = 'Y-m-d';
+        if ($inverse) {
+            $in = 'Y-m-d';
+            $out = 'd/m/Y';
+        }
+        $newData = DateTime::createFromFormat($in, $this->data);
+        $this->data = $newData->format($out);
+    }
+
     public function getClienteNome() {
         return $this->idCliente;
     }
@@ -219,11 +230,12 @@ abstract class BaseConsulta extends GxActiveRecord {
                 break;
             default: $cor = '';
         }
-        
+
         return '<div class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
     }
 
     public function getIdNome() {
         return $this->primaryKey;
     }
+
 }

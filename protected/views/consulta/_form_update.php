@@ -76,11 +76,30 @@ $procedimentos = Procedimento::model()->findAll(array(
     </div>
 </div>
 
+<div class="control-group">
+    <label class="control-label" for=""><?php echo Yii::t('app', 'Data'); ?></label>
+    <div class="controls">
+        <?php
+        $this->widget('CMaskedTextField', array(
+            'name' => 'Consulta[data]',
+            'value' => $model->data,
+            'mask' => '99/99/9999',
+            'htmlOptions' => array(
+                'size' => 10,
+                'id' => 'nova_data',
+                'style' => 'width: 75px;',
+                'placeholder' => Yii::t('app', 'Data'),
+            )
+        ));
+        ?>
+    </div>
+</div>
+
 <div class="control-group ">
     <label class="control-label" for="Consulta_horario"><?php echo Yii::t('app', 'Horário'); ?></label>
     <div class="controls">
         <div class="input-append">
-            <input id="Consulta_horario" class="horario" type="text" name="Consulta[horario]" style="text-align:right; width: 50px;" value="<?php echo substr($model->horario, 0, 2); ?>">
+            <input id="Consulta_horario" class="horario" type="text" name="Consulta[horario]" style="text-align:right; width: 31px;" value="<?php echo substr($model->horario, 0, 2); ?>">
             <span class="add-on">:00 h</span>
         </div>
         <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
@@ -106,10 +125,11 @@ $procedimentos = Procedimento::model()->findAll(array(
     $(document).ready(function() {
         $('#Consulta_horario').live('blur', function() {
             var horario_term = $(this).val() + ':00';
+            var data_term = changeData($('#Consulta_data').val());
             if ($(this).val() !== '' && $('#horario_atual').val() !== horario_term) {
                 $.ajax({
                     type: "POST",
-                    data: {horario: $(this).val(), data: $('#Consulta_data').val(), id_dentista: $('#Consulta_id_dentista').val()},
+                    data: {horario: $(this).val(), data: data_term, id_dentista: $('#Consulta_id_dentista').val()},
                     url: $('#url').val() + '/consulta/confereHorario',
                     success: function(data) {
                         if (data) {

@@ -14,17 +14,7 @@ $this->breadcrumbs = array(
     </span>
 </h1>
 
-<br>
-
-<h4 style="color:red;">TO DO:</h4>
-<dl style="color:red; margin-left: 40px;">
-    <dt>Aguardando</dt>
-    <dd>- Confirmado</dd>
-    <dd>- Adiado</dd>
-    <dt>Adiado</dt>
-    <dd>- Confirmado</dd>
-    <dd>- Cancelado</dd>
-</dl> 
+<br> 
 
 <?php
 $this->widget('bootstrap.widgets.TbExtendedGridView', array(
@@ -166,14 +156,70 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
             case 'btn-success' :
                 statusConfirmado(id);
                 break;
+            case 'btn-info' :
+                statusAguardando(id);
+                break;
+            case 'btn-warning' :
+                statusAdiado(id);
+                break;
         }
     }
 
-    function statusConfirmado(id) {
-        $('#change-status').find('#status_atual').find('#confirmado').show();
-        $('#change-status').find('#status_new').find('#cancelado').show();
+    function statusAguardando(id) {
+        $('#change-status').find('#status_atual').find('#aguardando').show();
+        $('#change-status').find('#status_atual').find('#concluido').hide();
+        $('#change-status').find('#status_atual').find('#cancelado').hide();
+        $('#change-status').find('#status_atual').find('#confirmado').hide();
+        $('#change-status').find('#status_atual').find('#adiado').hide();
+
+        $('#change-status').find('#status_new').find('#confirmado').show();
         $('#change-status').find('#status_new').find('#adiado').show();
+        $('#change-status').find('#status_new').find('#cancelado').show();
+        $('#change-status').find('#status_new').find('#concluido').hide();
+        $('#change-status').find('#status_new').find('#aguardando').hide();
+
+        $('#change-status').find('#id_elem').val(id);
+        $('#event-response').empty();
+        $('#event-response').hide();
+        $('#concluido_text').hide();
+        $('#adiado_text').hide();
+        $('#change-status').modal('toggle');
+    }
+
+    function statusConfirmado(id) {
+        $('#change-status').find('#status_atual').find('#aguardando').hide();
+        $('#change-status').find('#status_atual').find('#concluido').hide();
+        $('#change-status').find('#status_atual').find('#cancelado').hide();
+        $('#change-status').find('#status_atual').find('#confirmado').show();
+        $('#change-status').find('#status_atual').find('#adiado').hide();
+
+        $('#change-status').find('#status_new').find('#confirmado').hide();
+        $('#change-status').find('#status_new').find('#adiado').show();
+        $('#change-status').find('#status_new').find('#cancelado').show();
         $('#change-status').find('#status_new').find('#concluido').show();
+        $('#change-status').find('#status_new').find('#aguardando').hide();
+
+        $('#change-status').find('#id_elem').val(id);
+        $('#event-response').empty();
+        $('#event-response').hide();
+        $('#concluido_text').hide();
+        $('#adiado_text').hide();
+        $('#change-status').modal('toggle');
+    }
+    
+    function statusAdiado(id) {
+        $('#change-status').find('#status_atual').find('#aguardando').hide();
+        $('#change-status').find('#status_atual').find('#concluido').hide();
+        $('#change-status').find('#status_atual').find('#cancelado').hide();
+        $('#change-status').find('#status_atual').find('#confirmado').hide();
+        $('#change-status').find('#status_atual').find('#adiado').show();
+
+        $('#change-status').find('#status_new').find('#confirmado').show();
+        $('#change-status').find('#status_new').find('#adiado').hide();
+        $('#change-status').find('#status_new').find('#cancelado').show();
+        $('#change-status').find('#status_new').find('#concluido').hide();
+        $('#change-status').find('#status_new').find('#aguardando').hide();
+
         $('#change-status').find('#id_elem').val(id);
         $('#event-response').empty();
         $('#event-response').hide();
@@ -202,6 +248,13 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                         $('#event-response').attr('class', 'event-success');
                         $('#change-status').find('#status_atual').find('#adiado').show();
                         $('#change-status').find('#status_atual').find('#confirmado').hide();
+                        $('#change-status').find('#status_atual').find('#aguardando').hide();
+                        $('#change-status').find('#status_atual').find('#cancelado').hide();
+                        $('#change-status').find('#status_atual').find('#concluido').hide();
+                        $('#change-status').find('#status_new').find('#cancelado').show();
+                        $('#change-status').find('#status_new').find('#confirmado').show();
+                        $('#change-status').find('#status_new').find('#concluido').hide();
+                        $('#change-status').find('#status_new').find('#aguardando').hide();
                         $('#change-status').find('#status_new').find('#adiado').hide();
                         $('#elem_change').val('true');
                     } else {
@@ -235,11 +288,14 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                         $('#change-status').find('#status_atual').find('#concluido').show();
                         $('#change-status').find('#status_atual').find('#confirmado').hide();
                         $('#change-status').find('#status_atual').find('#adiado').hide();
+                        $('#change-status').find('#status_atual').find('#aguardando').hide();
+                        $('#change-status').find('#status_atual').find('#cancelado').hide();
                         $('#change-status').find('#status_new').find('#adiado').hide();
                         $('#change-status').find('#status_new').find('#confirmado').hide();
                         $('#change-status').find('#status_new').find('#concluido').hide();
                         $('#change-status').find('#status_new').find('#cancelado').hide();
                         $('#change-status').find('#status_new').find('#aguardando').hide();
+                        $('#change-status').find('#status_new').hide();
                         $('#elem_change').val('true');
                     } else {
                         $('#event-response').attr('class', 'event-fail');
@@ -277,7 +333,56 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                             $('#change-status').find('#status_atual').find('#confirmado').hide();
                             $('#change-status').find('#status_atual').find('#adiado').hide();
                             $('#change-status').find('#status_atual').find('#aguardando').hide();
+                            $('#change-status').find('#status_atual').find('#concluido').hide();
+                            $('#change-status').find('#status_new').find('#adiado').hide();
+                            $('#change-status').find('#status_new').find('#confirmado').hide();
+                            $('#change-status').find('#status_new').find('#concluido').hide();
+                            $('#change-status').find('#status_new').find('#cancelado').hide();
+                            $('#change-status').find('#status_new').find('#aguardando').hide();
                             $('#change-status').find('#status_new').hide();
+                            $('#elem_change').val('true');
+                        } else {
+                            $('#event-response').attr('class', 'event-fail');
+                        }
+                    } else {
+                        $('#event-response').empty();
+                        $('#event-response').hide();
+                    }
+                }
+            });
+        }
+    }
+
+    function newConfirmado() {
+        $('#concluido_text').hide();
+        $('#adiado_text').hide();
+        var r = confirm($('#confirm_text').val());
+        if (r) {
+            $('#event-response').empty();
+            $('#event-response').append('<img src="' + $('#url').val() + '/images/loading.gif">');
+            $('#event-response').show();
+            id = $('#id_elem').val();
+            $.ajax({
+                type: "POST",
+                data: {id: id},
+                url: $('#url').val() + '/consulta/confirmarConsulta',
+                success: function(data) {
+                    if (data) {
+                        obj = JSON.parse(data);
+                        $('#event-response').empty();
+                        $('#event-response').text(obj.text);
+                        if (obj.status) {
+                            $('#event-response').attr('class', 'event-success');
+                            $('#change-status').find('#status_atual').find('#confirmado').show();
+                            $('#change-status').find('#status_atual').find('#cancelado').hide();
+                            $('#change-status').find('#status_atual').find('#adiado').hide();
+                            $('#change-status').find('#status_atual').find('#aguardando').hide();
+                            $('#change-status').find('#status_atual').find('#concluido').hide();
+                            $('#change-status').find('#status_new').find('#adiado').show();
+                            $('#change-status').find('#status_new').find('#concluido').show();
+                            $('#change-status').find('#status_new').find('#cancelado').show();
+                            $('#change-status').find('#status_new').find('#confirmado').hide();
+                            $('#change-status').find('#status_new').find('#aguardando').hide();
                             $('#elem_change').val('true');
                         } else {
                             $('#event-response').attr('class', 'event-fail');
@@ -307,7 +412,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     <input id="id_elem" type="hidden" name="id_elem" value="">
     <input id="elem_change" type="hidden" name="elem_change" value="">
     <input id="url" type="hidden" name="url" value="<?php echo Yii::app()->request->baseUrl; ?>">
-    <input id="confirm_text" type="hidden" name="confirm_text" value="<?php echo Yii::t('app', 'Você tem certeza que deseja disso?'); ?>">
+    <input id="confirm_text" type="hidden" name="confirm_text" value="<?php echo Yii::t('app', 'Você tem certeza disso?'); ?>">
     <div id="event-response"></div>
     <div id="status_atual">
         <span>Status: </span>
@@ -320,7 +425,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     <br>
     <div id="status_new">
         <span><?php echo Yii::t('app', 'Alterar para:'); ?></span>
-        <div id="confirmado" class="btn-block btn-success"><?php echo Yii::t('app', 'Confirmado'); ?></div>
+        <div id="confirmado" class="btn-block btn-success" onclick="newConfirmado();"><?php echo Yii::t('app', 'Confirmado'); ?></div>
         <div id="aguardando" class="btn-block btn-info"><?php echo Yii::t('app', 'Aguardando'); ?></div>
         <div id="cancelado" class="btn-block btn-danger" onclick="newCancelado();"><?php echo Yii::t('app', 'Cancelado'); ?></div>
         <div id="adiado" class="btn-block btn-warning" onclick="$('#adiado_text').show();

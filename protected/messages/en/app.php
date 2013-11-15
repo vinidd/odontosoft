@@ -74,5 +74,8 @@ return array(
     'Você tem certeza disso?' => 'Are you sure about this?',
     'Consulta cancelada com sucesso!' => 'Appointment canceled successfully!',
     'Erro ao cancelar consulta!' => 'Appointment canceling failed!',
+    
+    'Consulta confirmada com sucesso!' => 'Appointment confirmed successfully!',
+    'Erro ao confirmar consulta!' => 'Appointment confirming failed!',
 );
 ?>
