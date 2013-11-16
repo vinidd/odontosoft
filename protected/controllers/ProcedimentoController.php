@@ -36,7 +36,9 @@ class ProcedimentoController extends GxController {
         $this->performAjaxValidation($model, 'procedimento-form');
 
         if (isset($_POST['Procedimento'])) {
-            $model->setAttributes($_POST['Procedimento']);
+            $model->procedimento = $_POST['Procedimento']['procedimento'];
+            $model->valor = $_POST['Procedimento']['valor'];
+            $model->changeValor();
 
             if ($model->save()) {
                 if (Yii::app()->getRequest()->getIsAjaxRequest())
@@ -51,10 +53,11 @@ class ProcedimentoController extends GxController {
 
     public function actionUpdate($id) {
         $model = $this->loadModel($id, 'Procedimento');
-
+        $model->changeValor(true);
 
         if (isset($_POST['Procedimento'])) {
             $model->setAttributes($_POST['Procedimento']);
+            $model->changeValor();
 
             if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id_procedimento));

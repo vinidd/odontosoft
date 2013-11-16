@@ -16,6 +16,7 @@
 
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/default.js'); ?>
         <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.maskedinput.js'); ?>
+        <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.maskMoney.js'); ?>
 
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>

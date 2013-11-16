@@ -31,7 +31,14 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
             'updateButtonUrl' => 'Yii::app()->createUrl("procedimento/update", array("id" => $data["id_procedimento"]))',
             'deleteButtonUrl' => 'Yii::app()->createUrl("procedimento/delete", array("id" => $data["id_procedimento"]))',
         ),
-        'procedimento'
+        'procedimento',
+        array(
+            'name' => 'valorNome',
+            'filter' => false,
+            'htmlOptions' => array(
+                'style' => 'text-align: right; width: 90px;'
+            )
+        )
     ),
 ));
 ?>

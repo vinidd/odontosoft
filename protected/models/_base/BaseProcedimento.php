@@ -11,6 +11,7 @@
  *
  * @property integer $id_procedimento
  * @property string $procedimento
+ * @property float $valor
  *
  * @property ClienteHasProcedimento[] $clienteHasProcedimentos
  * @property ProcedimentoHasDentista[] $procedimentoHasDentistas
@@ -38,7 +39,8 @@ abstract class BaseProcedimento extends GxActiveRecord {
             array('procedimento', 'required'),
             array('procedimento', 'length', 'max' => 120),
             array('procedimento', 'unique'),
-            array('id_procedimento, procedimento', 'safe', 'on' => 'search'),
+            array('valor', 'length', 'max' => 9),
+            array('id_procedimento, procedimento, valor', 'safe', 'on' => 'search'),
         );
     }
 
@@ -61,6 +63,8 @@ abstract class BaseProcedimento extends GxActiveRecord {
             'procedimento' => Yii::t('app', 'Procedimento'),
             'clienteHasProcedimentos' => null,
             'procedimentoHasDentistas' => null,
+            'valor' => Yii::t('app', 'Valor'),
+            'valorNome' => Yii::t('app', 'Valor'),
         );
     }
 
@@ -69,11 +73,36 @@ abstract class BaseProcedimento extends GxActiveRecord {
 
         $criteria->compare('id_procedimento', $this->id_procedimento);
         $criteria->compare('procedimento', $this->procedimento, true);
+        $criteria->compare('valor', $this->valor, true);
 
+        if (!isset($_GET['sort'])) {
+            $criteria->order = 'procedimento ASC';
+        }
+        
+        $sort = new CSort();
+        $sort->attributes = array(
+            'valorNome' => array(
+                'asc' => 'valor ASC',
+                'desc' => 'valor DESC',
+            ),
+        );
+        
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-            'sort' => false,
+            'sort' => $sort,
         ));
     }
 
+    public function changeValor($inverse = false) {
+        if ($inverse) {
+            $this->valor = number_format($this->valor, 2, ',', '.');
+        } else {
+            $this->valor = str_replace('.', '', $this->valor);
+            $this->valor = str_replace(',', '.', $this->valor);
+        }
+    }
+    
+    public function getValorNome() {
+        return 'R$ ' . number_format($this->valor, 2, ',', '.');
+    }
 }

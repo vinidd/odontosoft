@@ -26,14 +26,19 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
     'columns' => array(
         array(
             'class' => 'CButtonColumn',
-            'template' => '{receita}{atestado}{update}{delete}',
-            'htmlOptions' => array('style' => 'width: 60px;'),
+            'htmlOptions' => array('style' => 'width: 80px;'),
+            'template' => '{pagar}{receita}{atestado}{update}{delete}',
             'buttons' => array(
+                'pagar' => array(
+                    'label' => '',
+                    'url' => '"#"',
+                    'options' => array('class' => 'icon-money', 'style' => 'text-decoration: none;'),
+                ),
                 'receita' => array(
                     'label' => '',
                     //'imageUrl' => Yii::app()->request->baseUrl . '/images/usa-icon.png',
                     'url' => '"#"',
-                    'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none;'),
+                    'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none; margin-left: 5px;'),
                 ),
                 'atestado' => array(
                     'label' => '',
@@ -206,7 +211,7 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
         $('#adiado_text').hide();
         $('#change-status').modal('toggle');
     }
-    
+
     function statusAdiado(id) {
         $('#change-status').find('#status_atual').find('#aguardando').hide();
         $('#change-status').find('#status_atual').find('#concluido').hide();

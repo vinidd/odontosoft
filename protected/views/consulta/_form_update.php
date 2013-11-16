@@ -9,7 +9,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ?>
 <br>
 <?php echo CHtml::hiddenField('Consulta[id_consulta]', $model->id_consulta); ?>
-<?php echo CHtml::hiddenField('Consulta[data]', $model->data); ?>
+<?php echo CHtml::hiddenField('data_atual', $model->data); ?>
 <?php echo CHtml::hiddenField('horario_atual', $model->horario); ?>
 <?php echo CHtml::hiddenField('dentista', $model->id_dentista); ?>
 <?php echo CHtml::hiddenField('procedimento', $model->id_procedimento); ?>
@@ -124,21 +124,50 @@ $procedimentos = Procedimento::model()->findAll(array(
 <script>
     $(document).ready(function() {
         $('#Consulta_horario').live('blur', function() {
-            var horario_term = $(this).val() + ':00';
-            var data_term = changeData($('#Consulta_data').val());
-            if ($(this).val() !== '' && $('#horario_atual').val() !== horario_term) {
-                $.ajax({
-                    type: "POST",
-                    data: {horario: $(this).val(), data: data_term, id_dentista: $('#Consulta_id_dentista').val()},
-                    url: $('#url').val() + '/consulta/confereHorario',
-                    success: function(data) {
-                        if (data) {
-                            $('#Consulta_horario').val('');
-                            $('#Consulta_horario').css('border-color', '#B94A48');
-                            $('#horario_em').show();
+            horario_term = $(this).val() + ':00';
+            data_term = changeData($('#nova_data').val());
+            if ($(this).val() !== '' && data_term !== '') {
+                if (($('#nova_data').val() !== $('#data_atual').val()) || ($('#nova_data').val() === $('#data_atual').val() && horario_term !== $('#horario_atual').val())) {
+                    $.ajax({
+                        type: "POST",
+                        data: {horario: $(this).val(), data: data_term, id_dentista: $('#Consulta_id_dentista').val()},
+                        url: $('#url').val() + '/consulta/confereHorario',
+                        success: function(data) {
+                            if (data) {
+                                $('#Consulta_horario').removeAttr('value');
+                                $('#Consulta_horario').css('border-color', '#B94A48');
+                                $('#horario_em').show();
+                                $('#consulta-button').attr('disabled', 'disabled');
+                            } else {
+                                $('#consulta-button').removeAttr('disabled');
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            }
+        });
+        
+        $('#nova_data').live('blur', function() {
+            data_term = changeData($(this).val());
+            horario_term = $('#Consulta_horario').val() + ':00';
+            if (data_term !== '' && $('#Consulta_horario').val() !== '') {
+                if (($('#nova_data').val() !== $('#data_atual').val()) || ($('#nova_data').val() === $('#data_atual').val() && horario_term !== $('#horario_atual').val())) {
+                    $.ajax({
+                        type: "POST",
+                        data: {horario: $('#Consulta_horario').val(), data: data_term, id_dentista: $('#Consulta_id_dentista').val()},
+                        url: $('#url').val() + '/consulta/confereHorario',
+                        success: function(data) {
+                            if (data) {
+                                $('#Consulta_horario').removeAttr('value');
+                                $('#Consulta_horario').css('border-color', '#B94A48');
+                                $('#horario_em').show();
+                                $('#consulta-button').attr('disabled', 'disabled');
+                            } else {
+                                $('#consulta-button').removeAttr('disabled');
+                            }
+                        }
+                    });
+                }
             }
         });
     });

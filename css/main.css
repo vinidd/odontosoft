@@ -429,3 +429,8 @@ a.sort-link
 {
     color: #EEEEEE;
 }
+
+a.view, a.delete, a.update
+{
+    text-decoration: none !important;
+}

@@ -219,18 +219,28 @@ class ConsultaController extends GxController {
     }
 
     public function actionConfereHorario() {
-        if (isset($_POST['horario'], $_POST['data'], $_POST['id_dentista'])) {
-            if ($consultas = Consulta::model()->find(array('condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $_POST['id_dentista']))) {
-                echo true;
+        if (isset($_POST['horario'], $_POST['data'])) {
+            if (!ConsultaController::isWeekend($_POST['data'])) {
+                if (isset($_POST['id_dentista'])) {
+                    $consultas = Consulta::model()->find(array(
+                        'condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $_POST['id_dentista']
+                    ));
+                }
+
+                if (isset($_POST['id_consulta'])) {
+                    $consulta = Consulta::model()->findByPk($_POST['id_consulta']);
+                    $consultas = Consulta::model()->find(array(
+                        'condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $consulta->id_dentista
+                    ));
+                }
+                
+                if (isset($consultas) && $consultas) {
+                    echo true;
+                } else {
+                    echo false;
+                }
             } else {
-                echo false;
-            }
-        } else if (isset($_POST['horario'], $_POST['data'], $_POST['id_consulta'])) {
-            $consulta = Consulta::model()->findByPk($_POST['id_consulta']);
-            if ($consultas = Consulta::model()->find(array('condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $consulta->id_dentista))) {
                 echo true;
-            } else {
-                echo false;
             }
         }
     }
@@ -328,6 +338,11 @@ class ConsultaController extends GxController {
     public function actionPrintReceita() {
         //cria um arquivo em consulta/view só com o html/php pra gerar o pdf.. chama isso depois que tu salvou a receita em GetReceita
         //tem um exemplo em cliente/printView .. e o view é print_view
+    }
+
+    public static function isWeekend($date) {
+        $weekDay = date('w', strtotime($date));
+        return ($weekDay == 0 || $weekDay == 6);
     }
 
 }

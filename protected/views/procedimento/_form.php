@@ -10,6 +10,8 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <br>
 
 <?php echo $form->textFieldRow($model, 'procedimento'); ?>
+<?php echo $form->textFieldRow($model, 'valor', array('prepend' => 'R$', 'class' => 'money', 'style' => 'width: 80px; text-align: right;'));
+?>
 
 <div class="form-actions">
     <?php

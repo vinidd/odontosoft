@@ -16,6 +16,7 @@ return array(
     'Recepcionista' => 'Receptionist',
     'Consulta' => 'Appointment',
     'Procedimento' => 'Procedure',
+    'Valor' => 'Value',
     'Receita' => 'Prescription',
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',

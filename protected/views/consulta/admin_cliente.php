@@ -25,24 +25,29 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
     'filter' => $model,
     'columns' => array(
         array(
-//            'htmlOptions' => array('nowrap' => 'nowrap'),
             'class' => 'CButtonColumn',
-            'template' => '{receita}{atestado}{editar}',
+            'htmlOptions' => array('style' => 'width: 65px;'),
+            'template' => '{pagar}{receita}{atestado}{update}',
             'buttons' => array(
+                'pagar' => array(
+                    'label' => '',
+                    'url' => '"#"',
+                    'options' => array('class' => 'icon-money', 'style' => 'text-decoration: none;'),
+                ),
                 'receita' => array(
                     'label' => '',
-                    //'imageUrl' => Yii::app()->request->baseUrl . '/images/usa-icon.png',
                     'url' => '"#"',
-                    'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none;'),
+                    'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none; margin-left: 5px;'),
                 ),
                 'atestado' => array(
                     'label' => '',
                     'url' => '"#"',
                     'options' => array('class' => 'icon-file-text-alt', 'style' => 'text-decoration: none; margin-left: 5px;'),
                 ),
-                'editar' => array(
+                'update' => array(
                     'label' => '',
-                    'url' => '"#"',
+                    'imageUrl' => '',
+                    'url' => 'Yii::app()->createUrl("consulta/update", array("id"=>$data->id_consulta))',
                     'options' => array('class' => 'icon-pencil', 'style' => 'text-decoration: none; margin-left: 5px;'),
                 ),
             )

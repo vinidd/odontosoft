@@ -7,6 +7,7 @@ $(document).ready(function() {
     jQuery(function($) {
         $(".telefone").mask("(99)9999-9999");
         $(".horario").mask("9?9", {placeholder: ""});
+        $(".money").maskMoney({thousands:'.', decimal:',', allowZero:false});
     });
 
     if (!$('#cliente-form').find('#Pessoa_nome').val()) {

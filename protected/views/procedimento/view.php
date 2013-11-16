@@ -28,6 +28,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
     'nullDisplay' => '-',
     'attributes' => array(
         'procedimento',
+        'valorNome',
     ),
 ));
 ?>
