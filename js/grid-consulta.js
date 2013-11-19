@@ -4,11 +4,13 @@ $(document).ready(function() {
         $('#data').val(changeData($(this).find('.calendar-day-number').attr('id')));
         createConsulta($(this).find('.calendar-day-number').attr('id'));
     });
+    
     $('.calendar').find('td.calendar-current-day').live('click', function() {
         $('#data').val(changeData($(this).find('.calendar-day-number').attr('id')));
         $('#header-data').text($(this).find('.calendar-day-number').attr('id').replace(/-/g, '/'));
         createConsulta($(this).find('.calendar-day-number').attr('id'));
     });
+    
     $('#Consulta_horario').live('blur', function() {
         if ($(this).val() !== '') {
             $.ajax({

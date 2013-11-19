@@ -11,7 +11,7 @@ class ProcedimentoController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('dentistaBuscaProcedimento'),
+                'actions' => array('dentistaBuscaProcedimento', 'buscaValor'),
                 'pbac' => array('read'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -132,4 +132,13 @@ class ProcedimentoController extends GxController {
         }
     }
 
+    public function actionBuscaValor() {
+        if (isset($_POST['id'])) {
+            $modelProcedimento = Procedimento::model()->findByPk($_POST['id']);
+            if ($modelProcedimento) {
+                $modelProcedimento->changeValor(true);
+                echo $modelProcedimento->valor;
+            }
+        }
+    }
 }

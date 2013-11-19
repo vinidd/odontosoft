@@ -16,57 +16,58 @@
  */
 abstract class BaseTipoPagamento extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public function tableName() {
-		return 'tipo_pagamento';
-	}
+    public function tableName() {
+        return 'tipo_pagamento';
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'TipoPagamento|TipoPagamentos', $n);
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'TipoPagamento|TipoPagamentos', $n);
+    }
 
-	public static function representingColumn() {
-		return 'nome';
-	}
+    public static function representingColumn() {
+        return 'nome';
+    }
 
-	public function rules() {
-		return array(
-			array('nome', 'required'),
-			array('nome', 'length', 'max'=>45),
-			array('id_tipo, nome', 'safe', 'on'=>'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('nome', 'required'),
+            array('nome', 'length', 'max' => 45),
+            array('id_tipo, nome', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_tipo_pagamento'),
-		);
-	}
+    public function relations() {
+        return array(
+            'pagamentos' => array(self::HAS_MANY, 'Pagamento', 'id_tipo_pagamento'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_tipo' => Yii::t('app', 'Id Tipo'),
-			'nome' => Yii::t('app', 'Nome'),
-			'pagamentos' => null,
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id_tipo' => Yii::t('app', 'Id Tipo'),
+            'nome' => Yii::t('app', 'Nome'),
+            'pagamentos' => null,
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_tipo', $this->id_tipo);
-		$criteria->compare('nome', $this->nome, true);
+        $criteria->compare('id_tipo', $this->id_tipo);
+        $criteria->compare('nome', $this->nome, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
 }

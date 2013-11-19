@@ -38,7 +38,8 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     <?php echo CHtml::hiddenField('url', Yii::app()->request->baseUrl, array('id' => 'url')); ?>
     <?php echo CHtml::hiddenField('data', '', array('id' => 'data')); ?>
     <?php echo CHtml::hiddenField('Cliente[id_cliente]', isset($model_cliente->id_cliente) ? $model_cliente->id_cliente : '', array('id' => 'Cliente_id_cliente')); ?>
-
+    <?php echo CHtml::hiddenField('cliente', isset($model_cliente->id_cliente) ? '1' : ''); ?>
+    
     <?php if (isset($model_cliente) && $model_cliente) { ?>
         <?php
         if (isset($model_telefones)) {
@@ -145,6 +146,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                             "url":"' . Yii::app()->request->baseUrl . '/procedimento/dentistaBuscaProcedimento",
                             "success":function(data) {
                                 $("#id_procedimento").empty();
+                                $("#Consulta_valor").val("");
                                 $("#id_procedimento").removeAttr("disabled");
                                 $("#id_procedimento").append(data);
                                 $("#id_procedimento").focus();
@@ -160,15 +162,24 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
             ));
             ?>
             <?php
-            echo CHtml::dropDownList('id_procedimento', '', array(), array('id' => 'id_procedimento', 'disabled' => 'disabled', 'class' => 'span3'));
+            echo CHtml::dropDownList('id_procedimento', '', array(), array(
+                'id' => 'id_procedimento',
+                'class' => 'span3',
+                'disabled' => 'disabled',
+            ));
             ?>
         </div>
     </div>
-    <br>
 
-    <?php echo $form->textFieldRow($model, 'horario', array('append' => ':00 h', 'style' => 'text-align: right; width: 50px;', 'class' => 'horario', 'disabled' => 'disabled')); ?>
-    <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
+    <div class="input-prepend">
+        <span class="add-on">R$</span>
+        <input id="Consulta_valor" class="money" type="text" maxlength="9" name="Consulta[valor]" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" disabled="disabled" style="text-align: right; width: 80px;">
+    </div>
 
+    <div style="margin-top: 30px;">
+        <?php echo $form->textFieldRow($model, 'horario', array('append' => ':00 h', 'style' => 'text-align: right; width: 50px;', 'class' => 'horario', 'disabled' => 'disabled')); ?>
+        <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
+    </div>
 
 </div>
 <div class="form-actions">

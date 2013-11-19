@@ -17,78 +17,79 @@
  * @property string $data_criacao
  *
  * @property Consulta $idConsulta
- * @property TipoPagamento $idTipoPagamento
  * @property Status $idStatus
+ * @property TipoPagamento $idTipoPagamento
  * @property Parcela[] $parcelas
  */
 abstract class BasePagamento extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public function tableName() {
-		return 'pagamento';
-	}
+    public function tableName() {
+        return 'pagamento';
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Pagamento|Pagamentos', $n);
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Pagamento|Pagamentos', $n);
+    }
 
-	public static function representingColumn() {
-		return 'valor';
-	}
+    public static function representingColumn() {
+        return 'valor';
+    }
 
-	public function rules() {
-		return array(
-			array('id_consulta, valor, id_tipo_pagamento, id_status, data_criacao', 'required'),
-			array('id_consulta, id_tipo_pagamento, id_status', 'numerical', 'integerOnly'=>true),
-			array('valor', 'length', 'max'=>5),
-			array('id_pagamento, id_consulta, valor, id_tipo_pagamento, id_status, data_criacao', 'safe', 'on'=>'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('id_consulta, valor, id_tipo_pagamento, id_status, data_criacao', 'required'),
+            array('id_consulta, id_tipo_pagamento, id_status', 'numerical', 'integerOnly' => true),
+            array('valor', 'length', 'max' => 9),
+            array('id_pagamento, id_consulta, valor, id_tipo_pagamento, id_status, data_criacao', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'idConsulta' => array(self::BELONGS_TO, 'Consulta', 'id_consulta'),
-			'idTipoPagamento' => array(self::BELONGS_TO, 'TipoPagamento', 'id_tipo_pagamento'),
-			'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
-			'parcelas' => array(self::HAS_MANY, 'Parcela', 'id_pagamento'),
-		);
-	}
+    public function relations() {
+        return array(
+            'idConsulta' => array(self::BELONGS_TO, 'Consulta', 'id_consulta'),
+            'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
+            'idTipoPagamento' => array(self::BELONGS_TO, 'TipoPagamento', 'id_tipo_pagamento'),
+            'parcelas' => array(self::HAS_MANY, 'Parcela', 'id_pagamento'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_pagamento' => Yii::t('app', 'Id Pagamento'),
-			'id_consulta' => null,
-			'valor' => Yii::t('app', 'Valor'),
-			'id_tipo_pagamento' => null,
-			'id_status' => null,
-			'data_criacao' => Yii::t('app', 'Data Criacao'),
-			'idConsulta' => null,
-			'idTipoPagamento' => null,
-			'idStatus' => null,
-			'parcelas' => null,
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id_pagamento' => Yii::t('app', 'Id Pagamento'),
+            'id_consulta' => null,
+            'valor' => Yii::t('app', 'Valor'),
+            'id_tipo_pagamento' => Yii::t('app', 'Tipo Pagamento'),
+            'id_status' => 'Status',
+            'data_criacao' => Yii::t('app', 'Data Criacao'),
+            'idConsulta' => null,
+            'idStatus' => null,
+            'idTipoPagamento' => null,
+            'parcelas' => null,
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_pagamento', $this->id_pagamento);
-		$criteria->compare('id_consulta', $this->id_consulta);
-		$criteria->compare('valor', $this->valor, true);
-		$criteria->compare('id_tipo_pagamento', $this->id_tipo_pagamento);
-		$criteria->compare('id_status', $this->id_status);
-		$criteria->compare('data_criacao', $this->data_criacao, true);
+        $criteria->compare('id_pagamento', $this->id_pagamento);
+        $criteria->compare('id_consulta', $this->id_consulta);
+        $criteria->compare('valor', $this->valor, true);
+        $criteria->compare('id_tipo_pagamento', $this->id_tipo_pagamento);
+        $criteria->compare('id_status', $this->id_status);
+        $criteria->compare('data_criacao', $this->data_criacao, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
 }

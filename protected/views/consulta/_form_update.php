@@ -41,6 +41,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
                             "data": "id=" + ui.item.id_grupo,
                             "url":"' . Yii::app()->request->baseUrl . '/procedimento/dentistaBuscaProcedimento",
                             "success":function(data) {
+                                $("#Consulta_valor").val("");
                                 $("#id_procedimento").empty();
                                 $("#id_procedimento").append(data);
                                 $("#id_procedimento").focus();
@@ -76,6 +77,22 @@ $procedimentos = Procedimento::model()->findAll(array(
     </div>
 </div>
 
+<?php 
+$modelProcedimento = Procedimento::model()->findByPk($model->id_procedimento);
+$modelProcedimento->changeValor(true);
+?>
+
+<div class="control-group">
+    <label class="control-label" for=""><?php echo Yii::t('app', 'Valor'); ?></label>
+    <div class="controls">
+        <div class="input-prepend">
+            <span class="add-on">R$</span>
+            <input id="Consulta_valor" class="money" type="text" maxlength="9" name="Consulta[valor]" value="<?php echo $modelProcedimento->valor; ?>" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" style="text-align: right; width: 80px;"
+                   <?php echo (Yii::app()->user->level >= 15) ? '' : 'disabled="disabled"'; ?>>
+        </div>
+    </div>
+</div>
+
 <div class="control-group">
     <label class="control-label" for=""><?php echo Yii::t('app', 'Data'); ?></label>
     <div class="controls">
@@ -105,8 +122,6 @@ $procedimentos = Procedimento::model()->findAll(array(
         <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
     </div>
 </div>
-
-
 
 <div class="form-actions">
     <?php
@@ -146,7 +161,7 @@ $procedimentos = Procedimento::model()->findAll(array(
                 }
             }
         });
-        
+
         $('#nova_data').live('blur', function() {
             data_term = changeData($(this).val());
             horario_term = $('#Consulta_horario').val() + ':00';

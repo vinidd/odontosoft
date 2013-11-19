@@ -10,6 +10,7 @@ return array(
     
     'Cliente|Clientes' => 'Client|Clients',
     'Consulta|Consultas' => 'Appointment|Appointments',
+    'Pagamento|Pagamentos' => 'Payment|Payments',
     
     'Cliente' => 'Client',
     'Dentista' => 'Dentist',

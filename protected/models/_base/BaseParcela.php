@@ -15,73 +15,74 @@
  * @property integer $id_status
  * @property string $data_pagamento
  *
- * @property Status $idStatus
  * @property Pagamento $idPagamento
+ * @property Status $idStatus
  */
 abstract class BaseParcela extends GxActiveRecord {
 
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public function tableName() {
-		return 'parcela';
-	}
+    public function tableName() {
+        return 'parcela';
+    }
 
-	public static function label($n = 1) {
-		return Yii::t('app', 'Parcela|Parcelas', $n);
-	}
+    public static function label($n = 1) {
+        return Yii::t('app', 'Parcela|Parcelas', $n);
+    }
 
-	public static function representingColumn() {
-		return 'valor';
-	}
+    public static function representingColumn() {
+        return 'valor';
+    }
 
-	public function rules() {
-		return array(
-			array('id_pagamento, valor, id_status', 'required'),
-			array('id_pagamento, id_status', 'numerical', 'integerOnly'=>true),
-			array('valor', 'length', 'max'=>5),
-			array('data_pagamento', 'safe'),
-			array('data_pagamento', 'default', 'setOnEmpty' => true, 'value' => null),
-			array('id_parcela, id_pagamento, valor, id_status, data_pagamento', 'safe', 'on'=>'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('id_pagamento, valor, id_status', 'required'),
+            array('id_pagamento, id_status', 'numerical', 'integerOnly' => true),
+            array('valor', 'length', 'max' => 9),
+            array('data_pagamento', 'safe'),
+            array('data_pagamento', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('id_parcela, id_pagamento, valor, id_status, data_pagamento', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function relations() {
-		return array(
-			'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
-			'idPagamento' => array(self::BELONGS_TO, 'Pagamento', 'id_pagamento'),
-		);
-	}
+    public function relations() {
+        return array(
+            'idPagamento' => array(self::BELONGS_TO, 'Pagamento', 'id_pagamento'),
+            'idStatus' => array(self::BELONGS_TO, 'Status', 'id_status'),
+        );
+    }
 
-	public function pivotModels() {
-		return array(
-		);
-	}
+    public function pivotModels() {
+        return array(
+        );
+    }
 
-	public function attributeLabels() {
-		return array(
-			'id_parcela' => Yii::t('app', 'Id Parcela'),
-			'id_pagamento' => null,
-			'valor' => Yii::t('app', 'Valor'),
-			'id_status' => null,
-			'data_pagamento' => Yii::t('app', 'Data Pagamento'),
-			'idStatus' => null,
-			'idPagamento' => null,
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id_parcela' => Yii::t('app', 'Id Parcela'),
+            'id_pagamento' => null,
+            'valor' => Yii::t('app', 'Valor'),
+            'id_status' => 'Status',
+            'data_pagamento' => Yii::t('app', 'Data Pagamento'),
+            'idPagamento' => null,
+            'idStatus' => null,
+        );
+    }
 
-	public function search() {
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id_parcela', $this->id_parcela);
-		$criteria->compare('id_pagamento', $this->id_pagamento);
-		$criteria->compare('valor', $this->valor, true);
-		$criteria->compare('id_status', $this->id_status);
-		$criteria->compare('data_pagamento', $this->data_pagamento, true);
+        $criteria->compare('id_parcela', $this->id_parcela);
+        $criteria->compare('id_pagamento', $this->id_pagamento);
+        $criteria->compare('valor', $this->valor, true);
+        $criteria->compare('id_status', $this->id_status);
+        $criteria->compare('data_pagamento', $this->data_pagamento, true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
 }

@@ -7,7 +7,7 @@ $(document).ready(function() {
     jQuery(function($) {
         $(".telefone").mask("(99)9999-9999");
         $(".horario").mask("9?9", {placeholder: ""});
-        $(".money").maskMoney({thousands:'.', decimal:',', allowZero:false});
+        $(".money").maskMoney({thousands: '.', decimal: ',', allowZero: false});
     });
 
     if (!$('#cliente-form').find('#Pessoa_nome').val()) {
@@ -223,6 +223,22 @@ $(document).ready(function() {
             $(this).css('border-color', '#468847');
             $('#horario_em').hide();
         }
+    });
+
+    $('#id_procedimento').change(function() {
+        $('#id_procedimento option:selected').each(function() {
+            $.ajax({
+                type: 'POST',
+                url: $('#url').val() + '/procedimento/buscaValor',
+                data: {id: $('#id_procedimento').val()},
+                success: function(data) {
+                    $('#Consulta_valor').val(data);
+                    if ($('#cliente').val() === '') {
+                        $('#Consulta_valor').removeAttr('disabled');
+                    }
+                }
+            });
+        });
     });
 });
 
