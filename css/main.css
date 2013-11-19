@@ -434,3 +434,34 @@ a.view, a.delete, a.update
 {
     text-decoration: none !important;
 }
+
+.parcelas
+{
+    margin-top: 20px;
+}
+
+.parcelas th
+{
+    border: 1px solid #FFFFFF;
+}
+
+.parcelas tr
+{
+    border: 1px solid #FFFFFF;
+}
+
+.parcelas td
+{
+    border: 1px solid #FFFFFF;
+    text-align: center;
+}
+
+.parcelas tr:nth-child(odd) 
+{
+    background-color: #EEEEEE;
+}
+
+.parcelas tr:hover
+{ 
+    background: #AAAAAA; 
+} 

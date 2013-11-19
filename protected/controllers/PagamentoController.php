@@ -11,7 +11,7 @@ class PagamentoController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('grid'),
+                'actions' => array('grid', 'gerarParcelas'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -100,13 +100,47 @@ class PagamentoController extends GxController {
         ));
         $model_consulta = $this->loadModel($id, 'Consulta');
 
-        if ($model) {
-            $this->render('grid', array(
-                'model' => $model,
-                'model_consulta' => $model_consulta
-            ));
-        } else {
-            
+        $model->changeValor(true);
+
+        $this->render('grid', array(
+            'model' => $model,
+            'model_consulta' => $model_consulta
+        ));
+    }
+
+    public function actionGerarParcelas() {
+        if (isset($_POST['id_consulta'], $_POST['id_pagamento'], $_POST['tipo_pagamento'], $_POST['valor'], $_POST['numero'])) {
+            $valor_flo = number_format($_POST['valor'], 2, '.', '');
+            $valor_arr = explode('.', $valor_flo);
+            $valor_int = $valor_arr[0];
+            $valor_dec = str_pad(substr($valor_arr[1], 0, 2), 2, '0', STR_PAD_RIGHT);
+            $valor = $valor_int . '.' . $valor_dec;
+
+            $model = $this->loadModel($_POST['id_pagamento'], 'Pagamento');
+            $model->id_tipo_pagamento = $_POST['tipo_pagamento'];
+            if ($model->id_tipo_pagamento == 1) {
+                $model->id_status = 6;
+            }
+            $model->save();
+
+            for ($i = 1; $i <= $_POST['numero']; $i++) {
+                $model_parcela = new Parcela;
+                $model_parcela->id_pagamento = $model->primaryKey;
+                $model_parcela->valor = $valor;
+
+                if ($model->id_tipo_pagamento == 1) {
+                    $model_parcela->data_pagamento = date('Y-m-d');
+                    $model_parcela->data_vencimento = date('Y-m-d');
+                    $model_parcela->id_status = 6;
+                } else {
+                    $inc = '+' . (30 * $i) . ' day';
+                    $date = strtotime($inc, strtotime(date('Y-m-d')));
+                    $model_parcela->data_vencimento = date("Y-m-d", $date);
+                    $model_parcela->id_status = 7;
+                }
+                $model_parcela->save();
+            }
+            echo true;
         }
     }
 

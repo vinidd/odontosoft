@@ -41,7 +41,7 @@ class ConsultaController extends GxController {
             $model_cliente = Cliente::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->id_pessoa));
             $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
         }
-
+        
         //salvando consulta e relações
         if (isset($_POST['Cliente'], $_POST['id_procedimento'], $_POST['Dentista'], $_POST['data'], $_POST['Consulta'], $_POST['Telefone'])) {
             $cliente = $this->loadModel($_POST['Cliente']['id_cliente'], 'Cliente');
@@ -119,6 +119,17 @@ class ConsultaController extends GxController {
                     $chphc->id_consulta = $consulta->primaryKey;
                     $chphc->save();
                 }
+
+                if (isset($_POST['Consulta']['valor'])) {
+                    $model_pagamento = new Pagamento;
+                    $model_pagamento->id_consulta = $consulta->primaryKey;
+                    $model_pagamento->valor = $_POST['Consulta']['valor'];
+                    $model_pagamento->changeValor();
+                    $model_pagamento->id_status = 7;
+                    $model_pagamento->data_criacao = date('Y-m-d');
+                    $model_pagamento->save();
+                }
+
                 $erro = false;
             } else {
                 $erro = true;
@@ -149,13 +160,19 @@ class ConsultaController extends GxController {
         $model = $this->loadModel($id, 'Consulta');
         $model->changeDate(true);
 
-
         if (isset($_POST['Consulta'])) {
             $model->setAttributes($_POST['Consulta']);
             $model->changeDate();
             $model->horario = str_pad($model->horario, 2, '0', STR_PAD_LEFT);
             $model->horario = $model->horario . ':00';
 
+            if (isset($_POST['Consulta']['valor'])) {
+                $model_pagamento = Pagamento::model()->find(array('condition' => 'id_consulta = ' . $model->primaryKey));
+                $model_pagamento->valor = $_POST['Consulta']['valor'];
+                $model_pagamento->changeValor();
+                $model_pagamento->save();
+            }
+            
             if ($model->save()) {
                 $this->redirect(array('create'));
             }
@@ -233,7 +250,7 @@ class ConsultaController extends GxController {
                         'condition' => 'data = "' . $_POST['data'] . '" AND horario = "' . $_POST['horario'] . ':00" AND id_dentista = ' . $consulta->id_dentista
                     ));
                 }
-                
+
                 if (isset($consultas) && $consultas) {
                     echo true;
                 } else {

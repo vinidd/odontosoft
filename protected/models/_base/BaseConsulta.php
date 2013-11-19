@@ -216,7 +216,7 @@ abstract class BaseConsulta extends GxActiveRecord {
         return $newData->format($out);
     }
 
-    public function getStatusNome() {
+    public function getStatusNome($style = false) {
         switch ($this->id_status) {
             case 1: $cor = 'success';
                 break;
@@ -231,6 +231,10 @@ abstract class BaseConsulta extends GxActiveRecord {
             default: $cor = '';
         }
 
+        if ($style) {
+            return '<div style="width: 120px; text-align: center;" class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
+        }
+        
         return '<div class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
     }
 

@@ -95,10 +95,10 @@ abstract class BaseProcedimento extends GxActiveRecord {
 
     public function changeValor($inverse = false) {
         if ($inverse) {
-            $this->valor = number_format($this->valor, 2, ',', '.');
+            $this->valor = number_format($this->valor, 2, ',', '.'); //2.000,00
         } else {
             $this->valor = str_replace('.', '', $this->valor);
-            $this->valor = str_replace(',', '.', $this->valor);
+            $this->valor = str_replace(',', '.', $this->valor); //2000.00
         }
     }
     

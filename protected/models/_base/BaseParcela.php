@@ -13,6 +13,7 @@
  * @property integer $id_pagamento
  * @property string $valor
  * @property integer $id_status
+ * @property string $data_vencimento
  * @property string $data_pagamento
  *
  * @property Pagamento $idPagamento
@@ -38,12 +39,12 @@ abstract class BaseParcela extends GxActiveRecord {
 
     public function rules() {
         return array(
-            array('id_pagamento, valor, id_status', 'required'),
+            array('id_pagamento, valor, id_status, data_vencimento', 'required'),
             array('id_pagamento, id_status', 'numerical', 'integerOnly' => true),
             array('valor', 'length', 'max' => 9),
             array('data_pagamento', 'safe'),
             array('data_pagamento', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id_parcela, id_pagamento, valor, id_status, data_pagamento', 'safe', 'on' => 'search'),
+            array('id_parcela, id_pagamento, valor, id_status, data_pagamento, data_vencimento', 'safe', 'on' => 'search'),
         );
     }
 
@@ -65,6 +66,7 @@ abstract class BaseParcela extends GxActiveRecord {
             'id_pagamento' => null,
             'valor' => Yii::t('app', 'Valor'),
             'id_status' => 'Status',
+            'data_vencimento' => Yii::t('app', 'Data Vencimento'),
             'data_pagamento' => Yii::t('app', 'Data Pagamento'),
             'idPagamento' => null,
             'idStatus' => null,
@@ -78,11 +80,43 @@ abstract class BaseParcela extends GxActiveRecord {
         $criteria->compare('id_pagamento', $this->id_pagamento);
         $criteria->compare('valor', $this->valor, true);
         $criteria->compare('id_status', $this->id_status);
+        $criteria->compare('data_vencimento', $this->data_vencimento, true);
         $criteria->compare('data_pagamento', $this->data_pagamento, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    public function changeValor($inverse = false) {
+        if ($inverse) {
+            $this->valor = number_format($this->valor, 2, ',', '.'); //2.000,00
+        } else {
+            $this->valor = str_replace('.', '', $this->valor);
+            $this->valor = str_replace(',', '.', $this->valor); //2000.00
+        }
+    }
+
+    public function changeDateVencimento($inverse = false) {
+        $in = 'd/m/Y';
+        $out = 'Y-m-d';
+        if ($inverse) {
+            $in = 'Y-m-d';
+            $out = 'd/m/Y';
+        }
+        $newData = DateTime::createFromFormat($in, $this->data_vencimento);
+        $this->data_vencimento = $newData->format($out);
+    }
+
+    public function getStatusNome() {
+        switch ($this->id_status) {
+            case 6: $cor = 'success';
+                break;
+            case 7: $cor = 'danger';
+                break;
+            default: $cor = '';
+        }
+        return '<div id="status_parcela" style="width: 120px; text-align: center;" class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
     }
 
 }

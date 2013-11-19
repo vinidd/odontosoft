@@ -7,6 +7,7 @@ $(document).ready(function() {
     jQuery(function($) {
         $(".telefone").mask("(99)9999-9999");
         $(".horario").mask("9?9", {placeholder: ""});
+        $(".parcela").mask("9?9", {placeholder: ""});
         $(".money").maskMoney({thousands: '.', decimal: ',', allowZero: false});
     });
 
@@ -234,7 +235,7 @@ $(document).ready(function() {
                 success: function(data) {
                     $('#Consulta_valor').val(data);
                     if ($('#cliente').val() === '') {
-                        $('#Consulta_valor').removeAttr('disabled');
+                        $('#Consulta_valor').removeAttr('readonly');
                     }
                 }
             });
@@ -314,4 +315,42 @@ function changeData(date) {
     var day = date.substring(0, 2);
 
     return year + '-' + month + '-' + day;
+}
+
+function changeValor(valor) {
+    valor = valor.replace(/\./g, '');
+    valor = valor.replace(/\,/g, '.');
+    return valor;
+}
+
+function gerarParcelas(idConsulta, idPagamento, valor) {
+    $('#event-response').append('<img src="' + $('#url').val() + '/images/loading.gif">');
+    $('#event-response').show();
+    $('#parcela-btn').attr('disabled', 'disabled');
+
+    valor = changeValor(valor);
+    tipo = $('#tipo_pagamento').val();
+    num = 1;
+    if (tipo == 3) {
+        num = $('#numero_parcelas').val();
+    }
+    parcela = valor / num;
+
+    $.ajax({
+        type: 'POST',
+        url: $('#url').val() + '/pagamento/gerarParcelas',
+        data: {id_consulta: idConsulta, id_pagamento: idPagamento, tipo_pagamento: tipo, valor: parcela, numero: num},
+        success: function(data) {
+            if (data) {
+                $('#event-response').empty();
+                $('#event-response').text($('#sucesso').val());
+                $('#event-response').attr('class', 'event-success');
+                $('#elem_change').val('true');
+            } else {
+                $('#event-response').text($('#erro').val());
+                $('#event-response').attr('class', 'event-fail');
+            }
+        }
+    });
+
 }

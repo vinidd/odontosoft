@@ -17,11 +17,13 @@ return array(
     'Recepcionista' => 'Receptionist',
     'Consulta' => 'Appointment',
     'Procedimento' => 'Procedure',
-    'Valor' => 'Value',
+    'Pagamento' => 'Payment',
+    'Valor' => 'Amount',
     'Receita' => 'Prescription',
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',
     'Data Nascimento' => 'Date of birth',
+    'Data Vencimento' => 'Expiration Date',
     'Data' => 'Date',
     'Sexo' => 'Sex',
     'Masculino' => 'Male',
@@ -79,5 +81,15 @@ return array(
     
     'Consulta confirmada com sucesso!' => 'Appointment confirmed successfully!',
     'Erro ao confirmar consulta!' => 'Appointment confirming failed!',
+    
+    'Pagamentos só poderão ser realizados após a conclusão da consulta.' => 'Payments are disabled until the appointment is completed.',
+    'Gerar pagamentos' => 'Create payments',
+    'Gerar' => 'Create',
+    'Pagar' => 'Pay',
+    'Parcela' => 'Parcel',
+    'Parcelas' => 'Parcels',
+    
+    'Sucesso' => 'Success',
+    'Erro' => 'Error',
 );
 ?>

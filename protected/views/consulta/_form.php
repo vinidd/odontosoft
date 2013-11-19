@@ -173,7 +173,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 
     <div class="input-prepend">
         <span class="add-on">R$</span>
-        <input id="Consulta_valor" class="money" type="text" maxlength="9" name="Consulta[valor]" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" disabled="disabled" style="text-align: right; width: 80px;">
+        <input id="Consulta_valor" class="money" type="text" maxlength="9" value="" name="Consulta[valor]" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" readonly="readonly" style="text-align: right; width: 80px;">
     </div>
 
     <div style="margin-top: 30px;">

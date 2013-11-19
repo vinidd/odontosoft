@@ -41,7 +41,7 @@ abstract class BasePagamento extends GxActiveRecord {
 
     public function rules() {
         return array(
-            array('id_consulta, valor, id_tipo_pagamento, id_status, data_criacao', 'required'),
+            array('id_consulta, valor, id_status, data_criacao', 'required'),
             array('id_consulta, id_tipo_pagamento, id_status', 'numerical', 'integerOnly' => true),
             array('valor', 'length', 'max' => 9),
             array('id_pagamento, id_consulta, valor, id_tipo_pagamento, id_status, data_criacao', 'safe', 'on' => 'search'),
@@ -90,6 +90,26 @@ abstract class BasePagamento extends GxActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+    public function changeValor($inverse = false) {
+        if ($inverse) {
+            $this->valor = number_format($this->valor, 2, ',', '.'); //2.000,00
+        } else {
+            $this->valor = str_replace('.', '', $this->valor);
+            $this->valor = str_replace(',', '.', $this->valor); //2000.00
+        }
+    }
+
+    public function getStatusNome() {
+        switch ($this->id_status) {
+            case 6: $cor = 'success';
+                break;
+            case 7: $cor = 'danger';
+                break;
+            default: $cor = '';
+        }
+        return '<div id="status_pagamento" style="width: 120px; text-align: center;" class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
     }
 
 }

@@ -78,8 +78,8 @@ $procedimentos = Procedimento::model()->findAll(array(
 </div>
 
 <?php 
-$modelProcedimento = Procedimento::model()->findByPk($model->id_procedimento);
-$modelProcedimento->changeValor(true);
+$modelPagamento = Pagamento::model()->find(array('condition' => 'id_consulta = ' . $model->id_consulta));
+$modelPagamento->changeValor(true);
 ?>
 
 <div class="control-group">
@@ -87,7 +87,7 @@ $modelProcedimento->changeValor(true);
     <div class="controls">
         <div class="input-prepend">
             <span class="add-on">R$</span>
-            <input id="Consulta_valor" class="money" type="text" maxlength="9" name="Consulta[valor]" value="<?php echo $modelProcedimento->valor; ?>" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" style="text-align: right; width: 80px;"
+            <input id="Consulta_valor" class="money" type="text" maxlength="9" name="Consulta[valor]" value="<?php echo $modelPagamento->valor; ?>" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" style="text-align: right; width: 80px;"
                    <?php echo (Yii::app()->user->level >= 15) ? '' : 'disabled="disabled"'; ?>>
         </div>
     </div>

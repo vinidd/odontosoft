@@ -27,6 +27,7 @@ return array(
         'application.modules.userGroups.controllers.*',
         'application.modules.userGroups.components.*',
         'application.modules.userGroups.userGroupsModule',
+        'application.vendors.moip-php.*'
     ),
     'modules' => array(
         'userGroups' => array(

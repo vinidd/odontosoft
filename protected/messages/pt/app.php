@@ -41,5 +41,7 @@ return array(
     'Password' => 'Senha',
     'Password confirm' => 'Confirma senha',
     'Password doesn\'t match' => 'Senha não confere',
+    
+    'Select' => 'Selecione',
 );
 ?>
