@@ -1,6 +1,7 @@
 <?php
 $this->breadcrumbs = array(
-    $model->label(2) => array('index'),
+    $model_consulta->label(2) => array('consulta/admin'),
+    $model->label(2),
 );
 ?>
 
@@ -17,6 +18,10 @@ $this->breadcrumbs = array(
 
 <fieldset>
     <legend><?php echo Yii::t('app', 'Consulta'); ?></legend>
+    <?php echo CHtml::hiddenField('confirm_msg', Yii::t('app', 'Você tem certeza disso?')); ?>
+    <?php echo CHtml::hiddenField('url', Yii::app()->request->baseUrl); ?>
+    <?php echo CHtml::hiddenField('pago', Yii::t('app', 'Pago')); ?>
+    <?php echo CHtml::hiddenField('em_aberto', Yii::t('app', 'Em aberto')); ?>
     <?php
     $this->widget('bootstrap.widgets.TbDetailView', array(
         'type' => 'striped',
@@ -84,10 +89,13 @@ if (false) { //$model_consulta->id_status != 5
             <thead>
                 <tr>
                     <th style="width: 40px; text-align: center;">#</th>
-                    <th style="width: 200px; text-align: center;"><?php echo Yii::t('app', 'Valor'); ?></th>
-                    <th style="text-align: center;"><?php echo Yii::t('app', 'Data Vencimento'); ?></th>
+                    <th style="text-align: center;"><?php echo Yii::t('app', 'Valor'); ?></th>
+                    <th style="width: 120px; text-align: center;"><?php echo Yii::t('app', 'Data de Vencimento'); ?></th>
+                    <th style="width: 120px; text-align: center;"><?php echo Yii::t('app', 'Data de Pagamento'); ?></th>
                     <th style="width: 120px; text-align: center;">Status</th>
-                    <th style="width: 40px; text-align: center;"><?php echo Yii::t('app', 'Pagar'); ?></th>
+                    <?php if (!Yii::app()->user->pbac('Basic.pagamento.admin')) { ?>
+                        <th style="width: 40px; text-align: center;"><?php echo Yii::t('app', 'Pagar'); ?></th>
+                    <?php } ?>
                 </tr>
             </thead>
             <tbody>
@@ -95,16 +103,26 @@ if (false) { //$model_consulta->id_status != 5
                 <?php foreach ($model->parcelas as $parcela) { ?>
                     <?php $parcela->changeValor(true); ?>
                     <?php $parcela->changeDateVencimento(true); ?>
+                    <?php $parcela->changeDatePagamento(true); ?>
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo 'R$ ' . $parcela->valor; ?></td>
                         <td><?php echo $parcela->data_vencimento; ?></td>
+                        <td><span id="<?php echo 'data_pagamento_' . $parcela->primaryKey; ?>"><?php echo isset($parcela->data_pagamento) ? $parcela->data_pagamento : ''; ?></span></td>
                         <td><?php echo $parcela->getStatusNome(); ?></td>
-                        <td><?php
+                        <?php
+                        if (!Yii::app()->user->pbac('Basic.pagamento.admin')) {
                             if ($parcela->id_status == 7) {
-                                echo '<a href="#" style="text-decoration:none;"><icon class="icon-money"></i></a>';
+                                if ($model->id_tipo_pagamento == 3) {
+                                    echo '<td><a href="' . Yii::app()->createUrl('/pagamento/pagarParcela', array('id_parcela' => $parcela->primaryKey, 'id_cliente' => $model_consulta->id_cliente)) . '" style="text-decoration:none;"><icon class="icon-money"></i></a></td>';
+                                } else if ($model->id_tipo_pagamento == 2) {
+                                    echo '<td><a href=""><icon class="icon-print"></i></a></td>';
+                                }
+                            } else {
+                                echo '<td></td>';
                             }
-                            ?></td>
+                        }
+                        ?>
                     </tr>
                     <?php $i++; ?>
                 <?php } ?>
@@ -153,9 +171,6 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
 </div>
 
 <div class="modal-body">
-    <?php echo CHtml::hiddenField('url', Yii::app()->request->baseUrl); ?>
-    <?php echo CHtml::hiddenField('pago', Yii::t('app', 'Pago')); ?>
-    <?php echo CHtml::hiddenField('em_aberto', Yii::t('app', 'Em aberto')); ?>
     <?php echo CHtml::hiddenField('sucesso', Yii::t('app', 'Sucesso')); ?>
     <?php echo CHtml::hiddenField('erro', Yii::t('app', 'Erro')); ?>
     <?php echo CHtml::hiddenField('elem_change', ''); ?>
@@ -188,6 +203,49 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
     ));
     ?>
 </div>
+<?php $this->endWidget(); ?>
+
+<?php
+$this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-status'));
+?>
+
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h4><?php echo Yii::t('app', 'Mudança de status'); ?></h4>
+</div>
+
+<div class="modal-body">
+    <?php echo CHtml::hiddenField('parcela_on', ''); ?>
+    <label style="display: inline-block;"><strong><?php echo Yii::t('app', 'Data de Pagamento'); ?></strong></label>
+    <?php
+    $this->widget('CMaskedTextField', array(
+        'name' => 'data_pagamento',
+        'value' => '',
+        'mask' => '99/99/9999',
+        'htmlOptions' => array(
+            'size' => 10,
+            'id' => 'data_pagamento',
+            'style' => 'width: 75px; margin-top: 10px; margin-left: 10px',
+        )
+    ));
+    ?>
+    <span class="_error" id="status_error"><?php echo Yii::t('app', 'Preencha a data de pagamento'); ?></span>
+</div>
+
+<div class="modal-footer">
+    <?php
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'type' => 'primary',
+        'label' => Yii::t('app', 'Salvar'),
+        'url' => '',
+        'htmlOptions' => array(
+            'id' => 'status-btn',
+            'onclick' => 'changePagStatus();',
+        ),
+    ));
+    ?>
+</div>
+
 <?php $this->endWidget(); ?>
 
 <script>
@@ -236,5 +294,11 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
     .event-fail
     {
         background-color: #DA4F49;
+    }
+    ._error
+    {
+        margin-left: 10px;
+        color: #B94A48;
+        display: none;
     }
 </style>

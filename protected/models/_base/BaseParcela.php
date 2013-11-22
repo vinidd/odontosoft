@@ -108,6 +108,19 @@ abstract class BaseParcela extends GxActiveRecord {
         $this->data_vencimento = $newData->format($out);
     }
 
+    public function changeDatePagamento($inverse = false) {
+        if (isset($this->data_pagamento) && strlen($this->data_pagamento)) {
+            $in = 'd/m/Y';
+            $out = 'Y-m-d';
+            if ($inverse) {
+                $in = 'Y-m-d';
+                $out = 'd/m/Y';
+            }
+            $newData = DateTime::createFromFormat($in, $this->data_pagamento);
+            $this->data_pagamento = $newData->format($out);
+        }
+    }
+
     public function getStatusNome() {
         switch ($this->id_status) {
             case 6: $cor = 'success';
@@ -116,7 +129,16 @@ abstract class BaseParcela extends GxActiveRecord {
                 break;
             default: $cor = '';
         }
-        return '<div id="status_parcela" style="width: 120px; text-align: center;" class="btn-' . $cor . '">' . Yii::t('app', $this->idStatus->nome) . '</div>';
+
+        $onclick = '';
+        $cursor = '';
+
+        if (Yii::app()->user->pbac('Basic.pagamento.admin') && $this->id_status == 7) {
+            $onclick = 'onclick = "openModalStatus(' . $this->id_parcela . ');"';
+            $cursor = 'cursor: pointer;';
+        }
+
+        return '<div id="status_parcela_' . $this->id_parcela . '" style="width: 120px; text-align: center; ' . $cursor . '" class="btn-' . $cor . '" ' . $onclick . '>' . Yii::t('app', $this->idStatus->nome) . '</div>';
     }
 
 }

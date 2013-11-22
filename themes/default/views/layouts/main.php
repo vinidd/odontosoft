@@ -116,7 +116,7 @@
                             'htmlOptions' => array('class' => 'pull-right'),
                             'items' => array(
                                 array(
-                                    'label' => 'User',
+                                    'label' => 'Config',
                                     'url' => array('/userGroups'),
                                     'visible' => Yii::app()->user->pbac('userGroups.admin.admin')
                                 ),

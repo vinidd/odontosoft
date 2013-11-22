@@ -11,7 +11,7 @@ class PagamentoController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('grid', 'gerarParcelas'),
+                'actions' => array('grid', 'gerarParcelas', 'changeStatusParcela', 'pagarParcela'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
@@ -142,6 +142,68 @@ class PagamentoController extends GxController {
             }
             echo true;
         }
+    }
+
+    public function actionChangeStatusParcela() {
+        if (isset($_POST['id_parcela'], $_POST['data_pagamento'])) {
+            $model = $this->loadModel($_POST['id_parcela'], 'Parcela');
+            $model->id_status = 6;
+            $model->data_pagamento = $_POST['data_pagamento'];
+            $model->save();
+            echo true;
+        }
+    }
+
+    public function actionPagarParcela($id_parcela = 0, $id_cliente = 0) {
+        if (isset($_POST['id_parcela'], $_POST['id_cliente']) && strlen($_POST['id_parcela']) && strlen($_POST['id_parcela'])) {
+            $id_parcela = $_POST['id_parcela'];
+            $id_cliente = $_POST['id_cliente'];
+        }
+        
+        if ($id_parcela > 0 && $id_cliente > 0) {
+            $model_parcela = $this->loadModel($id_parcela, 'Parcela');
+            $model_cliente = $this->loadModel($id_cliente, 'Cliente');
+            $model_endereco = Endereco::model()->find(array(
+                'condition' => 'id_pessoa = ' . $model_cliente->id_pessoa
+            ));
+            $model_telefone = Telefone::model()->find(array(
+                'condition' => 'id_pessoa = ' . $model_cliente->id_pessoa,
+                'order' => 'tipo ASC'
+            ));
+        }
+        
+        $moip = new Moip();
+        $moip->setEnvironment('test');
+        $moip->setCredential(array(
+            'key' => 'CXH5IRJIEIAPDT2ZF9O8SGYXJSYBESIO359FM3JG',
+            'token' => 'WVBRJPKDY8EMP6ZQLQPD3GYUTSMJW2ZK'
+        ));
+        $moip->validate('Basic');
+        $moip->setReason('Pagamento odontosoft');
+        $moip->setPayer(array(
+            'payerId' => $model_cliente->primakyKey,
+            'name' => $model_cliente->idPessoa->nome,
+            'email' => $model_cliente->idPessoa->email,
+            'billingAddress' => array(
+                'address' => $model_endereco->rua,
+                'number' => $model_endereco->numero,
+                'complement' => isset($model_endereco->complemento) ? $model_endereco->complemento : '',
+                'city' => $model_endereco->idCidade->nome,
+                'neighborhood' => isset($model_endereco->bairro) ? $model_endereco->bairro : '',
+                'state' => $model_endereco->idCidade->idEstado->nome,
+                'country' => $model_endereco->idCidade->idEstado->idPais->nome,
+                'zipCode' => isset($model_endereco->cep) ? $model_endereco->cep : '',
+                'phone' => isset($model_telefone->numero) ? $model_telefone->numero : '',
+            )
+        ));
+        $moip->addPaymentWay('creditCard');
+        
+        $moip->setUniqueID(false);
+        $moip->setValue('100.00');
+
+        print_r($moip->send());
+        exit;
+        $this->render('_pagamento');
     }
 
 }

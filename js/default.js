@@ -326,7 +326,7 @@ function changeValor(valor) {
 function gerarParcelas(idConsulta, idPagamento, valor) {
     $('#event-response').append('<img src="' + $('#url').val() + '/images/loading.gif">');
     $('#event-response').show();
-    $('#parcela-btn').attr('disabled', 'disabled');
+    $('#parcela-btn').removeAttr('onclick');
 
     valor = changeValor(valor);
     tipo = $('#tipo_pagamento').val();
@@ -352,5 +352,41 @@ function gerarParcelas(idConsulta, idPagamento, valor) {
             }
         }
     });
+}
 
+function openModalStatus(id_parcela) {
+    $('#parcela_on').val(id_parcela);
+    $('#modal-status').modal();
+}
+
+function changePagStatus() {
+    if ($('#data_pagamento').val().length > 0) {
+        $('#data_pagamento').css('border-color', '#CCCCCC');
+        $('#status_error').hide();
+        
+        var r = confirm($('#confirm_msg').val());
+        if (r === true) {
+            $.ajax({
+                type: 'POST',
+                url: $('#url').val() + '/pagamento/changeStatusParcela',
+                data: {id_parcela: $('#parcela_on').val(), data_pagamento: changeData($('#data_pagamento').val())},
+                success: function(data) {
+                    if (data) {
+                        $('#data_pagamento_' + $('#parcela_on').val()).text($('#data_pagamento').val());
+                        $('#status_parcela_' + $('#parcela_on').val()).text($('#pago').val());
+                        $('#status_parcela_' + $('#parcela_on').val()).attr('class', 'btn-success');
+                        $('#status_parcela_' + $('#parcela_on').val()).removeAttr('onclick');
+                        $('#status_parcela_' + $('#parcela_on').val()).css('pointer', 'default');
+                        $('#modal-status').modal('hide');
+                    } else {
+                        
+                    }
+                }
+            });
+        }
+        
+    } else {
+        $('#data_pagamento').css('border-color', '#B94A48');
+        $('#status_error').show();
+    }
 }

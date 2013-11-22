@@ -31,7 +31,7 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
             'buttons' => array(
                 'pagar' => array(
                     'label' => '',
-                    'url' => '"#"',
+                    'url' => 'Yii::app()->createUrl("pagamento/grid", array("id"=>$data->id_consulta))',
                     'options' => array('class' => 'icon-money', 'style' => 'text-decoration: none;'),
                 ),
                 'receita' => array(

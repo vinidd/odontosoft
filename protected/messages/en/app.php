@@ -18,12 +18,13 @@ return array(
     'Consulta' => 'Appointment',
     'Procedimento' => 'Procedure',
     'Pagamento' => 'Payment',
+    'Data de Pagamento' => 'Payment date',
     'Valor' => 'Amount',
     'Receita' => 'Prescription',
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',
     'Data Nascimento' => 'Date of birth',
-    'Data Vencimento' => 'Expiration Date',
+    'Data de Vencimento' => 'Expiration Date',
     'Data' => 'Date',
     'Sexo' => 'Sex',
     'Masculino' => 'Male',
@@ -91,5 +92,8 @@ return array(
     
     'Sucesso' => 'Success',
     'Erro' => 'Error',
+    
+    'Alteração de status' => 'Status change',
+    'Preencha a data de pagamento' => 'Fill the payment date',
 );
 ?>
