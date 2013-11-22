@@ -35,76 +35,76 @@
                             'htmlOptions' => array('class' => 'pull-left'),
                             'items' => array(
                                 array(
-                                    'label' => 'Cliente',
+                                    'label' => Yii::t('app', 'Cliente'),
                                     'url' => array('/cliente/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.cliente.admin'),
                                     'items' => array(
                                         array(
-                                            'label' => 'Incluir',
+                                            'label' => Yii::t('app', 'Create'),
                                             'url' => array('/cliente/create'),
                                         ),
                                         array(
-                                            'label' => 'Gerenciar',
+                                            'label' => Yii::t('app', 'Manage'),
                                             'url' => array('/cliente/admin'),
                                         ),
                                     ),
                                 ),
                                 array(
-                                    'label' => 'Dentista',
+                                    'label' => Yii::t('app', 'Dentista'),
                                     'url' => array('/dentista/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.dentista.admin'),
                                     'items' => array(
                                         array(
-                                            'label' => 'Incluir',
+                                            'label' => Yii::t('app', 'Create'),
                                             'url' => array('/dentista/create'),
                                         ),
                                         array(
-                                            'label' => 'Gerenciar',
+                                            'label' => Yii::t('app', 'Manage'),
                                             'url' => array('/dentista/admin'),
                                         ),
                                     ),
                                 ),
                                 array(
-                                    'label' => 'Recepcionista',
+                                    'label' => Yii::t('app', 'Recepcionista'),
                                     'url' => array('/recepcionista/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.recepcionista.admin'),
                                     'items' => array(
                                         array(
-                                            'label' => 'Incluir',
+                                            'label' => Yii::t('app', 'Create'),
                                             'url' => array('/recepcionista/create'),
                                         ),
                                         array(
-                                            'label' => 'Gerenciar',
+                                            'label' => Yii::t('app', 'Manage'),
                                             'url' => array('/recepcionista/admin'),
                                         ),
                                     ),
                                 ),
                                 array(
-                                    'label' => 'Procedimento',
+                                    'label' => Yii::t('app', 'Procedimento'),
                                     'url' => array('/procedimento/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.procedimento.admin'),
                                     'items' => array(
                                         array(
-                                            'label' => 'Incluir',
+                                            'label' => Yii::t('app', 'Create'),
                                             'url' => array('/procedimento/create'),
                                         ),
                                         array(
-                                            'label' => 'Gerenciar',
+                                            'label' => Yii::t('app', 'Manage'),
                                             'url' => array('/procedimento/admin'),
                                         ),
                                     ),
                                 ),
                                 array(
-                                    'label' => 'Consulta',
+                                    'label' => Yii::t('app', 'Consulta'),
                                     'url' => array('/consulta/admin'),
                                     'visible' => Yii::app()->user->pbac('Basic.consulta.admin'),
                                     'items' => array(
                                         array(
-                                            'label' => 'Incluir',
+                                            'label' => Yii::t('app', 'Create'),
                                             'url' => array('/consulta/create'),
                                         ),
                                         array(
-                                            'label' => 'Gerenciar',
+                                            'label' => Yii::t('app', 'Manage'),
                                             'url' => array('/consulta/admin'),
                                         ),
                                     ),
@@ -121,17 +121,17 @@
                                     'visible' => Yii::app()->user->pbac('userGroups.admin.admin')
                                 ),
                                 array(
-                                    'label' => 'Meu Perfil',
+                                    'label' => Yii::t('app', 'Meu Perfil'),
                                     'url' => array('/cliente'),
                                     'visible' => Yii::app()->user->pbac('Basic.cliente.write') && !Yii::app()->user->pbac('Basic.cliente.admin')
                                 ),
                                 array(
-                                    'label' => 'Meu Perfil',
+                                    'label' => Yii::t('app', 'Meu Perfil'),
                                     'url' => array('/dentista'),
                                     'visible' => Yii::app()->user->pbac('Basic.dentista.write') && !Yii::app()->user->pbac('Basic.dentista.admin')
                                 ),
                                 array(
-                                    'label' => 'Meu Perfil',
+                                    'label' => Yii::t('app', 'Meu Perfil'),
                                     'url' => array('/recepcionista'),
                                     'visible' => Yii::app()->user->pbac('Basic.recepcionista.write') && !Yii::app()->user->pbac('Basic.recepcionista.admin')
                                 ),

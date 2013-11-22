@@ -9,16 +9,12 @@ $this->breadcrumbs = array(
 <h1>
     <?php echo GxHtml::encode($model->label()) . ' ' . GxHtml::encode(GxHtml::valueEx($model)); ?>
     <span style="float: right;">
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/printView', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Imprimir">
-            <i class="icon-print"></i>
-        </a>
-        &nbsp;
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/update', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="Editar">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/update', array('id' => $model->id_cliente)); ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('app', 'Edit'); ?>">
             <i class="icon-pencil"></i>
         </a>
         <?php if (Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
             &nbsp;
-            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="Gerenciar">
+            <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('cliente/admin'); ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('app', 'Manage'); ?>">
                 <i class="icon-reorder"></i>
             </a>
         <?php } ?>
@@ -26,7 +22,7 @@ $this->breadcrumbs = array(
 </h1>
 <br>
 <fieldset>
-    <legend>Dados Pessoais</legend>
+    <legend><?php echo Yii::t('app', 'Dados Pessoais'); ?></legend>
     <br>
     <?php
     $this->widget('bootstrap.widgets.TbDetailView', array(
@@ -50,7 +46,7 @@ $this->breadcrumbs = array(
 </fieldset>
 <br>
 <fieldset>
-    <legend>Contato</legend>
+    <legend><?php echo Yii::t('app', 'Contato'); ?></legend>
     <br>
     <?php
     foreach ($model_telefones as $model_telefone) {
@@ -62,7 +58,7 @@ $this->breadcrumbs = array(
             'attributes' => array(
                 array(
                     'type' => 'raw',
-                    'label' => 'Telefone ' . $model_telefone->getTipo(),
+                    'label' => $model_telefone->getTipo(),
                     'value' => $model_telefone->numero,
                 )
             )
@@ -72,7 +68,7 @@ $this->breadcrumbs = array(
 </fieldset>
 <br>
 <fieldset>
-    <legend>Endereço</legend>
+    <legend><?php echo Yii::t('app', 'Endereço'); ?></legend>
     <br>
     <?php
     $this->widget('bootstrap.widgets.TbDetailView', array(
@@ -95,6 +91,7 @@ $this->breadcrumbs = array(
             array(
                 'name' => 'id_cidade',
                 'value' => $model_endereco->getCidade(),
+                'label' => Yii::t('app', 'Cidade'),
             )
         )
     ));

@@ -66,6 +66,7 @@ abstract class BaseCliente extends GxActiveRecord {
             'idPessoa' => null,
             'consultas' => null,
             'clienteHasProcedimentos' => null,
+            'nome_cliente' => Yii::t('app', 'Cliente'),
         );
     }
     

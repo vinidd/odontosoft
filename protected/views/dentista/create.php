@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs = array(
     $model->label(2) => array('index'),
-    Yii::t('app', 'Incluir'),
+    Yii::t('app', 'Create'),
 );
 ?>
 

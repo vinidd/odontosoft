@@ -15,7 +15,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ?>
 <br>
 <fieldset>
-    <legend>Dados Pessoais</legend>
+    <legend><?php echo Yii::t('app', 'Dados Pessoais'); ?></legend>
 
     <?php echo $form->textFieldRow($model_pessoa, 'nome'); ?>
     <?php echo $form->maskedTextFieldRow($model_pessoa, 'data_nascimento', '99/99/9999'); ?>
@@ -33,7 +33,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php if (isset($model_usuario)) { ?>
     <fieldset>
-        <legend>Usuário <small>(opcional)</small></legend>
+        <legend><?php echo Yii::t('app', 'User'); ?> <small>(<?php echo Yii::t('app', 'opcional'); ?>)</small></legend>
 
         <?php echo $form->textFieldRow($model_usuario, 'username'); ?>
         <?php echo $form->passwordFieldRow($model_usuario, 'password'); ?>
@@ -56,10 +56,10 @@ if (isset($model_telefones)) {
 ?>
 
 <fieldset>
-    <legend>Contato <small id="Telefone_em">(preencha pelo menos um telefone)</small></legend>
+    <legend><?php echo Yii::t('app', 'Contato'); ?><small id="Telefone_em"> (<?php echo Yii::t('app', 'preencha pelo menos um telefone'); ?>)</small></legend>
 
     <div class="control-group ">
-        <label class="control-label tel_label" for="Telefone_residencial">Telefone Residencial</label>
+        <label class="control-label tel_label" for="Telefone_residencial"><?php echo Yii::t('app', 'Telefone Residencial'); ?></label>
         <div class="controls">
             <input class="telefone" id="Telefone_residencial" type="text" name="Telefone[residencial]"
                    <?php echo isset($tel_res) ? ' value="' . $tel_res . '"' : ''; ?>>
@@ -67,7 +67,7 @@ if (isset($model_telefones)) {
     </div>
 
     <div class="control-group ">
-        <label class="control-label tel_label" for="Telefone_celular">Telefone Celular</label>
+        <label class="control-label tel_label" for="Telefone_celular"><?php echo Yii::t('app', 'Telefone Celular'); ?></label>
         <div class="controls">
             <input class="telefone" id="Telefone_celular" type="text" name="Telefone[celular]"
                    <?php echo isset($tel_cel) ? ' value="' . $tel_cel . '"' : ''; ?>>
@@ -75,7 +75,7 @@ if (isset($model_telefones)) {
     </div>
 
     <div class="control-group ">
-        <label class="control-label tel_label" for="Telefone_comercial">Telefone Comercial</label>
+        <label class="control-label tel_label" for="Telefone_comercial"><?php echo Yii::t('app', 'Telefone Comercial'); ?></label>
         <div class="controls">
             <input class="telefone" id="Telefone_comercial" type="text" name="Telefone[comercial]"
                    <?php echo isset($tel_com) ? ' value="' . $tel_com . '"' : ''; ?>>
@@ -85,7 +85,7 @@ if (isset($model_telefones)) {
 </fieldset>
 
 <fieldset>
-    <legend>Endereço</legend>
+    <legend><?php echo Yii::t('app', 'Endereço'); ?></legend>
 
     <?php echo $form->textFieldRow($model_endereco, 'nome', array('hint' => 'Exemplo: Minha casa')); ?>
     <?php
@@ -108,7 +108,7 @@ if (isset($model_telefones)) {
     <?php echo CHtml::hiddenField('Endereco[id_cidade]', isset($model_endereco->id_cidade) ? $model_endereco->id_cidade : '', array('id' => 'Endereco_id_cidade')); ?>
 
     <div class="control-group">
-        <label class="control-label cidade_label" for="id_cidade">Cidade <span class='required'>*</span></label>
+        <label class="control-label cidade_label" for="id_cidade"><?php echo Yii::t('app', 'Cidade'); ?> <span class='required'>*</span></label>
         <div class="controls">
             <?php
             $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
@@ -131,10 +131,13 @@ if (isset($model_telefones)) {
 </fieldset>
 
 <fieldset>
-    <legend>Procedimentos</legend>
+    <legend><?php echo Yii::t('app', 'Procedimentos'); ?></legend>
 
+    <?php echo CHtml::hiddenField('delete', Yii::t('app', 'Delete')); ?>
+    <?php echo CHtml::hiddenField('unique_msg', Yii::t('app', 'Você já adicionou o procedimento escolhido!')); ?>
+    
     <div class="control-group">
-        <label class="control-label cidade_label" for="id_cidade">Procedimentos</label>
+        <label class="control-label cidade_label" for="id_cidade"><?php echo Yii::t('app', 'Procedimentos'); ?></label>
         <div class="controls">
             <?php
             $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
@@ -158,7 +161,7 @@ if (isset($model_telefones)) {
         <table>
             <thead>
                 <tr>
-                    <th>Procedimento</th>
+                    <th><?php echo Yii::t('app', 'Procedimentos'); ?></th>
                     <th style="width:50px;"></th>
                 </tr>
             </thead>
@@ -167,7 +170,7 @@ if (isset($model_telefones)) {
                     <?php foreach ($model_procedimentos as $procedimento) { ?>
                         <tr id='<?php echo $procedimento->id_procedimento; ?>'>
                             <td class='procedimento-label'><?php echo $procedimento->procedimento; ?></td>
-                            <td class='delete'><a style='text-decoration:none;' onclick='deleteRow(this, <?php echo $procedimento->id_procedimento; ?>);' href='javascript:void(0)' title='' data-placement='right' data-toggle='tooltip' data-original-title='Excluir'><i class='icon-trash'></i></a></td>
+                            <td class='delete'><a style='text-decoration:none;' onclick='deleteRow(this, <?php echo $procedimento->id_procedimento; ?>);' href='javascript:void(0)' title='' data-placement='right' data-toggle='tooltip' data-original-title='<?php echo Yii::t('app', 'Delete'); ?>'><i class='icon-trash'></i></a></td>
                             <input type='hidden' name='Procedimento[]' value='<?php echo $procedimento->id_procedimento; ?>'>
                         </tr>
                     <?php } ?>

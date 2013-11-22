@@ -275,9 +275,9 @@ $(document).ready(function() {
 
 function addProcedimento(id, label) {
     if ($(".procedimentos-content").find("#receptor").find("tr#" + id).length) {
-        alert("Você já adicionou o procedimento escolhido!");
+        alert($('#unique_msg').val());
     } else {
-        $(".procedimentos-content").find("#receptor").append("<tr id='" + id + "'><td class='procedimento-label'>" + label + "</td><td class='delete'><a style='text-decoration:none;' onclick='deleteRow(this, id);' href='javascript:void(0)' title='' data-placement='right' data-toggle='tooltip' data-original-title='Excluir'><i class='icon-trash'></i></a></td><input type='hidden' name='Procedimento[]' value='" + id + "'></tr>");
+        $(".procedimentos-content").find("#receptor").append("<tr id='" + id + "'><td class='procedimento-label'>" + label + "</td><td class='delete'><a style='text-decoration:none;' onclick='deleteRow(this, id);' href='javascript:void(0)' title='' data-placement='right' data-toggle='tooltip' data-original-title='" + $('#delete').val() + "'><i class='icon-trash'></i></a></td><input type='hidden' name='Procedimento[]' value='" + id + "'></tr>");
         $(".procedimentos-content").show();
     }
 }

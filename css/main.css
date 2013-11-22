@@ -274,7 +274,7 @@ div.search-form
 
 .procedimento.label
 {
-    text-align: left;
+    text-align: left !important;
     color: #333333;
 }
 
@@ -389,7 +389,6 @@ div.search-form
 
     border:1px solid #000000;
 
-    text-align:center;
     padding:7px;
 
     font: normal 12pt Arial,Helvetica,sans-serif;

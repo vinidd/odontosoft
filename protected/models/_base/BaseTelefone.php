@@ -93,9 +93,9 @@ abstract class BaseTelefone extends GxActiveRecord {
 
     public function getTipo() {
         switch ($this->tipo) {
-            case 0: return 'Residencial';
-            case 1: return 'Celular';
-            case 2: return 'Comercial';
+            case 0: return Yii::t('app', 'Telefone Residencial');
+            case 1: return Yii::t('app', 'Telefone Celular');
+            case 2: return Yii::t('app', 'Telefone Comercial');
         }
     }
 

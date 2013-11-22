@@ -70,6 +70,7 @@ abstract class BaseDentista extends GxActiveRecord {
             'consultas' => null,
             'idPessoa' => null,
             'procedimentoHasDentistas' => null,
+            'nome_dentista' => Yii::t('app', 'Dentista'),
         );
     }
 

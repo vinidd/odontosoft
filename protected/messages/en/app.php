@@ -8,7 +8,10 @@ return array(
     'sexta1' => 'F',
     'sabado1' => 'S',
     
+    'Meu Perfil' => 'User',
+    
     'Cliente|Clientes' => 'Client|Clients',
+    'Dentista|Dentistas' => 'Dentist|Dentists',
     'Consulta|Consultas' => 'Appointment|Appointments',
     'Pagamento|Pagamentos' => 'Payment|Payments',
     
@@ -17,6 +20,7 @@ return array(
     'Recepcionista' => 'Receptionist',
     'Consulta' => 'Appointment',
     'Procedimento' => 'Procedure',
+    'Procedimentos' => 'Procedures',
     'Pagamento' => 'Payment',
     'Data de Pagamento' => 'Payment date',
     'Valor' => 'Amount',
@@ -95,5 +99,7 @@ return array(
     
     'Alteração de status' => 'Status change',
     'Preencha a data de pagamento' => 'Fill the payment date',
+    
+    'Você já adicionou o procedimento escolhido!' => 'You have already chosen this procedure!',
 );
 ?>

@@ -35,6 +35,7 @@ return array(
     'Edit' => 'Editar',
     'Delete' => 'Excluir',
     'Change' => 'Alterar',
+    'Print' => 'Imprimir',
     
     'Data Nascimento' => 'Data de nascimento',
     'User' => 'Usuário',
