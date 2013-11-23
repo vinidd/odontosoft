@@ -44,5 +44,6 @@ return array(
     'Password doesn\'t match' => 'Senha não confere',
     
     'Select' => 'Selecione',
+    'Welcome back' => 'Seja bem vindo de volta',
 );
 ?>

@@ -61,7 +61,7 @@ $this->breadcrumbs = array(
 </fieldset>
 
 <?php
-if (false) { //$model_consulta->id_status != 5
+if ($model_consulta->id_status != 5) {
     $user = Yii::app()->getComponent('user');
     $user->setFlash(
             'info', Yii::t('app', 'Pagamentos só poderão ser realizados após a conclusão da consulta.')
@@ -116,7 +116,7 @@ if (false) { //$model_consulta->id_status != 5
                                 if ($model->id_tipo_pagamento == 3) {
                                     echo '<td><a href="' . Yii::app()->createUrl('/pagamento/pagarParcela', array('id_parcela' => $parcela->primaryKey, 'id_cliente' => $model_consulta->id_cliente)) . '" style="text-decoration:none;"><icon class="icon-money"></i></a></td>';
                                 } else if ($model->id_tipo_pagamento == 2) {
-                                    echo '<td><a href=""><icon class="icon-print"></i></a></td>';
+                                    echo '<td><a href="' . Yii::app()->createUrl('/pagamento/pagarBoleto', array('id_parcela' => $parcela->primaryKey, 'id_cliente' => $model_consulta->id_cliente)) . '"><icon class="icon-print"></i></a></td>';
                                 }
                             } else {
                                 echo '<td></td>';
