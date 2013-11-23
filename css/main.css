@@ -319,6 +319,7 @@ div.search-form
     width: 90px; 
     float: right;
     margin-bottom: 30px;
+    margin-top: 20px;
 }
 .widget-right ul li{
     color: #fff;
@@ -329,12 +330,11 @@ div.search-form
 }
 .widget-right ul li a{
     text-decoration: none;
-
+    color: #EEEEEE;
 }
 .widget-right ul{
     width: 80px; 
     margin: 4px;
-
 }
 
 .widget-right li
@@ -345,10 +345,11 @@ div.search-form
 
 .widget-right ul li a:hover{
     text-decoration: none;
-    -webkit-transition: all 0.2s ease-in-out ;
-    -moz-transition: all 0.2s ease-in-out ;
-    -o-transition: all 0.2s ease-in-out ;
-    transition: all 0.2s ease-in-out ; 
+    -webkit-transition: color 0.2s ease-in-out ;
+    -moz-transition: color 0.2s ease-in-out ;
+    -o-transition: color 0.2s ease-in-out ;
+    transition: color 0.2s ease-in-out ;
+    color: black;
 }
 
 .procedimentos-content {

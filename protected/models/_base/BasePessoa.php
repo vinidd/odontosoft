@@ -125,8 +125,8 @@ abstract class BasePessoa extends GxActiveRecord {
     
     public function getSexo() {
         switch ($this->sexo) {
-            case 0: return 'Masculino';
-            case 1: return 'Feminino';
+            case 0: return Yii::t('app', 'Masculino');
+            case 1: return Yii::t('app', 'Feminino');
         }
     }
     

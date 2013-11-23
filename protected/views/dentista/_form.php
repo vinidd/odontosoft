@@ -21,8 +21,8 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->maskedTextFieldRow($model_pessoa, 'data_nascimento', '99/99/9999'); ?>
     <?php
     echo $form->radioButtonListInlineRow($model_pessoa, 'sexo', array(
-        'Masculino',
-        'Feminino',
+        Yii::t('app', 'Masculino'),
+        Yii::t('app', 'Feminino'),
     ));
     ?>
     <?php echo $form->maskedTextFieldRow($model_pessoa, 'cpf', '999.999.999-99'); ?>
@@ -87,12 +87,12 @@ if (isset($model_telefones)) {
 <fieldset>
     <legend><?php echo Yii::t('app', 'Endereço'); ?></legend>
 
-    <?php echo $form->textFieldRow($model_endereco, 'nome', array('hint' => 'Exemplo: Minha casa')); ?>
+    <?php echo $form->textFieldRow($model_endereco, 'nome', array('hint' => Yii::t('app', 'Exemplo: Minha casa'))); ?>
     <?php
     echo $form->radioButtonListInlineRow($model_endereco, 'tipo', array(
-        'Casa',
-        'Apartamento',
-        'Comercial'
+        Yii::t('app', 'Casa'),
+        Yii::t('app', 'Apartamento'),
+        Yii::t('app', 'Comercial')
     ));
     ?>
     <?php echo $form->maskedTextFieldRow($model_endereco, 'cep', '99999-999'); ?>
@@ -124,7 +124,7 @@ if (isset($model_telefones)) {
                 ),
             ));
             ?>
-            <span id="id_cidade_em_" class="help-inline error" style="display:none">Cidade não pode ser vazio.</span>
+            <span id="id_cidade_em_" class="help-inline error" style="display:none"><?php echo Yii::t('app', 'Cidade não pode ser vazio.'); ?></span>
         </div>
     </div>
 
@@ -186,7 +186,7 @@ if (isset($model_telefones)) {
     $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'submit',
         'type' => 'inverse',
-        'label' => 'Salvar',
+        'label' => Yii::t('app', 'Salvar'),
         'htmlOptions' => array('id' => 'dentista-button')
     ));
     ?>

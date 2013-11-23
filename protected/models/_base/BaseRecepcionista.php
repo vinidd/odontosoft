@@ -60,6 +60,7 @@ abstract class BaseRecepcionista extends GxActiveRecord {
             'id_pessoa' => null,
             'data_criacao' => Yii::t('app', 'Data Criacao'),
             'idPessoa' => null,
+            'nome_recepcionista' => Yii::t('app', 'Recepcionista'),
         );
     }
 

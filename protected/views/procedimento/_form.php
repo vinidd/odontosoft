@@ -18,7 +18,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     $this->widget('bootstrap.widgets.TbButton', array(
         'buttonType' => 'submit',
         'type' => 'inverse',
-        'label' => 'Salvar',
+        'label' => Yii::t('app', 'Salvar'),
         'htmlOptions' => array('id' => 'procedimento-button')
     ));
     ?>

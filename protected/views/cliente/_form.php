@@ -123,7 +123,7 @@ if (isset($model_telefones)) {
                 ),
             ));
             ?>
-            <span id="id_cidade_em_" class="help-inline error" style="display:none">Cidade não pode ser vazio.</span>
+            <span id="id_cidade_em_" class="help-inline error" style="display:none"><?php echo Yii::t('app', 'Cidade não pode ser vazio.'); ?></span>
         </div>
     </div>
 

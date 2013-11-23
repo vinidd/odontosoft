@@ -1,14 +1,14 @@
 <?php
 $this->breadcrumbs = array(
     $model->label(2) => array('index'),
-    Yii::t('app', 'Gerenciar'),
+    Yii::t('app', 'Manage'),
 );
 ?>
 
 <h1>
     <?php echo GxHtml::encode($model->label(2)); ?>
     <span style="float: right;">
-        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('procedimento/create'); ?>" data-toggle="tooltip" data-placement="bottom" title="Incluir">
+        <a style="text-decoration: none;" href="<?php echo Yii::app()->createUrl('procedimento/create'); ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('app', 'Create'); ?>">
             <i class="icon-plus"></i>
         </a>
     </span>

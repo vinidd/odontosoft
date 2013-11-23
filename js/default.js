@@ -8,7 +8,7 @@ $(document).ready(function() {
         $(".telefone").mask("(99)9999-9999");
         $(".horario").mask("9?9", {placeholder: ""});
         $(".parcela").mask("9?9", {placeholder: ""});
-        $(".money").maskMoney({thousands: '.', decimal: ',', allowZero: false});
+        $(".money").maskMoney({thousands: '.', decimal: ',', allowZero: true});
     });
 
     if (!$('#cliente-form').find('#Pessoa_nome').val()) {

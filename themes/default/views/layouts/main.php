@@ -42,6 +42,7 @@
                                         array(
                                             'label' => Yii::t('app', 'Create'),
                                             'url' => array('/cliente/create'),
+                                            'visible' => Yii::app()->user->level != 10
                                         ),
                                         array(
                                             'label' => Yii::t('app', 'Manage'),
@@ -102,6 +103,7 @@
                                         array(
                                             'label' => Yii::t('app', 'Create'),
                                             'url' => array('/consulta/create'),
+                                            'visible' => Yii::app()->user->level != 10
                                         ),
                                         array(
                                             'label' => Yii::t('app', 'Manage'),
@@ -164,7 +166,7 @@
                 echo CHtml::imageButton(Yii::app()->request->baseUrl . '/images/brasil-icon.png', array('style' => 'width: 50px; margin-right: 10px;', 'onclick' => 'changeLang("pt")'));
                 echo CHtml::imageButton(Yii::app()->request->baseUrl . '/images/usa-icon.png', array('style' => 'width: 50px;', 'onclick' => 'changeLang("en")'));
                 echo CHtml::hiddenField('lang', '');
-                
+
                 echo CHtml::hiddenField('path', Yii::app()->request->requestUri);
                 echo CHtml::endForm();
                 ?>
@@ -185,7 +187,39 @@
                 </div>
             </div>
             <div class="container">
-
+                <?php if (Yii::app()->user->pbac('Basic.cliente.write') && !Yii::app()->user->pbac('Basic.cliente.admin')) { ?>
+                    <div class='widget-right'>
+                        <ul>
+                            <li>
+                                <a href="<?php echo Yii::app()->request->baseUrl . '/cliente'; ?>">
+                                    <div>
+                                        <i class="icon-user icon-3x "></i>
+                                        <br>
+                                            <span>Perfil</span>
+                                    </div>
+                                </a>
+                            </li> 
+                            <li>
+                                <a href="<?php echo Yii::app()->request->baseUrl . '/consulta/create'; ?>">
+                                    <div>
+                                        <i class="icon-book icon-3x "></i>
+                                        <br>
+                                            <span>Agendar Consulta</span>
+                                    </div>
+                                </a>
+                            </li> 
+                            <li>
+                                <a href="<?php echo Yii::app()->request->baseUrl . '/consulta/admin'; ?>">
+                                    <div>
+                                        <i class="icon-list-alt icon-3x "></i>
+                                        <br>
+                                            <span>Ver Consultas</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                <?php } ?>
                 <?php echo $content; ?>
 
                 <div class="clear"></div>

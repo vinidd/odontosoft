@@ -36,7 +36,7 @@ abstract class BaseProcedimento extends GxActiveRecord {
 
     public function rules() {
         return array(
-            array('procedimento', 'required'),
+            array('procedimento, valor', 'required'),
             array('procedimento', 'length', 'max' => 120),
             array('procedimento', 'unique'),
             array('valor', 'length', 'max' => 9),

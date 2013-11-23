@@ -226,7 +226,6 @@ class ConsultaController extends GxController {
                 'status' => Yii::t('app', $model_consulta->idStatus->nome),
                 'cliente' => $model_consulta->idCliente->idPessoa->nome,
                 'dentista' => $model_consulta->idDentista->idPessoa->nome,
-                'duracao' => $model_consulta->duracao ? $model_consulta->duracao : '',
                 'procedimento' => $model_consulta->idProcedimento->procedimento,
                 'descricao' => $model_consulta->descricao ? $model_consulta->descricao : '',
             );

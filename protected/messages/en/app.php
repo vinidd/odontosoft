@@ -14,6 +14,8 @@ return array(
     'Dentista|Dentistas' => 'Dentist|Dentists',
     'Consulta|Consultas' => 'Appointment|Appointments',
     'Pagamento|Pagamentos' => 'Payment|Payments',
+    'Recepcionista|Recepcionistas' => 'Receptionist|Receptionists',
+    'Procedimento|Procedimentos' => 'Procedure|Procedures',
     
     'Cliente' => 'Client',
     'Dentista' => 'Dentist',
@@ -101,5 +103,7 @@ return array(
     'Preencha a data de pagamento' => 'Fill the payment date',
     
     'Você já adicionou o procedimento escolhido!' => 'You have already chosen this procedure!',
+    
+    'Cidade não pode ser vazio.' => 'City cannot be blank.'
 );
 ?>
