@@ -1,14 +1,14 @@
 <?php echo '<link rel="stylesheet" type="text/css" href="' . Yii::app()->request->baseUrl . '/css/pdf.css" media="print" />'; ?>
 
 <div class="center head">
-    <h3><?php echo Yii::t('app', 'Atestado'); ?></h3>
+    <h3 style="border-left: 5px solid #323232; background-color: #7f7f7f; padding: 5px; color: #fff;"><?php echo Yii::t('app', 'Atestado'); ?> - Odontosoft</h3>
 </div>
 
 <div class="left sub-head">
     <span class="name"><?php echo Yii::t('app', 'Paciente'); ?></span>
     <span class="response"><?php echo $model->idCliente->idPessoa->nome; ?></span>
 </div>
-
+ 
 <div class="right sub-head">
     <span class="name"><?php echo Yii::t('app', 'Data'); ?></span>
     <span class="response"><?php echo $model->data; ?></span>
@@ -17,7 +17,7 @@
 <div class="content">
     <?php if (isset($model->atestados) && !empty($model->atestados)) { ?>
         <?php foreach ($model->atestados as $atestado) { ?>
-            <div class="receita">
+            <div class="receita" style="border: 1px solid #323232; margin-top: 20px;padding: 10px;">
                 <?php echo $atestado->atestado; ?>
             </div>
         <?php } ?>
@@ -25,6 +25,6 @@
 </div>
 
 <div class="center bottom">
-    <hr class="assinatura"/>
-    <span><?php echo $model->idDentista->idPessoa->nome; ?></span>
+    <br><br><br> <hr class="assinatura" style="width: 300px;"/>
+    <div style="text-align: center"><?php echo $model->idDentista->idPessoa->nome; ?> </div>
 </div>

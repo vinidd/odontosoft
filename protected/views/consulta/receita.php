@@ -1,7 +1,7 @@
 <?php echo '<link rel="stylesheet" type="text/css" href="' . Yii::app()->request->baseUrl . '/css/pdf.css" media="print" />'; ?>
 
 <div class="center head">
-    <h3><?php echo Yii::t('app', 'Receita'); ?></h3>
+    <h3 style="border-left: 5px solid #323232; background-color: #7f7f7f; padding: 5px; color: #fff;"><?php echo Yii::t('app', 'Receita'); ?></h3>
 </div>
 
 <div class="left sub-head">
@@ -15,16 +15,18 @@
 </div>
 
 <div class="content">
-    <?php if (isset($model->receitas) && !empty($model->receitas)) { ?>
+  
+  <?php if (isset($model->receitas) && !empty($model->receitas)) { ?>
         <?php foreach ($model->receitas as $receita) { ?>
-            <div class="receita">
-                <?php echo $receita->receita; ?>
+            <div class="receita" style="border: 1px solid #323232; margin-top: 20px;padding: 10px;">
+                            <?php echo $receita->receita; ?>
             </div>
         <?php } ?>
     <?php } ?>
 </div>
 
 <div class="center bottom">
-    <hr class="assinatura"/>
-    <span><?php echo $model->idDentista->idPessoa->nome; ?></span>
+   <br><br><br> <hr class="assinatura" style="width: 300px;"/>
+    <div style="text-align: center"><?php echo $model->idDentista->idPessoa->nome; ?> </div>
+
 </div>
