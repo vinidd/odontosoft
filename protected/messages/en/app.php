@@ -104,6 +104,14 @@ return array(
     
     'Você já adicionou o procedimento escolhido!' => 'You have already chosen this procedure!',
     
-    'Cidade não pode ser vazio.' => 'City cannot be blank.'
+    'Cidade não pode ser vazio.' => 'City cannot be blank.',
+    
+    'Receita' => 'Prescription',
+    'Paciente' => 'Pacient',
+    'Atestado' => 'Certificate',
+    
+    'À vista' => 'Cash',
+    'Boleto bancário' => 'Billet',
+    'Cartão de débito' => 'Debit card',
 );
 ?>

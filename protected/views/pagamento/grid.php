@@ -182,7 +182,18 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
     </div>
     <div class="row" style="margin-top: 15px;">
         <label class="span2"><strong><?php echo Yii::t('app', 'Tipo Pagamento'); ?></strong></label>
-        <?php echo CHtml::dropDownList('tipo_pagamento', '', GxHtml::listDataEx(TipoPagamento::model()->findAll()), array('prompt' => Yii::t('app', 'Select'))); ?>
+        <?php if (Yii::app()->user->level > 10) { ?>
+        <?php echo CHtml::dropDownList('tipo_pagamento', '', array(
+            '1' => Yii::t('app', 'À vista'),
+            '2' => Yii::t('app', 'Boleto bancário'),
+            '3' => Yii::t('app', 'Cartão de débito'),
+        ), array('prompt' => Yii::t('app', 'Select'))); ?>
+        <?php } else { ?>
+            <?php echo CHtml::dropDownList('tipo_pagamento', '', array(
+            '2' => Yii::t('app', 'Boleto bancário'),
+            '3' => Yii::t('app', 'Cartão de débito'),
+        ), array('prompt' => Yii::t('app', 'Select'))); ?>
+        <?php } ?>
     </div>
     <div class="row" id="_num_parcelas" style="display: none;">
         <label class="span2"><strong><?php echo Yii::t('app', 'Número de parcelas'); ?></strong></label>

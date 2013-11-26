@@ -40,12 +40,12 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                 'receita' => array(
                     'label' => '',
                     //'imageUrl' => Yii::app()->request->baseUrl . '/images/usa-icon.png',
-                    'url' => '"#"',
+                    'url' => 'Yii::app()->createUrl("consulta/geraReceita", array("id"=>$data->id_consulta))',
                     'options' => array('class' => 'icon-stethoscope', 'style' => 'text-decoration: none; margin-left: 5px;'),
                 ),
                 'atestado' => array(
                     'label' => '',
-                    'url' => '"#"',
+                    'url' => 'Yii::app()->createUrl("consulta/geraAtestado", array("id"=>$data->id_consulta))',
                     'options' => array('class' => 'icon-file-text-alt', 'style' => 'text-decoration: none; margin-left: 5px;'),
                 ),
                 'update' => array(

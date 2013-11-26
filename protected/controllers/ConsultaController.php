@@ -11,11 +11,11 @@ class ConsultaController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario', 'adiarConsulta', 'concluirConsulta', 'cancelarConsulta', 'confirmarConsulta'),
+                'actions' => array('index', 'view', 'update', 'admin', 'create', 'buscaConsulta', 'confereHorario', 'adiarConsulta', 'concluirConsulta', 'cancelarConsulta', 'confirmarConsulta', 'receita', 'atestado'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete'),
+                'actions' => array('delete', 'geraReceita', 'geraAtestado'),
                 'pbac' => array('admin'),
             ),
             array('deny', // deny all users
@@ -41,7 +41,7 @@ class ConsultaController extends GxController {
             $model_cliente = Cliente::model()->find(array('condition' => 'id_pessoa = ' . $model_pessoa->id_pessoa));
             $model_telefones = Telefone::model()->findAll(array('condition' => 'id_pessoa = ' . $model_pessoa->getPrimaryKey(), 'order' => 'tipo ASC'));
         }
-        
+
         //salvando consulta e relações
         if (isset($_POST['Cliente'], $_POST['id_procedimento'], $_POST['Dentista'], $_POST['data'], $_POST['Consulta'], $_POST['Telefone'])) {
             $cliente = $this->loadModel($_POST['Cliente']['id_cliente'], 'Cliente');
@@ -172,7 +172,7 @@ class ConsultaController extends GxController {
                 $model_pagamento->changeValor();
                 $model_pagamento->save();
             }
-            
+
             if ($model->save()) {
                 $this->redirect(array('create'));
             }
@@ -189,7 +189,8 @@ class ConsultaController extends GxController {
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        } else
+        }
+        else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 
@@ -212,10 +213,90 @@ class ConsultaController extends GxController {
                 'model' => $model,
             ));
         } else if (!Yii::app()->user->pbac('Basic.consulta.admin') && Yii::app()->user->pbac('Basic.consulta.write')) {
+            $model_pessoa = Pessoa::model()->find(array('condition' => 'id_usuario = ' . Yii::app()->user->id));
+            $model = $model_pessoa->getPerfil();
             $this->render('admin_cliente', array(
                 'model' => $model,
             ));
         }
+    }
+
+    public function actionReceita($id) {
+        $model = $this->loadModel($id, 'Consulta');
+        $model->changeDate(true);
+
+        $pdf = Yii::app()->ePdf->mpdf();
+
+        $footer = '
+        <table class="inside-table" width="100%" style="border-top: 1px solid black; vertical-align: bottom; font-family: sans-serif; font-size: 9pt; color: black;"><tr class="inside-table">
+<td class="inside-table" width="33%">Odontosoft</td>
+<td class="inside-table" width="33%" align="center">{PAGENO}/{nb}</td>
+<td class="inside-table" width="33%" style="text-align: right;">{DATE j/m/Y}</td>
+</tr></table>
+    ';
+        $pdf->SetHTMLFooter($footer);
+
+        $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/main.css');
+        $pdf->WriteHTML($stylesheet, 1);
+
+        $pdf->WriteHTML($this->renderPartial('receita', array('model' => $model), true));
+
+        $pdf->Output();
+    }
+
+    public function actionAtestado($id) {
+        $model = $this->loadModel($id, 'Consulta');
+        $model->changeDate(true);
+
+        $pdf = Yii::app()->ePdf->mpdf();
+
+        $footer = '
+        <table class="inside-table" width="100%" style="border-top: 1px solid black; vertical-align: bottom; font-family: sans-serif; font-size: 9pt; color: black;"><tr class="inside-table">
+<td class="inside-table" width="33%">Odontosoft</td>
+<td class="inside-table" width="33%" align="center">{PAGENO}/{nb}</td>
+<td class="inside-table" width="33%" style="text-align: right;">{DATE j/m/Y}</td>
+</tr></table>
+    ';
+        $pdf->SetHTMLFooter($footer);
+
+        $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/main.css');
+        $pdf->WriteHTML($stylesheet, 1);
+
+        $pdf->WriteHTML($this->renderPartial('atestado', array('model' => $model), true));
+
+        $pdf->Output();
+    }
+
+    public function actionGeraReceita($id) {
+        $model = $this->loadModel($id, 'Consulta');
+        $model_receita = new Receita;
+
+        if (isset($_POST['Receita'])) {
+            $model_receita->id_consulta = $model->id_consulta;
+            $model_receita->receita = $_POST['Receita']['receita'];
+            $model_receita->save();
+        }
+
+        $this->render('gera_receita', array(
+            'model' => $model,
+            'model_receita' => $model_receita,
+        ));
+    }
+
+    public function actionGeraAtestado($id) {
+        $model = $this->loadModel($id, 'Consulta');
+        $model_atestado = new Atestado;
+
+        if (isset($_POST['Atestado'])) {
+            $model_atestado->id_consulta = $model->id_consulta;
+            $model_atestado->atestado = $_POST['Atestado']['atestado'];
+            $model_atestado->save();
+        }
+
+        $this->render('gera_atestado', array(
+            'model' => $model,
+            'model_atestado' => $model_atestado,
+        ));
     }
 
     public function actionBuscaConsulta() {
