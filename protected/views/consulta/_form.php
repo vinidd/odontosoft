@@ -147,6 +147,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
                             "success":function(data) {
                                 $("#id_procedimento").empty();
                                 $("#Consulta_valor").val("");
+                                $("#valor_view").val("");
                                 $("#id_procedimento").removeAttr("disabled");
                                 $("#id_procedimento").append(data);
                                 $("#id_procedimento").focus();
@@ -173,7 +174,8 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 
     <div class="input-prepend">
         <span class="add-on">R$</span>
-        <input id="Consulta_valor" class="money" type="text" maxlength="9" value="" name="Consulta[valor]" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" readonly="readonly" style="text-align: right; width: 80px;">
+        <input id="valor_view" class="money" type="text" maxlength="9" value="" name="valor_view" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" disabled="disabled" style="text-align: right; width: 80px;">
+        <?php echo CHtml::hiddenField('Consulta[valor]', ''); ?>
     </div>
 
     <div style="margin-top: 30px;">

@@ -132,7 +132,7 @@ if (isset($model_telefones)) {
 
 <fieldset>
     <legend><?php echo Yii::t('app', 'Procedimentos'); ?></legend>
-
+    <br>
     <?php echo CHtml::hiddenField('delete', Yii::t('app', 'Delete')); ?>
     <?php echo CHtml::hiddenField('unique_msg', Yii::t('app', 'Você já adicionou o procedimento escolhido!')); ?>
     

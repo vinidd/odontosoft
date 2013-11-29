@@ -42,6 +42,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
                             "url":"' . Yii::app()->request->baseUrl . '/procedimento/dentistaBuscaProcedimento",
                             "success":function(data) {
                                 $("#Consulta_valor").val("");
+                                $("#valor_view").val("");
                                 $("#id_procedimento").empty();
                                 $("#id_procedimento").append(data);
                                 $("#id_procedimento").focus();
@@ -87,8 +88,9 @@ $modelPagamento->changeValor(true);
     <div class="controls">
         <div class="input-prepend">
             <span class="add-on">R$</span>
-            <input id="Consulta_valor" class="money" type="text" maxlength="9" name="Consulta[valor]" value="<?php echo $modelPagamento->valor; ?>" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" style="text-align: right; width: 80px;"
+            <input id="valor_view" class="money" type="text" maxlength="9" name="valor_view" value="<?php echo $modelPagamento->valor; ?>" placeholder="<?php echo Yii::t('app', 'Valor'); ?>" style="text-align: right; width: 80px;"
                    <?php echo (Yii::app()->user->level >= 15) ? '' : 'disabled="disabled"'; ?>>
+            <?php echo CHtml::hiddenField('Consulta[valor]', $modelPagamento->valor); ?>
         </div>
     </div>
 </div>

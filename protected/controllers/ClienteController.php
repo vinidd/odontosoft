@@ -11,12 +11,16 @@ class ClienteController extends GxController {
     public function accessRules() {
         return array(
             array('allow',
-                'actions' => array('index', 'view', 'update', 'printView'),
+                'actions' => array('index', 'view', 'update'),
                 'pbac' => array('write'),
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
-                'actions' => array('delete', 'admin', 'create'),
+                'actions' => array('delete', 'create'),
                 'pbac' => array('admin'),   
+            ),
+            array('allow',
+                'actions' => array('admin'),
+                'groups' => array('dentista', 'recepcionista'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),

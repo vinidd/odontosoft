@@ -2,10 +2,10 @@
 -- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
--- Máquina: 127.0.0.1
--- Data de Criação: 26-Nov-2013 às 19:06
--- Versão do servidor: 5.6.11
--- versão do PHP: 5.5.1
+-- Host: 127.0.0.1
+-- Generation Time: Nov 29, 2013 at 12:59 AM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,15 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de Dados: `odontosoft`
+-- Database: `odontosoft`
 --
-CREATE DATABASE IF NOT EXISTS `odontosoft` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `odontosoft` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `odontosoft`;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `atestado`
+-- Table structure for table `atestado`
 --
 
 CREATE TABLE IF NOT EXISTS `atestado` (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `atestado` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cidade`
+-- Table structure for table `cidade`
 --
 
 CREATE TABLE IF NOT EXISTS `cidade` (
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `cidade` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5565 ;
 
 --
--- Extraindo dados da tabela `cidade`
+-- Dumping data for table `cidade`
 --
 
 INSERT INTO `cidade` (`id_cidade`, `nome`, `id_estado`) VALUES
@@ -5626,7 +5626,7 @@ INSERT INTO `cidade` (`id_cidade`, `nome`, `id_estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cliente`
+-- Table structure for table `cliente`
 --
 
 CREATE TABLE IF NOT EXISTS `cliente` (
@@ -5635,20 +5635,12 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_cliente`),
   KEY `fk_cliente_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
---
--- Extraindo dados da tabela `cliente`
---
-
-INSERT INTO `cliente` (`id_cliente`, `id_pessoa`, `data_criacao`) VALUES
-(5, 5, '2013-10-12'),
-(6, 14, '2013-11-26');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cliente_has_procedimento`
+-- Table structure for table `cliente_has_procedimento`
 --
 
 CREATE TABLE IF NOT EXISTS `cliente_has_procedimento` (
@@ -5658,21 +5650,12 @@ CREATE TABLE IF NOT EXISTS `cliente_has_procedimento` (
   PRIMARY KEY (`id_cliente_has_procedimento`),
   KEY `fk_cliente_has_procedimento_procedimento1_idx` (`id_procedimento`),
   KEY `fk_cliente_has_procedimento_cliente1_idx` (`id_cliente`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Extraindo dados da tabela `cliente_has_procedimento`
---
-
-INSERT INTO `cliente_has_procedimento` (`id_cliente_has_procedimento`, `id_procedimento`, `id_cliente`) VALUES
-(2, 1, 5),
-(3, 1, 6),
-(4, 2, 5);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cliente_has_procedimento_has_consulta`
+-- Table structure for table `cliente_has_procedimento_has_consulta`
 --
 
 CREATE TABLE IF NOT EXISTS `cliente_has_procedimento_has_consulta` (
@@ -5682,22 +5665,12 @@ CREATE TABLE IF NOT EXISTS `cliente_has_procedimento_has_consulta` (
   PRIMARY KEY (`id_cliente_has_procedimento_has_consulta`),
   KEY `fk_cliente_has_procedimento_has_consulta_cliente_has_proced_idx` (`id_cliente_has_procedimento`),
   KEY `fk_cliente_has_procedimento_has_consulta_consulta1_idx` (`id_consulta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Extraindo dados da tabela `cliente_has_procedimento_has_consulta`
---
-
-INSERT INTO `cliente_has_procedimento_has_consulta` (`id_cliente_has_procedimento_has_consulta`, `id_cliente_has_procedimento`, `id_consulta`) VALUES
-(2, 2, 3),
-(3, 2, 4),
-(4, 3, 5),
-(5, 4, 6);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `consulta`
+-- Table structure for table `consulta`
 --
 
 CREATE TABLE IF NOT EXISTS `consulta` (
@@ -5716,22 +5689,12 @@ CREATE TABLE IF NOT EXISTS `consulta` (
   KEY `fk_consulta_dentista1_idx` (`id_dentista`),
   KEY `fk_consulta_status1_idx` (`id_status`),
   KEY `fk_consulta_procedimento1_idx` (`id_procedimento`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
---
--- Extraindo dados da tabela `consulta`
---
-
-INSERT INTO `consulta` (`id_consulta`, `id_cliente`, `id_dentista`, `id_procedimento`, `data`, `horario`, `duracao`, `id_status`, `data_criacao`, `descricao`) VALUES
-(3, 5, 2, 1, '2013-11-01', '12:00', NULL, 5, '2013-11-25', 'blá'),
-(4, 5, 2, 1, '2013-11-04', '12:00', NULL, 5, '2013-11-26', NULL),
-(5, 6, 2, 1, '2013-11-05', '12:00', NULL, 1, '2013-11-26', NULL),
-(6, 5, 2, 2, '2013-11-05', '13:00', NULL, 2, '2013-11-26', NULL);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `dentista`
+-- Table structure for table `dentista`
 --
 
 CREATE TABLE IF NOT EXISTS `dentista` (
@@ -5741,20 +5704,12 @@ CREATE TABLE IF NOT EXISTS `dentista` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_dentista`),
   KEY `fk_dentista_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Extraindo dados da tabela `dentista`
---
-
-INSERT INTO `dentista` (`id_dentista`, `id_pessoa`, `cro`, `data_criacao`) VALUES
-(2, 10, 'df-asd-123', '2013-10-13'),
-(3, 13, NULL, '2013-11-09');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `endereco`
+-- Table structure for table `endereco`
 --
 
 CREATE TABLE IF NOT EXISTS `endereco` (
@@ -5772,23 +5727,12 @@ CREATE TABLE IF NOT EXISTS `endereco` (
   PRIMARY KEY (`id_endereco`),
   KEY `fk_endereco_pessoa1_idx` (`id_pessoa`),
   KEY `fk_endereco_cidade1_idx` (`id_cidade`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
-
---
--- Extraindo dados da tabela `endereco`
---
-
-INSERT INTO `endereco` (`id_endereco`, `nome`, `cep`, `tipo`, `rua`, `numero`, `complemento`, `descricao`, `bairro`, `id_pessoa`, `id_cidade`) VALUES
-(5, 'Minha Casa', '11111-111', 1, 'teste teste', '123', '12A', 'testete testetetsetest testes test testes testest tes tes t estesets tes  tsetestse', 'teste', 5, 1479),
-(8, 'casa', '11111-111', 1, 'teste', '123', NULL, NULL, 'teste', 10, 5270),
-(9, NULL, '11111-111', 0, '11111', '111', NULL, NULL, '111', 12, 3328),
-(10, NULL, '11111-111', 0, 'teste', 'teste', NULL, NULL, 'teste', 13, 5219),
-(11, NULL, '11111-111', 0, 'teste', 'teste', 'teste', 'teste', 'teste', 14, 4214);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `estado`
+-- Table structure for table `estado`
 --
 
 CREATE TABLE IF NOT EXISTS `estado` (
@@ -5801,7 +5745,7 @@ CREATE TABLE IF NOT EXISTS `estado` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
--- Extraindo dados da tabela `estado`
+-- Dumping data for table `estado`
 --
 
 INSERT INTO `estado` (`id_estado`, `nome`, `uf`, `id_pais`) VALUES
@@ -5836,7 +5780,7 @@ INSERT INTO `estado` (`id_estado`, `nome`, `uf`, `id_pais`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pagamento`
+-- Table structure for table `pagamento`
 --
 
 CREATE TABLE IF NOT EXISTS `pagamento` (
@@ -5850,22 +5794,12 @@ CREATE TABLE IF NOT EXISTS `pagamento` (
   KEY `fk_pagamento_consulta1_idx` (`id_consulta`),
   KEY `fk_pagamento_tipo_pagamento1_idx` (`id_tipo_pagamento`),
   KEY `fk_pagamento_status1_idx` (`id_status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Extraindo dados da tabela `pagamento`
---
-
-INSERT INTO `pagamento` (`id_pagamento`, `id_consulta`, `valor`, `id_tipo_pagamento`, `id_status`, `data_criacao`) VALUES
-(1, 3, '150.00', 2, 7, '2013-11-25'),
-(2, 4, '150.00', 3, 7, '2013-11-26'),
-(3, 5, '150.00', NULL, 7, '2013-11-26'),
-(4, 6, '0.00', NULL, 7, '2013-11-26');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pais`
+-- Table structure for table `pais`
 --
 
 CREATE TABLE IF NOT EXISTS `pais` (
@@ -5875,7 +5809,7 @@ CREATE TABLE IF NOT EXISTS `pais` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=251 ;
 
 --
--- Extraindo dados da tabela `pais`
+-- Dumping data for table `pais`
 --
 
 INSERT INTO `pais` (`id_pais`, `nome`) VALUES
@@ -6132,7 +6066,7 @@ INSERT INTO `pais` (`id_pais`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `parcela`
+-- Table structure for table `parcela`
 --
 
 CREATE TABLE IF NOT EXISTS `parcela` (
@@ -6145,24 +6079,12 @@ CREATE TABLE IF NOT EXISTS `parcela` (
   PRIMARY KEY (`id_parcela`),
   KEY `fk_parcela_status1_idx` (`id_status`),
   KEY `fk_parcela_pagamento1_idx` (`id_pagamento`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
---
--- Extraindo dados da tabela `parcela`
---
-
-INSERT INTO `parcela` (`id_parcela`, `id_pagamento`, `valor`, `id_status`, `data_vencimento`, `data_pagamento`) VALUES
-(1, 1, '150.00', 7, '2013-12-26', NULL),
-(2, 2, '30.00', 6, '2013-12-26', '2013-11-26'),
-(3, 2, '30.00', 7, '2014-01-25', NULL),
-(4, 2, '30.00', 7, '2014-02-24', NULL),
-(5, 2, '30.00', 7, '2014-03-26', NULL),
-(6, 2, '30.00', 7, '2014-04-25', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pessoa`
+-- Table structure for table `pessoa`
 --
 
 CREATE TABLE IF NOT EXISTS `pessoa` (
@@ -6176,23 +6098,12 @@ CREATE TABLE IF NOT EXISTS `pessoa` (
   `email` varchar(120) NOT NULL,
   PRIMARY KEY (`id_pessoa`),
   KEY `fk_pessoa_usergroups_user1_idx` (`id_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
-
---
--- Extraindo dados da tabela `pessoa`
---
-
-INSERT INTO `pessoa` (`id_pessoa`, `id_usuario`, `nome`, `data_nascimento`, `sexo`, `cpf`, `rg`, `email`) VALUES
-(5, 4, 'Cliente', '1991-11-12', 1, '036.491.781-41', NULL, 'teste@teste.com'),
-(10, 6, 'Dentista', '1999-11-12', 0, '876.868.978-00', '1111111111', 'teste@dentista.com'),
-(12, 8, 'Recepcionista', '1999-11-12', 1, '190.282.366-43', NULL, 'teste@recepcionista.com'),
-(13, NULL, 'Dentista 2', '1990-11-12', 0, '598.734.351-82', NULL, 'dentista2@teste.com'),
-(14, NULL, 'Cliente 2', '1991-11-12', 0, '016.253.670-40', NULL, 'teste2@teste.com');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `procedimento`
+-- Table structure for table `procedimento`
 --
 
 CREATE TABLE IF NOT EXISTS `procedimento` (
@@ -6200,20 +6111,12 @@ CREATE TABLE IF NOT EXISTS `procedimento` (
   `procedimento` varchar(120) NOT NULL,
   `valor` decimal(7,2) NOT NULL,
   PRIMARY KEY (`id_procedimento`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Extraindo dados da tabela `procedimento`
---
-
-INSERT INTO `procedimento` (`id_procedimento`, `procedimento`, `valor`) VALUES
-(1, 'Procedimento', '150.00'),
-(2, 'Procedimento 2', '0.00');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `procedimento_has_dentista`
+-- Table structure for table `procedimento_has_dentista`
 --
 
 CREATE TABLE IF NOT EXISTS `procedimento_has_dentista` (
@@ -6223,20 +6126,12 @@ CREATE TABLE IF NOT EXISTS `procedimento_has_dentista` (
   PRIMARY KEY (`id_procedimento_has_dentista`),
   KEY `fk_procedimento_has_dentista_procedimento1_idx` (`id_procedimento`),
   KEY `fk_procedimento_has_dentista_dentista1_idx` (`id_dentista`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Extraindo dados da tabela `procedimento_has_dentista`
---
-
-INSERT INTO `procedimento_has_dentista` (`id_procedimento_has_dentista`, `id_procedimento`, `id_dentista`) VALUES
-(1, 1, 2),
-(2, 2, 2);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `receita`
+-- Table structure for table `receita`
 --
 
 CREATE TABLE IF NOT EXISTS `receita` (
@@ -6250,7 +6145,7 @@ CREATE TABLE IF NOT EXISTS `receita` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `recepcionista`
+-- Table structure for table `recepcionista`
 --
 
 CREATE TABLE IF NOT EXISTS `recepcionista` (
@@ -6259,19 +6154,12 @@ CREATE TABLE IF NOT EXISTS `recepcionista` (
   `data_criacao` date NOT NULL,
   PRIMARY KEY (`id_recepcionista`),
   KEY `fk_recepcionista_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Extraindo dados da tabela `recepcionista`
---
-
-INSERT INTO `recepcionista` (`id_recepcionista`, `id_pessoa`, `data_criacao`) VALUES
-(2, 12, '2013-10-17');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `status`
+-- Table structure for table `status`
 --
 
 CREATE TABLE IF NOT EXISTS `status` (
@@ -6281,7 +6169,7 @@ CREATE TABLE IF NOT EXISTS `status` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Extraindo dados da tabela `status`
+-- Dumping data for table `status`
 --
 
 INSERT INTO `status` (`id_status`, `nome`) VALUES
@@ -6296,7 +6184,7 @@ INSERT INTO `status` (`id_status`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `telefone`
+-- Table structure for table `telefone`
 --
 
 CREATE TABLE IF NOT EXISTS `telefone` (
@@ -6306,25 +6194,12 @@ CREATE TABLE IF NOT EXISTS `telefone` (
   `id_pessoa` int(11) NOT NULL,
   PRIMARY KEY (`id_telefone`),
   KEY `fk_telefone_pessoa1_idx` (`id_pessoa`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
-
---
--- Extraindo dados da tabela `telefone`
---
-
-INSERT INTO `telefone` (`id_telefone`, `tipo`, `numero`, `id_pessoa`) VALUES
-(11, 0, '(11)1111-1111', 5),
-(12, 2, '(33)3333-3333', 5),
-(15, 0, '(11)1111-1111', 10),
-(16, 2, '(11)1111-1111', 10),
-(18, 0, '(11)1111-1111', 12),
-(19, 0, '(11)1111-1111', 13),
-(20, 0, '(11)1111-1111', 14);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tipo_pagamento`
+-- Table structure for table `tipo_pagamento`
 --
 
 CREATE TABLE IF NOT EXISTS `tipo_pagamento` (
@@ -6334,18 +6209,18 @@ CREATE TABLE IF NOT EXISTS `tipo_pagamento` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Extraindo dados da tabela `tipo_pagamento`
+-- Dumping data for table `tipo_pagamento`
 --
 
 INSERT INTO `tipo_pagamento` (`id_tipo`, `nome`) VALUES
 (1, 'À vista'),
 (2, 'Boleto bancário'),
-(3, 'Cartão de débito');
+(3, 'Cartão');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usergroups_access`
+-- Table structure for table `usergroups_access`
 --
 
 CREATE TABLE IF NOT EXISTS `usergroups_access` (
@@ -6356,10 +6231,10 @@ CREATE TABLE IF NOT EXISTS `usergroups_access` (
   `controller` varchar(140) NOT NULL,
   `permission` varchar(7) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
--- Extraindo dados da tabela `usergroups_access`
+-- Dumping data for table `usergroups_access`
 --
 
 INSERT INTO `usergroups_access` (`id`, `element`, `element_id`, `module`, `controller`, `permission`) VALUES
@@ -6375,21 +6250,18 @@ INSERT INTO `usergroups_access` (`id`, `element`, `element_id`, `module`, `contr
 (18, 2, 5, 'Basic', 'pessoa', 'admin'),
 (20, 2, 5, 'Basic', 'recepcionista', 'write'),
 (21, 2, 3, 'Basic', 'consulta', 'write'),
-(22, 2, 3, 'Basic', 'dentista', 'read'),
-(23, 2, 3, 'Basic', 'procedimento', 'read'),
+(22, 2, 3, 'Basic', 'procedimento', 'read'),
+(23, 2, 3, 'Basic', 'pagamento', 'write'),
 (24, 2, 5, 'Basic', 'consulta', 'admin'),
 (25, 2, 5, 'Basic', 'pagamento', 'admin'),
 (26, 2, 5, 'Basic', 'procedimento', 'admin'),
-(27, 2, 4, 'Basic', 'cliente', 'read'),
-(28, 2, 4, 'Basic', 'consulta', 'write'),
-(29, 2, 4, 'Basic', 'pagamento', 'read'),
-(30, 2, 4, 'Basic', 'procedimento', 'admin'),
-(31, 2, 3, 'Basic', 'pagamento', 'write');
+(32, 2, 4, 'Basic', 'consulta', 'admin'),
+(33, 2, 4, 'Basic', 'procedimento', 'admin');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usergroups_configuration`
+-- Table structure for table `usergroups_configuration`
 --
 
 CREATE TABLE IF NOT EXISTS `usergroups_configuration` (
@@ -6402,7 +6274,7 @@ CREATE TABLE IF NOT EXISTS `usergroups_configuration` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
--- Extraindo dados da tabela `usergroups_configuration`
+-- Dumping data for table `usergroups_configuration`
 --
 
 INSERT INTO `usergroups_configuration` (`id`, `rule`, `value`, `options`, `description`) VALUES
@@ -6425,7 +6297,7 @@ INSERT INTO `usergroups_configuration` (`id`, `rule`, `value`, `options`, `descr
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usergroups_cron`
+-- Table structure for table `usergroups_cron`
 --
 
 CREATE TABLE IF NOT EXISTS `usergroups_cron` (
@@ -6437,17 +6309,17 @@ CREATE TABLE IF NOT EXISTS `usergroups_cron` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Extraindo dados da tabela `usergroups_cron`
+-- Dumping data for table `usergroups_cron`
 --
 
 INSERT INTO `usergroups_cron` (`id`, `name`, `lapse`, `last_occurrence`) VALUES
-(1, 'garbage_collection', 7, '2013-11-25 00:00:00'),
-(2, 'unban', 1, '2013-11-26 00:00:00');
+(1, 'garbage_collection', 7, '2013-11-28 00:00:00'),
+(2, 'unban', 1, '2013-11-28 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usergroups_group`
+-- Table structure for table `usergroups_group`
 --
 
 CREATE TABLE IF NOT EXISTS `usergroups_group` (
@@ -6460,20 +6332,20 @@ CREATE TABLE IF NOT EXISTS `usergroups_group` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Extraindo dados da tabela `usergroups_group`
+-- Dumping data for table `usergroups_group`
 --
 
 INSERT INTO `usergroups_group` (`id`, `groupname`, `level`, `home`) VALUES
 (1, 'root', 100, NULL),
 (2, 'user', 1, '/userGroups'),
 (3, 'cliente', 5, '/site'),
-(4, 'dentista', 10, '/dentista'),
-(5, 'recepcionista', 15, '/recepcionista');
+(4, 'dentista', 10, '/site'),
+(5, 'recepcionista', 15, '/site');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usergroups_lookup`
+-- Table structure for table `usergroups_lookup`
 --
 
 CREATE TABLE IF NOT EXISTS `usergroups_lookup` (
@@ -6485,7 +6357,7 @@ CREATE TABLE IF NOT EXISTS `usergroups_lookup` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Extraindo dados da tabela `usergroups_lookup`
+-- Dumping data for table `usergroups_lookup`
 --
 
 INSERT INTO `usergroups_lookup` (`id`, `element`, `value`, `text`) VALUES
@@ -6498,7 +6370,7 @@ INSERT INTO `usergroups_lookup` (`id`, `element`, `value`, `text`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usergroups_user`
+-- Table structure for table `usergroups_user`
 --
 
 CREATE TABLE IF NOT EXISTS `usergroups_user` (
@@ -6521,56 +6393,53 @@ CREATE TABLE IF NOT EXISTS `usergroups_user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `group_id_idxfk` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
--- Extraindo dados da tabela `usergroups_user`
+-- Dumping data for table `usergroups_user`
 --
 
 INSERT INTO `usergroups_user` (`id`, `group_id`, `username`, `password`, `email`, `home`, `status`, `question`, `answer`, `creation_date`, `activation_code`, `activation_time`, `last_login`, `ban`, `ban_reason`) VALUES
-(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-11-26 17:42:26', NULL, NULL),
-(4, 3, 'cliente', 'b9ffb515227fa9cfe7169ff6e0343851', 'teste@cliente.com', NULL, 4, 'teste', 'teste', '2013-10-12 20:13:10', NULL, NULL, '2013-11-26 17:03:59', NULL, NULL),
-(6, 4, 'dentista', 'dd38562eca0f5a99c0169cfadd47e65c', 'teste@dentista.com', NULL, 4, NULL, NULL, '2013-10-13 21:47:37', NULL, NULL, '2013-10-13 20:39:52', NULL, NULL),
-(8, 5, 'recepcionista', '67e4dcd6d74f4ea53bdb296e63f5e6cf', 'teste@recepcionista.com', NULL, 4, NULL, NULL, '2013-10-17 00:30:22', NULL, NULL, '2013-11-26 16:49:20', NULL, NULL);
+(1, 1, 'root', '01ad32513689c26da904dff0ae2c4458', 'dallrigo1@gmail.com', '/userGroups/admin/documentation', 4, 'root', 'root', '2013-09-30 01:21:01', NULL, NULL, '2013-11-28 23:09:48', NULL, NULL);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Limitadores para a tabela `atestado`
+-- Constraints for table `atestado`
 --
 ALTER TABLE `atestado`
   ADD CONSTRAINT `fk_atestado_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `cidade`
+-- Constraints for table `cidade`
 --
 ALTER TABLE `cidade`
   ADD CONSTRAINT `fk_id_estado` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `cliente`
+-- Constraints for table `cliente`
 --
 ALTER TABLE `cliente`
   ADD CONSTRAINT `fk_cliente_pessoa1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `cliente_has_procedimento`
+-- Constraints for table `cliente_has_procedimento`
 --
 ALTER TABLE `cliente_has_procedimento`
   ADD CONSTRAINT `fk_cliente_has_procedimento_cliente1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_cliente_has_procedimento_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `cliente_has_procedimento_has_consulta`
+-- Constraints for table `cliente_has_procedimento_has_consulta`
 --
 ALTER TABLE `cliente_has_procedimento_has_consulta`
   ADD CONSTRAINT `fk_cliente_has_procedimento_has_consulta_cliente_has_procedim1` FOREIGN KEY (`id_cliente_has_procedimento`) REFERENCES `cliente_has_procedimento` (`id_cliente_has_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_cliente_has_procedimento_has_consulta_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `consulta`
+-- Constraints for table `consulta`
 --
 ALTER TABLE `consulta`
   ADD CONSTRAINT `fk_consulta_cliente1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -6579,26 +6448,26 @@ ALTER TABLE `consulta`
   ADD CONSTRAINT `fk_consulta_status1` FOREIGN KEY (`id_status`) REFERENCES `status` (`id_status`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `dentista`
+-- Constraints for table `dentista`
 --
 ALTER TABLE `dentista`
   ADD CONSTRAINT `fk_dentista_pessoa1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `endereco`
+-- Constraints for table `endereco`
 --
 ALTER TABLE `endereco`
   ADD CONSTRAINT `fk_endereco_cidade1` FOREIGN KEY (`id_cidade`) REFERENCES `cidade` (`id_cidade`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_endereco_pessoa1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `estado`
+-- Constraints for table `estado`
 --
 ALTER TABLE `estado`
   ADD CONSTRAINT `fk_id_pais` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `pagamento`
+-- Constraints for table `pagamento`
 --
 ALTER TABLE `pagamento`
   ADD CONSTRAINT `fk_pagamento_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -6606,45 +6475,45 @@ ALTER TABLE `pagamento`
   ADD CONSTRAINT `fk_pagamento_tipo_pagamento1` FOREIGN KEY (`id_tipo_pagamento`) REFERENCES `tipo_pagamento` (`id_tipo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `parcela`
+-- Constraints for table `parcela`
 --
 ALTER TABLE `parcela`
   ADD CONSTRAINT `fk_parcela_pagamento1` FOREIGN KEY (`id_pagamento`) REFERENCES `pagamento` (`id_pagamento`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_parcela_status1` FOREIGN KEY (`id_status`) REFERENCES `status` (`id_status`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `pessoa`
+-- Constraints for table `pessoa`
 --
 ALTER TABLE `pessoa`
   ADD CONSTRAINT `fk_pessoa_usergroups_user1` FOREIGN KEY (`id_usuario`) REFERENCES `usergroups_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `procedimento_has_dentista`
+-- Constraints for table `procedimento_has_dentista`
 --
 ALTER TABLE `procedimento_has_dentista`
   ADD CONSTRAINT `fk_procedimento_has_dentista_dentista1` FOREIGN KEY (`id_dentista`) REFERENCES `dentista` (`id_dentista`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_procedimento_has_dentista_procedimento1` FOREIGN KEY (`id_procedimento`) REFERENCES `procedimento` (`id_procedimento`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `receita`
+-- Constraints for table `receita`
 --
 ALTER TABLE `receita`
   ADD CONSTRAINT `fk_receita_consulta1` FOREIGN KEY (`id_consulta`) REFERENCES `consulta` (`id_consulta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `recepcionista`
+-- Constraints for table `recepcionista`
 --
 ALTER TABLE `recepcionista`
   ADD CONSTRAINT `fk_recepcionista_pessoa1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `telefone`
+-- Constraints for table `telefone`
 --
 ALTER TABLE `telefone`
   ADD CONSTRAINT `fk_telefone_pessoa1` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `usergroups_user`
+-- Constraints for table `usergroups_user`
 --
 ALTER TABLE `usergroups_user`
   ADD CONSTRAINT `usergroups_user_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `usergroups_group` (`id`) ON DELETE CASCADE;

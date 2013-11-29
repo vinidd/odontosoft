@@ -189,8 +189,7 @@ class ConsultaController extends GxController {
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        }
-        else
+        } else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 

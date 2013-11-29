@@ -234,8 +234,10 @@ $(document).ready(function() {
                 data: {id: $('#id_procedimento').val()},
                 success: function(data) {
                     $('#Consulta_valor').val(data);
+                    $('#valor_view').val(data);
+                    
                     if ($('#cliente').val() === '') {
-                        $('#Consulta_valor').removeAttr('readonly');
+                        $('#valor_view').removeAttr('disabled');
                     }
                 }
             });
