@@ -1,9 +1,3 @@
-<script>
-    $(document).ready(function() {
-        checkTelefone('dentista');
-    });
-</script>
-
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'dentista-form',
@@ -190,6 +184,21 @@ if (isset($model_telefones)) {
         'htmlOptions' => array('id' => 'dentista-button')
     ));
     ?>
+    <span id="val-button" class="help-inline" style="color:#000; display: none;"><?php echo Yii::t('app', 'Há campos em branco ou com valor inválido, corrija-os.'); ?></span>
 </div>
 
 <?php $this->endWidget('dentista-form'); ?>
+
+<script>
+    $('#dentista-form').submit(function(e) {
+        if (valForm('dentista-form')) {
+            $('.form-actions').css('background', '#468847');
+            $('.form-actions').css('border-top', '1px solid #333');
+        } else {
+            $('.form-actions').css('background', '#B94A48');
+            $('.form-actions').css('border-top', '1px solid #333');
+            $('#val-button').show();
+            return false;
+        }
+    });
+</script>

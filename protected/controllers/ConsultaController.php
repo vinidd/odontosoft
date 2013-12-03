@@ -185,7 +185,12 @@ class ConsultaController extends GxController {
 
     public function actionDelete($id) {
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $this->loadModel($id, 'Consulta')->delete();
+            $model_consulta = $this->loadModel($id, 'Consulta');
+            $model_chphc = ClienteHasProcedimentoHasConsulta::model()->find(array('condition' => 'id_consulta = ' . $id));
+            $model_chp = $this->loadModel($model_chphc->id_cliente_has_procedimento, 'ClienteHasProcedimento');
+            
+            $model_chp->delete();
+            $model_consulta->delete();
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));

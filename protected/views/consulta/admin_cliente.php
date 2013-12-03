@@ -29,7 +29,7 @@ if (isset($model->clienteHasProcedimentos) && !empty($model->clienteHasProcedime
 
         <table class="table">
             <tbody>
-                <?php if (isset($procedimento->clienteHasProcedimentoHasConsultas)) { ?>
+                <?php if (isset($procedimento->clienteHasProcedimentoHasConsultas) && !empty($procedimento->clienteHasProcedimentoHasConsultas)) { ?>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -60,4 +60,6 @@ if (isset($model->clienteHasProcedimentos) && !empty($model->clienteHasProcedime
         </table>
         <?php $this->endWidget(); ?>
     <?php } ?>
+<?php } else { ?>
+<i><?php echo Yii::t('zii', 'No results found.'); ?></i>
 <?php } ?>

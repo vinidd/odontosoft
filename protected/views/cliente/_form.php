@@ -1,9 +1,3 @@
-<script>
-    $(document).ready(function() {
-        checkTelefone('cliente');
-    });
-</script>
-
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'cliente-form',
@@ -112,7 +106,7 @@ if (isset($model_telefones)) {
             <?php
             $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
                 'name' => 'id_cidade',
-                'value' => isset($model_endereco->id_cidade) ? $model_endereco->getCidade() : '',
+                'value' => (isset($model_endereco->id_cidade) && $model_endereco->id_cidade != '') ? $model_endereco->getCidade() : '',
                 'source' => Yii::app()->createUrl('/pessoa/cidadeAutoComplete'),
                 'options' => array(
                     'minLength' => '3',
@@ -138,6 +132,21 @@ if (isset($model_telefones)) {
         'htmlOptions' => array('id' => 'cliente-button')
     ));
     ?>
+    <span id="val-button" class="help-inline" style="color:#000; display: none;"><?php echo Yii::t('app', 'Há campos em branco ou com valor inválido, corrija-os.'); ?></span>
 </div>
 
 <?php $this->endWidget('cliente-form'); ?>
+
+<script>
+    $('#cliente-form').submit(function(e) {
+        if (valForm('cliente-form')) {
+            $('.form-actions').css('background', '#468847');
+            $('.form-actions').css('border-top', '1px solid #333');
+        } else {
+            $('.form-actions').css('background', '#B94A48');
+            $('.form-actions').css('border-top', '1px solid #333');
+            $('#val-button').show();
+            return false;
+        }
+    });
+</script>

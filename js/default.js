@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {
+$(document).ready(function() {    
     jQuery(function($) {
         $(".telefone").mask("(99)9999-9999");
         $(".horario").mask("9?9", {placeholder: ""});
@@ -31,7 +31,6 @@ $(document).ready(function() {
             $('#cliente-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#468847');
                 $('#Telefone_em').css('color', '#468847');
-                $('#cliente-button').removeAttr('disabled');
                 $('#cliente-form').find('.tel_label').each(function() {
                     $(this).css('color', '#468847');
                 });
@@ -40,7 +39,6 @@ $(document).ready(function() {
             $('#cliente-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#B94A48');
                 $('#Telefone_em').css('color', '#B94A48');
-                $('#cliente-button').attr('disabled', 'disabled');
                 $('#cliente-form').find('.tel_label').each(function() {
                     $(this).css('color', '#B94A48');
                 });
@@ -81,7 +79,6 @@ $(document).ready(function() {
             $('#dentista-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#468847');
                 $('#Telefone_em').css('color', '#468847');
-                $('#dentista-button').removeAttr('disabled');
                 $('#dentista-form').find('.tel_label').each(function() {
                     $(this).css('color', '#468847');
                 });
@@ -90,7 +87,6 @@ $(document).ready(function() {
             $('#dentista-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#B94A48');
                 $('#Telefone_em').css('color', '#B94A48');
-                $('#dentista-button').attr('disabled', 'disabled');
                 $('#dentista-form').find('.tel_label').each(function() {
                     $(this).css('color', '#B94A48');
                 });
@@ -131,7 +127,6 @@ $(document).ready(function() {
             $('#recepcionista-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#468847');
                 $('#Telefone_em').css('color', '#468847');
-                $('#recepcionista-button').removeAttr('disabled');
                 $('#recepcionista-form').find('.tel_label').each(function() {
                     $(this).css('color', '#468847');
                 });
@@ -140,7 +135,6 @@ $(document).ready(function() {
             $('#recepcionista-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#B94A48');
                 $('#Telefone_em').css('color', '#B94A48');
-                $('#recepcionista-button').attr('disabled', 'disabled');
                 $('#recepcionista-form').find('.tel_label').each(function() {
                     $(this).css('color', '#B94A48');
                 });
@@ -198,7 +192,6 @@ $(document).ready(function() {
             $('#consulta-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#468847');
                 $('#Telefone_em').hide();
-                //$('#consulta-button').removeAttr('disabled');
                 $('#consulta-form').find('.tel_label').each(function() {
                     $(this).css('color', '#468847');
                 });
@@ -207,7 +200,6 @@ $(document).ready(function() {
             $('#consulta-form').find('.telefone').each(function() {
                 $(this).css('border-color', '#B94A48');
                 $('#Telefone_em').show();
-                //$('#consulta-button').attr('disabled', 'disabled');
                 $('#consulta-form').find('.tel_label').each(function() {
                     $(this).css('color', '#B94A48');
                 });
@@ -253,16 +245,28 @@ function limpaTelefone(str) {
     return str;
 }
 
-function checkTelefone(name) {
-    temp1 = $('#' + name + '-form').find('#Telefone_residencial').val();
-    temp2 = $('#' + name + '-form').find('#Telefone_celular').val();
-    temp3 = $('#' + name + '-form').find('#Telefone_comercial').val();
+function limpaData(str) {
+    str = str.replace(/\__/g, '');
+    str = str.replace(/\_/g, '');
+    str = str.replace(/\//g, '');
+    return str;
+}
 
-    if (temp1.length || temp2.length || temp3.length) {
-        $('#' + name + '-button').removeAttr('disabled', 'disabled');
-    } else {
-        $('#' + name + '-button').attr('disabled', 'disabled');
-    }
+function limpaCpf(str) {
+    str = str.replace(/\___/g, '');
+    str = str.replace(/\__/g, '');
+    str = str.replace(/\_/g, '');
+    str = str.replace(/\./g, '');
+    str = str.replace(/\-/g, '');
+    return str;
+}
+
+function limpaCep(str) {
+    str = str.replace(/\_____/g, '');
+    str = str.replace(/\___/g, '');
+    str = str.replace(/\_/g, '');
+    str = str.replace(/\./g, '');
+    return str;
 }
 
 $(document).ready(function() {
@@ -390,5 +394,72 @@ function changePagStatus() {
     } else {
         $('#data_pagamento').css('border-color', '#B94A48');
         $('#status_error').show();
+    }
+}
+
+function valForm(form) {
+    result = true;
+    $('#' + form).find('.error').each(function() {
+        if ($(this).is(':visible')) {
+            result = false;
+            return;
+        }
+    });
+    //return result;
+    if (result && valPessoa() && valUsuario() && valContato() && valEndereco()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function valPessoa() {
+    nome = $('#Pessoa_nome').val();
+    data_nascimento = limpaData($('#Pessoa_data_nascimento').val());
+    cpf = limpaCpf($('#Pessoa_cpf').val());
+    email = $('#Pessoa_email').val();
+    
+    if (nome === '' || data_nascimento === '' || cpf === '' || email === '') {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function valUsuario() {
+    username = $('#UserGroupsUser_username').val();
+    password = $('#UserGroupsUser_password').val();
+    password_confirm = $('#UserGroupsUser_password_confirm').val();
+    
+    if (username === '' && password === '' && password_confirm === '') {
+        return true;
+    } else if (username !== '' && password !== '' && password_confirm !== '') {
+        return true;
+    }    
+}
+
+function valContato() {
+    residencial = limpaTelefone($('#Telefone_residencial').val());
+    celular = limpaTelefone($('#Telefone_celular').val());
+    comercial = limpaTelefone($('#Telefone_comercial').val());
+    
+    if (residencial === '' && celular === '' && comercial === '') {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function valEndereco() {
+    cep = limpaCep($('#Endereco_cep').val());
+    rua = $('#Endereco_rua').val();
+    numero = $('#Endereco_numero').val();
+    bairro = $('#Endereco_bairro').val();
+    cidade = $('#Endereco_id_cidade').val();
+    
+    if (cep === '' || rua === '' || numero === '' || bairro === '' || cidade === '') {
+        return false;
+    } else {
+        return true;
     }
 }

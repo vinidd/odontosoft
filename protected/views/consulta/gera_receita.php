@@ -50,13 +50,25 @@ $this->breadcrumbs = array(
     if (isset($model->receitas) && !empty($model->receitas)) {
         foreach ($model->receitas as $receita) {
             $this->widget('bootstrap.widgets.TbBox', array(
+                'title' => ' ',
+                'headerButtons' => array(
+                    array(
+                        'class' => 'bootstrap.widgets.TbButtonGroup',
+                        'type' => 'inverse',
+                        'buttons' => array(
+                            array(
+                                'label' => Yii::t('app', 'Imprimir'),
+                                'url' => Yii::app()->createUrl("consulta/receita", array("id" => $model->id_consulta)),
+                            ),
+                        )),
+                ),
                 'content' => $receita->receita,
             ));
         }
     }
     ?>
     <br>
-    
+
     <?php
     $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         'id' => 'receita-form',

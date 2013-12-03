@@ -16,7 +16,7 @@ class ClienteController extends GxController {
             ),
             array('allow', // allow user with user admin permission to delete, create and view every profile
                 'actions' => array('delete', 'create'),
-                'pbac' => array('admin'),   
+                'pbac' => array('admin'),
             ),
             array('allow',
                 'actions' => array('admin'),
@@ -212,16 +212,17 @@ class ClienteController extends GxController {
             $model_pessoa = $this->loadModel($model_cliente->id_pessoa, 'Pessoa');
 
             //deletar usuário
-            $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
-            $model_usuario->status = 0; //banned
+            if ($model_pessoa->id_usuario) {
+                $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
+                $model_usuario->status = 0; //banned
+                $model_usuario->save();
+            }
 
-            $model_usuario->save();
             $model_pessoa->delete();
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        }
-        else
+        } else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 
@@ -246,30 +247,6 @@ class ClienteController extends GxController {
         $this->render('admin', array(
             'model' => $model,
         ));
-    }
-
-    public function actionPrintView($id) {
-        $model = $this->loadModel($id, 'Cliente');
-
-        $pdf = Yii::app()->ePdf->mpdf();
-
-        $footer = '
-        <table class="inside-table" width="100%" style="border-top: 1px solid black; vertical-align: bottom; font-family: sans-serif; font-size: 9pt; color: black;"><tr class="inside-table">
-<td class="inside-table" width="33%">Odontosoft</td>
-<td class="inside-table" width="33%" align="center">{PAGENO}/{nb}</td>
-<td class="inside-table" width="33%" style="text-align: right;">{DATE j/m/Y}</td>
-</tr></table>
-    ';
-        $pdf->SetHTMLFooter($footer);
-
-        $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/main.css');
-        $pdf->WriteHTML($stylesheet, 1);
-
-        $pdf->WriteHTML(
-            $this->renderPartial('print_view', array('model' => $model), true)
-        );
-        
-        $pdf->Output();
     }
 
 }

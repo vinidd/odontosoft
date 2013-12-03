@@ -1,9 +1,3 @@
-<script>
-    $(document).ready(function() {
-        checkTelefone('recepcionista');
-    });
-</script>
-
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'recepcionista-form',
@@ -138,6 +132,21 @@ if (isset($model_telefones)) {
         'htmlOptions' => array('id' => 'recepcionista-button')
     ));
     ?>
+    <span id="val-button" class="help-inline" style="color:#000; display: none;"><?php echo Yii::t('app', 'Há campos em branco ou com valor inválido, corrija-os.'); ?></span>
 </div>
 
 <?php $this->endWidget('recepcionista-form'); ?>
+
+<script>
+    $('#recepcionista-form').submit(function(e) {
+        if (valForm('recepcionista-form')) {
+            $('.form-actions').css('background', '#468847');
+            $('.form-actions').css('border-top', '1px solid #333');
+        } else {
+            $('.form-actions').css('background', '#B94A48');
+            $('.form-actions').css('border-top', '1px solid #333');
+            $('#val-button').show();
+            return false;
+        }
+    });
+</script>

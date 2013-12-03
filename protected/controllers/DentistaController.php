@@ -51,12 +51,12 @@ class DentistaController extends GxController {
 
     public function actionAdminCliente() {
         $dentistas = Dentista::model()->findAll();
-        
+
         $this->render('admin_cliente', array(
             'dentistas' => $dentistas,
         ));
     }
-    
+
     public function actionCreate() {
         $model = new Dentista;
         $model_pessoa = new Pessoa('create');
@@ -266,16 +266,17 @@ class DentistaController extends GxController {
             $model_pessoa = $this->loadModel($model_dentista->id_pessoa, 'Pessoa');
 
             //deletar usuário
-            $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
-            $model_usuario->status = 0; //banned
-
-            $model_usuario->save();
+            if ($model_pessoa->id_usuario) {
+                $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
+                $model_usuario->status = 0; //banned
+                $model_usuario->save();
+            }
+            
             $model_pessoa->delete();
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
-        }
-        else
+        } else
             throw new CHttpException(400, Yii::t('app', 'Your request is invalid.'));
     }
 

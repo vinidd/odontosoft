@@ -50,13 +50,25 @@ $this->breadcrumbs = array(
     if (isset($model->atestados) && !empty($model->atestados)) {
         foreach ($model->atestados as $atestado) {
             $this->widget('bootstrap.widgets.TbBox', array(
+                'title' => ' ',
+                'headerButtons' => array(
+                    array(
+                        'class' => 'bootstrap.widgets.TbButtonGroup',
+                        'type' => 'inverse',
+                        'buttons' => array(
+                            array(
+                                'label' => Yii::t('app', 'Imprimir'),
+                                'url' => Yii::app()->createUrl("consulta/atestado", array("id" => $model->id_consulta)),
+                            ),
+                        )),
+                ),
                 'content' => $atestado->atestado,
             ));
         }
     }
     ?>
     <br>
-    
+
     <?php
     $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         'id' => 'atestado-form',

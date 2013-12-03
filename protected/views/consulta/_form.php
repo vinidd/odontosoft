@@ -1,9 +1,3 @@
-<script>
-    $(document).ready(function() {
-        checkTelefone('consulta');
-    });
-</script>
-
 <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'consulta-form',

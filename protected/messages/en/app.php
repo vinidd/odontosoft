@@ -17,6 +17,8 @@ return array(
     'Recepcionista|Recepcionistas' => 'Receptionist|Receptionists',
     'Procedimento|Procedimentos' => 'Procedure|Procedures',
     
+    'Imprimir' => 'Print',
+    
     'Cliente' => 'Client',
     'Dentista' => 'Dentist',
     'Recepcionista' => 'Receptionist',
@@ -113,5 +115,7 @@ return array(
     'À vista' => 'Cash',
     'Boleto bancário' => 'Billet',
     'Cartão de débito' => 'Debit card',
+    
+    'Há campos em branco ou com valor inválido, corrija-os.' => 'There are some invalid inputs, please fix them.',
 );
 ?>
