@@ -296,6 +296,11 @@ div.search-form
     vertical-align: middle;
 }
 
+.main-site
+{
+    min-height: 350px;
+}
+
 .column
 {
     width: 49%;

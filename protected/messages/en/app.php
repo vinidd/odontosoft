@@ -18,6 +18,9 @@ return array(
     'Procedimento|Procedimentos' => 'Procedure|Procedures',
     
     'Imprimir' => 'Print',
+    'Contato' => 'Contact',
+    'Nosso endereço é:' => 'Our address is:',
+    'Nosso número é:' => 'Our phone number is:',
     
     'Cliente' => 'Client',
     'Dentista' => 'Dentist',

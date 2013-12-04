@@ -29,6 +29,7 @@ $this->breadcrumbs = array(
             //'type' => 'inline',
             'enableAjaxValidation' => false,
             'focus' => array($model, 'username'),
+            'action' => Yii::app()->request->baseUrl . '/userGroups',
         ));
         ?>
         <?php echo $form->textFieldRow($model, 'username'); ?>

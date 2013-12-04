@@ -33,7 +33,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     <?php echo CHtml::hiddenField('data', '', array('id' => 'data')); ?>
     <?php echo CHtml::hiddenField('Cliente[id_cliente]', isset($model_cliente->id_cliente) ? $model_cliente->id_cliente : '', array('id' => 'Cliente_id_cliente')); ?>
     <?php echo CHtml::hiddenField('cliente', isset($model_cliente->id_cliente) ? '1' : ''); ?>
-    
+
     <?php if (isset($model_cliente) && $model_cliente) { ?>
         <?php
         if (isset($model_telefones)) {
@@ -175,7 +175,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
     <div style="margin-top: 30px;">
         <?php echo $form->textFieldRow($model, 'horario', array('append' => ':00 h', 'style' => 'text-align: right; width: 50px;', 'class' => 'horario', 'disabled' => 'disabled')); ?>
         <span id="horario_em" class="tel_error" style="margin-left: 5px;"><?php echo Yii::t('app', 'Horário indisponível'); ?></span>
-    </div>
+    </div> 
 
 </div>
 <div class="form-actions">
