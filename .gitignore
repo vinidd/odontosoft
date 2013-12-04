@@ -1,7 +1,7 @@
 assets/
 protected/runtime/
 uploads/
-nbproject/private/private.xml
+/nbproject/private/
 README.md
 !.gitignore
 !/protected/extensions/bootstrap/assets/
