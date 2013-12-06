@@ -31,6 +31,7 @@ return array(
     'Pagamento' => 'Payment',
     'Data de Pagamento' => 'Payment date',
     'Valor' => 'Amount',
+    'Valor Parcela' => 'Parcel Amount',
     'Receita' => 'Prescription',
     'Dados Pessoais' => 'Personal Data',
     'Nome' => 'Name',

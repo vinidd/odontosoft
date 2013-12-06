@@ -324,12 +324,49 @@ function changeData(date) {
 }
 
 function changeValor(valor) {
+    valor = valor.replace(/\ /g, '');
+    valor = valor.replace(/\R/g, '');
+    valor = valor.replace(/\$/g, '');
     valor = valor.replace(/\./g, '');
     valor = valor.replace(/\,/g, '.');
     return valor;
 }
 
+function printValor(valor) {
+    valor = valor.replace(/\./g, ',');
+    valor = 'R$ ' + valor;
+    return valor;
+}
+
+function gerarValorParcelas() {
+    parcelas = $('#numero_parcelas').val();
+    $('#_valor_parcelas').empty();
+    
+    if (parcelas === '' || parcelas < 0 || parcelas > 12) {
+        $('#parcela-btn').attr('disabled', 'disabled');
+        return;
+    } else {
+        valor_total = changeValor($('#_valor_consulta').text());
+        valor_parcela = parseInt(valor_total) / parseInt(parcelas);
+        valor_parcela = valor_parcela.toFixed(2);
+        
+        $('#_valor_parcelas').append('<label class="span2"><strong>' + $('#valor_txt').val() + '</strong></label><span>' + printValor(valor_parcela) + '</span>');
+        $('#parcela-btn').removeAttr('disabled');
+    }
+}
+
 function gerarParcelas(idConsulta, idPagamento, valor) {
+    
+    if ($('#tipo_pagamento').val() === '') {
+        return;
+    }
+    
+    if ($('#tipo_pagamento').val() === '3') {
+        if ($('#numero_parcelas').val() === '' || $('#numero_parcelas').val() < 0 || $('#numero_parcelas').val() > 12) {
+            return;
+        }
+    }
+    
     $('#event-response').append('<img src="' + $('#url').val() + '/images/loading.gif">');
     $('#event-response').show();
     $('#parcela-btn').removeAttr('onclick');

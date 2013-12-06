@@ -173,12 +173,13 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
 <div class="modal-body">
     <?php echo CHtml::hiddenField('sucesso', Yii::t('app', 'Sucesso')); ?>
     <?php echo CHtml::hiddenField('erro', Yii::t('app', 'Erro')); ?>
+    <?php echo CHtml::hiddenField('valor_txt', Yii::t('app', 'Valor Parcela')); ?>
     <?php echo CHtml::hiddenField('elem_change', ''); ?>
     <div id="event-response"></div>
 
     <div class="row">
         <label class="span2"><strong><?php echo Yii::t('app', 'Valor'); ?></strong></label>
-        <span><?php echo 'R$ ' . $model->valor; ?></span>
+        <span id="_valor_consulta"><?php echo 'R$ ' . $model->valor; ?></span>
     </div>
     <div class="row" style="margin-top: 15px;">
         <label class="span2"><strong><?php echo Yii::t('app', 'Tipo Pagamento'); ?></strong></label>
@@ -198,6 +199,11 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
     <div class="row" id="_num_parcelas" style="display: none;">
         <label class="span2"><strong><?php echo Yii::t('app', 'Número de parcelas'); ?></strong></label>
         <?php echo CHtml::textField('numero_parcelas', '', array('style' => 'width: 25px;', 'class' => 'parcela')); ?>
+        <span>(1~12)</span>
+        <a onclick="gerarValorParcelas();" href="javascript:void(0);" class="btn" id="_gerar_valor_parcelas" style="margin-top: -10px; margin-left: 10px;"><?php echo Yii::t('app', 'Gerar'); ?></a>
+        <div id="_valor_parcelas">
+            
+        </div>
     </div>
 </div>
 
@@ -210,6 +216,7 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-pagamento')
         'htmlOptions' => array(
             'id' => 'parcela-btn',
             'onclick' => 'gerarParcelas("' . $model_consulta->id_consulta . '", "' . $model->id_pagamento . '", "' . $model->valor . '")',
+            'disabled' => 'disabled',
         ),
     ));
     ?>
@@ -261,9 +268,13 @@ $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'modal-status'));
 
 <script>
     $('#tipo_pagamento').change(function() {
+        $('#numero_parcelas').val('');
+        $('#_valor_parcelas').empty();
         if ($(this).val() == 3) {
             $('#_num_parcelas').show();
+            $('#parcela-btn').attr('disabled', 'disabled');
         } else {
+            $('#parcela-btn').removeAttr('disabled');
             $('#_num_parcelas').hide();
         }
     });
