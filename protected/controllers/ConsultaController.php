@@ -194,7 +194,7 @@ class ConsultaController extends GxController {
             $model_chp = $this->loadModel($model_chphc->id_cliente_has_procedimento, 'ClienteHasProcedimento');
 
             $status = false;
-
+            
             foreach ($model_consulta->pagamentos as $pagamento) {
                 if ($pagamento->id_status == 7) {
                     $status = true;
@@ -203,6 +203,9 @@ class ConsultaController extends GxController {
             }
 
             if ($status == false && ($model_consulta->id_status == 3 || $model_consulta->id_status == 5)) {
+                $model_chp->delete();
+                $model_consulta->delete();
+            } else if ($model_consulta->id_status == 3) {
                 $model_chp->delete();
                 $model_consulta->delete();
             } else {
