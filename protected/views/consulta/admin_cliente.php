@@ -52,7 +52,7 @@ if (isset($model->clienteHasProcedimentos) && !empty($model->clienteHasProcedime
                         <td><?php echo $consulta->idConsulta->data; ?></td>
                         <td><?php echo $consulta->idConsulta->horario; ?></td>
                         <td style="text-align: center;"><?php
-                            if ($consulta->idConsulta->id_status == 2 || $consulta->idConsulta->id_status == 4) {
+                            if ($consulta->idConsulta->id_status == 1 || $consulta->idConsulta->id_status == 2 || $consulta->idConsulta->id_status == 4) {
                                 echo '<a id="a_nostyle" href="' . Yii::app()->createUrl('consulta/clienteMudaStatus', array('id' => $consulta->idConsulta->id_consulta)) . '">';
                                 echo $consulta->idConsulta->getStatusNome();
                                 echo '</a>';

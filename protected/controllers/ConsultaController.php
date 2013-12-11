@@ -461,7 +461,7 @@ class ConsultaController extends GxController {
     public function actionClienteMudaStatus($id) {
         $model = $this->loadModel($id, 'Consulta');
         
-        if ($model->id_status == 2 || $model->id_status == 4) {
+        if ($model->id_status == 1 || $model->id_status == 2 || $model->id_status == 4) {
             $model->id_status = 3;
             $model->save();
         }
