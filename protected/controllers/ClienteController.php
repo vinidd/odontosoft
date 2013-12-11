@@ -211,14 +211,38 @@ class ClienteController extends GxController {
             $model_cliente = $this->loadModel($id, 'Cliente');
             $model_pessoa = $this->loadModel($model_cliente->id_pessoa, 'Pessoa');
 
-            //deletar usuário
-            if ($model_pessoa->id_usuario) {
-                $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
-                $model_usuario->status = 0; //banned
-                $model_usuario->save();
+            $status = false;
+
+            if (isset($model_cliente->consultas) && !empty($model_cliente->consultas)) {
+                foreach ($model_cliente->consultas as $consulta) {
+                    //consulta cancelada ou concluida com pagamento em aberto
+                    if ($consulta->id_status == 3 || $consulta->id_status == 5) {
+                        foreach ($consulta->pagamentos as $pagamento) {
+                            if ($pagamento->id_status == 7) {
+                                $status = true;
+                                break;
+                            }
+                        }
+                    }
+                    //qualquer status diferente de concluido e cancelado
+                    if ($status == false && ($consulta->id_status == 1 || $consulta->id_status == 2 || $consulta->id_status == 4)) {
+                        $status = true;
+                        break;
+                    }
+                }
             }
 
-            $model_pessoa->delete();
+            //deletar usuário
+            if ($status == false) {
+                if ($model_pessoa->id_usuario) {
+                    $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
+                    $model_usuario->status = 0; //banned
+                    $model_usuario->save();
+                }
+                $model_pessoa->delete();
+            } else {
+                throw new CHttpException(400, Yii::t('app', 'Consultas ou pagamentos pendentes'));
+            }
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));

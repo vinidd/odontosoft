@@ -265,14 +265,30 @@ class DentistaController extends GxController {
             $model_dentista = $this->loadModel($id, 'Dentista');
             $model_pessoa = $this->loadModel($model_dentista->id_pessoa, 'Pessoa');
 
-            //deletar usuário
-            if ($model_pessoa->id_usuario) {
-                $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
-                $model_usuario->status = 0; //banned
-                $model_usuario->save();
+            $status = false;
+
+            if (isset($model_dentista->consultas) && !empty($model_dentista->consultas)) {
+                foreach ($model_dentista->consultas as $consulta) {
+                    if ($consulta->id_status == 1 || $consulta->id_status == 2 || $consulta->id_status == 4) {
+                        $status = true;
+                        break;
+                    }
+                }
             }
-            
-            $model_pessoa->delete();
+
+            //deletar usuário
+            if ($status == false) {
+                if ($model_pessoa->id_usuario) {
+                    $model_usuario = $this->loadModel($model_pessoa->id_usuario, 'UserGroupsUser');
+                    $model_usuario->status = 0; //banned
+                    $model_usuario->save();
+                }
+
+                $model_pessoa->delete();
+            } else {
+                throw new CHttpException(400, Yii::t('app', 'Consultas pendentes'));
+            }
+
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));

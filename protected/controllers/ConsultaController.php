@@ -18,6 +18,10 @@ class ConsultaController extends GxController {
                 'actions' => array('delete', 'geraReceita', 'geraAtestado'),
                 'pbac' => array('admin'),
             ),
+            array('allow',
+                'actions' => array('clienteMudaStatus'),
+                'groups' => array('cliente'),
+            ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
@@ -188,9 +192,22 @@ class ConsultaController extends GxController {
             $model_consulta = $this->loadModel($id, 'Consulta');
             $model_chphc = ClienteHasProcedimentoHasConsulta::model()->find(array('condition' => 'id_consulta = ' . $id));
             $model_chp = $this->loadModel($model_chphc->id_cliente_has_procedimento, 'ClienteHasProcedimento');
-            
-            $model_chp->delete();
-            $model_consulta->delete();
+
+            $status = false;
+
+            foreach ($model_consulta->pagamentos as $pagamento) {
+                if ($pagamento->id_status == 7) {
+                    $status = true;
+                    break;
+                }
+            }
+
+            if ($status == false && ($model_consulta->id_status == 3 || $model_consulta->id_status == 5)) {
+                $model_chp->delete();
+                $model_consulta->delete();
+            } else {
+                throw new CHttpException(400, Yii::t('app', 'Pagamentos pendentes'));
+            }
 
             if (!Yii::app()->getRequest()->getIsAjaxRequest())
                 $this->redirect(array('admin'));
@@ -441,6 +458,17 @@ class ConsultaController extends GxController {
         //tem um exemplo em cliente/printView .. e o view é print_view
     }
 
+    public function actionClienteMudaStatus($id) {
+        $model = $this->loadModel($id, 'Consulta');
+        
+        if ($model->id_status == 2 || $model->id_status == 4) {
+            $model->id_status = 3;
+            $model->save();
+        }
+        
+        $this->redirect(Yii::app()->request->baseUrl . '/consulta/admin');
+    }
+    
     public static function isWeekend($date) {
         $weekDay = date('w', strtotime($date));
         return ($weekDay == 0 || $weekDay == 6);

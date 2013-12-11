@@ -16,6 +16,8 @@ $this->breadcrumbs = array(
 
 <br>
 
+<?php echo CHtml::hiddenField('confirm_msg', 'Cancelar consulta?'); ?>
+
 <?php
 if (isset($model->clienteHasProcedimentos) && !empty($model->clienteHasProcedimentos)) {
     foreach ($model->clienteHasProcedimentos as $procedimento) {
@@ -49,7 +51,15 @@ if (isset($model->clienteHasProcedimentos) && !empty($model->clienteHasProcedime
                         <td><?php echo $consulta->idConsulta->idDentista->idPessoa->nome; ?></td>
                         <td><?php echo $consulta->idConsulta->data; ?></td>
                         <td><?php echo $consulta->idConsulta->horario; ?></td>
-                        <td style="text-align: center;"><?php echo $consulta->idConsulta->getStatusNome(); ?></td>
+                        <td style="text-align: center;"><?php
+                            if ($consulta->idConsulta->id_status == 2 || $consulta->idConsulta->id_status == 4) {
+                                echo '<a id="a_nostyle" href="' . Yii::app()->createUrl('consulta/clienteMudaStatus', array('id' => $consulta->idConsulta->id_consulta)) . '">';
+                                echo $consulta->idConsulta->getStatusNome();
+                                echo '</a>';
+                            } else {
+                                echo $consulta->idConsulta->getStatusNome();
+                            }
+                            ?></td>
                         <td style="width: 20px; text-align: center;"><?php echo '<a class="icon-money" style="text-decoration:none;" href="' . Yii::app()->createUrl("pagamento/grid", array("id" => $consulta->idConsulta->id_consulta)) . '"></a>' ?></td>
                         <td style="width: 20px; text-align: center;"><?php echo '<a class="icon-stethoscope" style="text-decoration:none;" href="' . Yii::app()->createUrl("consulta/atestado", array("id" => $consulta->idConsulta->id_consulta)) . '"></a>' ?></td>
                         <td style="width: 20px; text-align: center;"><?php echo '<a class="icon-file-text-alt" style="text-decoration:none;" href="' . Yii::app()->createUrl("consulta/receita", array("id" => $consulta->idConsulta->id_consulta)) . '"></a>' ?></td>
@@ -61,5 +71,31 @@ if (isset($model->clienteHasProcedimentos) && !empty($model->clienteHasProcedime
         <?php $this->endWidget(); ?>
     <?php } ?>
 <?php } else { ?>
-<i><?php echo Yii::t('zii', 'No results found.'); ?></i>
+    <i><?php echo Yii::t('zii', 'No results found.'); ?></i>
 <?php } ?>
+
+<style>
+    #a_nostyle
+    {
+        text-decoration: none;
+    }
+    #a_nostyle:hover
+    {
+        opacity: 0.8;
+        text-decoration: none;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('#a_nostyle').on('click', function(e) {
+            var r = confirm($('#confirm_msg').val());
+            
+            if (r == true) {
+                return;
+            } else {
+                e.preventDefault();
+            }
+        });
+    });
+</script>

@@ -1,5 +1,10 @@
 <?php
 return array(
+    'Consultas ou pagamentos pendentes' => 'Pending appointments of payments',
+    'Consultas pendentes' => 'Pending appointments',
+    'Pagamentos pendentes' => 'Pending payments',
+    'Cancelar consulta?' => 'Cancel appointment?',
+    
     'domingo1' => 'S',
     'segunda1' => 'M',
     'terca1' => 'T',
@@ -121,5 +126,7 @@ return array(
     'Cartão de débito' => 'Debit card',
     
     'Há campos em branco ou com valor inválido, corrija-os.' => 'There are some invalid inputs, please fix them.',
+    
+    'Curta nossa página no Facebook!' => 'Like us on Facebook!',
 );
 ?>

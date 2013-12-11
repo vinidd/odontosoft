@@ -78,7 +78,7 @@ if (isset($model_telefones)) {
 </fieldset>
 
 <fieldset>
-    <legend>Endereço</legend>
+    <legend><?php echo Yii::t('app', 'Endereço'); ?></legend>
 
     <?php echo $form->textFieldRow($model_endereco, 'nome', array('hint' => Yii::t('app', 'Exemplo: Minha casa'))); ?>
     <?php
