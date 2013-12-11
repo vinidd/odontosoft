@@ -178,7 +178,7 @@ class PagamentoController extends GxController {
             'key' => 'CXH5IRJIEIAPDT2ZF9O8SGYXJSYBESIO359FM3JG',
             'token' => 'WVBRJPKDY8EMP6ZQLQPD3GYUTSMJW2ZK'
         ));
-        $moip->setUniqueID($model_parcela->primaryKey);
+        $moip->setUniqueID(uniqid());
         $moip->setValue($model_parcela->valor);
         $moip->setReason('Pagamento odontosoft');
         $moip->setPayer(array(
